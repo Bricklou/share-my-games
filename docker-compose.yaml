@@ -29,9 +29,6 @@ services:
     container_name: directus
     build:
       context: ./backend
-      args:
-        ENV_VARIABLE: ${ENV_VARIABLE}
-        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
     restart: always
     networks:
       - directus
