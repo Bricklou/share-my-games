@@ -55,7 +55,7 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 		limit: 1,
 	});
 
-	if (!gameData) {
+	if (!gameData?.length) {
 		return undefined;
 	}
 
