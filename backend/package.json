@@ -1,0 +1,24 @@
+{
+  "name": "backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "directus start",
+    "create-snapshot": "directus schema snapshot ./snapshots/\"$(date \"+%F\")\"-snapshot-\"$(date \"+%s\")\".yaml",
+    "restore-snapshot": "directus schema apply ./snapshots/\"$(ls -t ./snapshots | head -n 1)\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "directus-extension-display-link": "^1.6.1",
+    "directus-extension-tags-m2m-interface": "^0.8.0",
+    "directus-extension-wpslug-interface": "^1.1.0",
+    "pg": "^8.10.0"
+  },
+  "devDependencies": {
+    "directus": "^9.23.1",
+    "eslint-config-next": "^13.2.4"
+  }
+}

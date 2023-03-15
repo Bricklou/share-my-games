@@ -1,0 +1,69 @@
+
+version: '3'
+
+networks:
+  directus:
+    driver: bridge
+
+volumes:
+  db_data:
+  directus_uploads:
+
+services:
+  database:
+    image: postgres:alpine
+    restart: always
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus
+      POSTGRES_DB: directus
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - directus
+
+  directus:
+    container_name: directus
+    build:
+      context: ./backend
+      args:
+        ENV_VARIABLE: ${ENV_VARIABLE}
+        NEXT_PUBLIC_ENV_VARIABLE: ${NEXT_PUBLIC_ENV_VARIABLE}
+    restart: always
+    networks:
+      - directus
+    ports:
+      - "8055:8055"
+    volumes:
+      - directus_uploads:/directus/uploads
+      - ./backend/extensions:/directus/extensions
+    environment:
+      KEY: 'any-key'
+      SECRET: 'any-secret'
+
+      DB_CLIENT: 'pg'
+      DB_HOST: 'database'
+      DB_PORT: '5432'
+      DB_DATABASE: 'directus'
+      DB_USER: 'directus'
+      DB_PASSWORD: 'directus'
+
+      ADMIN_EMAIL: 'admin@example.com'
+      ADMIN_PASSWORD: 'password'
+
+      PUBLIC_URL: 'http://localhost:8055'
+    
+  frontend:
+    container_name: frontend
+    build:
+      context: ./frontend
+    restart: always
+    env_file:
+      - frontend/.env.prod
+    ports:
+      - "3000:3000"
+    networks:
+      - directus

@@ -1,0 +1,21 @@
+version: "3"
+
+volumes:
+  db_data:
+  directus_uploads:
+
+services:
+  database:
+    image: postgres:alpine
+    restart: always
+    env_file:
+      - frontend/.env
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+      POSTGRES_USER: smg
+      POSTGRES_PASSWORD: smg
+      POSTGRES_DB: smg
+    volumes:
+      - db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
