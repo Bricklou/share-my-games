@@ -6,7 +6,7 @@
   "scripts": {
     "start": "directus start",
     "create-snapshot": "directus schema snapshot ./snapshots/\"$(date \"+%F\")\"-snapshot-\"$(date \"+%s\")\".yaml",
-    "restore-snapshot": "directus schema apply ./snapshots/\"$(ls -t ./snapshots | head -n 1)\""
+    "restore-snapshot": "directus schema apply ./snapshots/\"$(ls ./snapshots | sort -r | head -n 1)\""
   },
   "keywords": [],
   "author": "",

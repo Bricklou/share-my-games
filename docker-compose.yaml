@@ -20,8 +20,6 @@ services:
       POSTGRES_DB: directus
     volumes:
       - db_data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
     networks:
       - directus
 
@@ -57,9 +55,11 @@ services:
     container_name: frontend
     build:
       context: ./frontend
+      args:
+        NEXT_PUBLIC_DIRECTUS_URL: http://localhost:8055
     restart: always
-    env_file:
-      - frontend/.env.prod
+    environment:
+      NEXT_PUBLIC_DIRECTUS_URL: http://localhost:8055
     ports:
       - "3000:3000"
     networks:

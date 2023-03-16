@@ -2,7 +2,7 @@ all: build
 
 build:
 	@echo "Building images..."
-	@docker compose build --build-arg COMMIT_VERSION="$(git rev-parse --short HEAD)"
+	@docker compose build --build-arg NEXT_PUBLIC_COMMIT_VERSION="$(shell git rev-parse --short HEAD)"
 
 deploy-dev:
 	@echo "Deploying to dev..."
