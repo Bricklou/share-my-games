@@ -3,7 +3,7 @@
 import {useQuery} from '@tanstack/react-query';
 import {getGame} from '@/utils/api/games';
 import {notFound} from 'next/navigation';
-import type {Game, SocialNetworks} from '@/types/games';
+import type {Game, SocialNetworks, Tag} from '@/types/games';
 import {Rating} from '@/components/rating/rating';
 import {SiDiscord, SiPatreon, SiItchdotio} from '@icons-pack/react-simple-icons';
 import {Globe} from 'lucide-react';
@@ -47,6 +47,18 @@ function toSocialLink(social: SocialNetworks): JSX.Element | undefined {
 	);
 }
 
+function sortTags(a: Tag, b: Tag): number {
+	if (a.name < b.name) {
+		return -1;
+	}
+
+	if (a.name > b.name) {
+		return 1;
+	}
+
+	return 0;
+}
+
 export function GameView(props: GameProps) {
 	const {slug} = props.data;
 
@@ -81,13 +93,15 @@ export function GameView(props: GameProps) {
 				<div className='flex flex-col lg:flex-row-reverse gap-16'>
 					<aside className='card bg-base-300 lg:max-w-xs w-full not-prose lg:sticky lg:top-32 mb-auto'>
 						<div className='card-body'>
-							<h2 className='card-title'>Socials</h2>
-							<ul className='flex flex-col gap-2 px-4'>
-								{data.socials.map(social => toSocialLink(social))}
-							</ul>
+							{data.socials && (<>
+								<h2 className='card-title'>Socials</h2>
+								<ul className='flex flex-col gap-2 px-4'>
+									{data.socials.map(social => toSocialLink(social))}
+								</ul>
+							</>)}
 							<h2 className='card-title'>Tags</h2>
 							<div className='flex flex-row flex-wrap gap-2'>
-								{data.tags.map(tag => (
+								{data.tags.sort(sortTags).map(tag => (
 									<div key={tag.slug} className='badge badge-primary grow shrink'>
 										{tag.name}
 									</div>
