@@ -13,6 +13,8 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 	const [searchText, setSearchText] = useState('');
 	const [searchResults, setSearchResults] = useState<GameSearchResult[]>([]);
 
+	const listRef = useRef<HTMLUListElement>(null);
+	const [currentIndex, setCurrentIndex] = useState(-1);
 	const inputRef = useRef<HTMLInputElement>(null);
 
 	const exitSearch = () => {
@@ -20,20 +22,103 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 		setSearchText('');
 	};
 
+	const focusNewItem = useCallback(() => {
+		if (currentIndex === -1) {
+			inputRef.current?.focus();
+			return;
+		}
+
+		const item = listRef.current?.querySelector(`li:nth-child(${currentIndex + 1}) a`);
+		if (item && item instanceof HTMLAnchorElement) {
+			item.focus();
+		}
+	}, [currentIndex]);
+
 	const onKeyPressed = useCallback(
 		(event: KeyboardEvent) => {
-			if (event.key === 'Escape' && searching) {
-				event.preventDefault();
-				exitSearch();
-			}
-
 			if (event.key === 'k' && event.ctrlKey) {
 				event.preventDefault();
 				setSearching(!searching);
+				return;
+			}
+
+			if (!searching) {
+				return;
+			}
+
+			switch (event.key) {
+				case 'Tab':
+					{
+						event.preventDefault();
+						const direction = event.shiftKey ? -1 : 1;
+
+						if (!searchResults.length) {
+							// If there are no results, focus the input
+							setCurrentIndex(-1);
+						} else if (direction === -1 && currentIndex > -1) {
+							// If we're going backwards and we're not on the input, go to the input
+							setCurrentIndex(currentIndex + direction);
+						} else if (direction === 1) {
+							if (currentIndex < searchResults.length - 1) {
+								// If we're going forwards and we're not on the last item, go to the next item
+								setCurrentIndex(currentIndex + direction);
+							} else {
+								// Otherwise, go to the first item
+								setCurrentIndex(0);
+							}
+						}
+					}
+
+					break;
+				case 'Escape':
+					event.preventDefault();
+					// Close the dialog
+					exitSearch();
+
+					break;
+
+				case 'ArrowDown':
+					event.preventDefault();
+					if (currentIndex < searchResults.length - 1) {
+						// If we're not on the last item, go to the next item
+						setCurrentIndex(currentIndex + 1);
+					} else {
+						// Otherwise, go to the first item
+						setCurrentIndex(0);
+					}
+
+					break;
+
+				case 'ArrowUp':
+					event.preventDefault();
+					if (currentIndex > -1) {
+						// If we're not on the input, go to the previous item
+						setCurrentIndex(currentIndex - 1);
+					}
+
+					break;
+
+				case 'Enter':
+					// Click on the current item in the list
+					event.preventDefault();
+					if (inputRef.current === document.activeElement) {
+						const item = listRef.current?.querySelector(`li:nth-child(${currentIndex + 1}) a`);
+						if (item instanceof HTMLLIElement) {
+							item.click();
+						}
+					}
+
+					break;
+
+				default:
 			}
 		},
-		[searching],
+		[currentIndex, searchResults.length, searching],
 	);
+
+	useEffect(() => {
+		focusNewItem();
+	}, [currentIndex, focusNewItem]);
 
 	useEffect(() => {
 		document.addEventListener('keydown', onKeyPressed);
@@ -46,12 +131,17 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 	useEffect(() => {
 		if (searching) {
 			inputRef.current?.focus();
+		} else {
+			inputRef.current?.blur();
+			setSearchText('');
+			setCurrentIndex(-1);
 		}
 	}, [searching]);
 
 	useEffect(() => {
 		if (!searching || !searchText) {
 			setSearchResults([]);
+			setCurrentIndex(-1);
 			return;
 		}
 
@@ -76,7 +166,7 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 	const showDialog = () => (
 		<div
 			role='dialog'
-			title='search dialog'
+			aria-label='search dialog'
 			className='top-0 left-0 fixed h-screen w-screen z-50 p-4 md:flex md:flex-col md:justify-center'
 		>
 			<button
@@ -112,9 +202,9 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 				</div>
 
 				{searchResults.length > 0 && (
-					<ul className='absolute bg-base-300 gap-2 mt-2 w-full'>
+					<ul className='absolute bg-base-300 gap-2 mt-2 w-full' ref={listRef}>
 						{searchResults.map(game => (
-							<li key={game.id} className='px-4 py-2 hover:bg-primary hover:text-primary-content'>
+							<li key={game.id} className='px-4 py-2 hover:bg-primary hover:text-primary-content focus-within:bg-primary focus-within:text-primary-content'>
 								<Link
 									className='text-left block'
 									href={`/game/${game.slug}`}

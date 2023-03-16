@@ -95,18 +95,18 @@ export async function searchGames(query: string): Promise<GameSearchResult[]> {
 			_or: [
 				{
 					name: {
-						_contains: query,
+						_icontains: query,
 					},
 				},
 				{
 					slug: {
-						_contains: query,
+						_icontains: query,
 					},
 				},
 				{
 					creator: {
 						name: {
-							_contains: query,
+							_icontains: query,
 						},
 					},
 				},
