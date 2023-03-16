@@ -12,7 +12,8 @@ type CardProps = {
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => {
-	const isNew = new Date(props.game.create_at) < new Date();
+	// Is newly added if the game was created in the last 7 days
+	const isNew = new Date(props.game.create_at).getTime() > new Date().getTime() - (7 * 24 * 60 * 60 * 1000);
 
 	return (
 		<div className={classNames('card bg-base-200', className)}>
@@ -21,7 +22,9 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 					<Link href={`/game/${props.game.slug}`} className='link link-primary link-hover'>
 						{props.game.name}
 					</Link>
-					{isNew && <span className='badge badge-success ml-2'>New</span>}
+					{isNew && (
+						<span className='badge badge-success relative animate-pulse'>New</span>
+					)}
 				</h2>
 
 				<div className='flex flex-col gap-2 mt-2 mx-4 items-left'>
