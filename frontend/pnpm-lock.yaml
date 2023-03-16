@@ -2,6 +2,7 @@ lockfileVersion: 5.4
 
 specifiers:
   '@directus/sdk': ^10.3.1
+  '@icons-pack/react-simple-icons': ^7.1.0
   '@next/swc-linux-x64-gnu': ^13.2.4
   '@next/swc-linux-x64-musl': ^13.2.4
   '@swc/core': ^1.3.40
@@ -39,6 +40,7 @@ specifiers:
 
 dependencies:
   '@directus/sdk': 10.3.1
+  '@icons-pack/react-simple-icons': 7.1.0_react@18.2.0
   '@next/swc-linux-x64-gnu': 13.2.4
   '@next/swc-linux-x64-musl': 13.2.4
   '@tanstack/react-query': 5.0.0-alpha.5_biqbaboplfbrettd7655fr4n2y
@@ -149,6 +151,14 @@ packages:
   /@humanwhocodes/object-schema/1.2.1:
     resolution: {integrity: sha512-ZnQMnLV4e7hDlUvw8H+U8ASL02SS2Gn6+9Ac3wGGLIe7+je2AeAOxPY+izIPJDfFDb7eDjev0Us8MO1iFRN8hA==}
     dev: true
+
+  /@icons-pack/react-simple-icons/7.1.0_react@18.2.0:
+    resolution: {integrity: sha512-vh/nArXrxjnppiGV31fQv2yE2sAAF1uhrQezx/WakXazK3xdGgsyL8Ww1e6feN5715vGyWSrCJIcd2Va2+fr0A==}
+    peerDependencies:
+      react: ^16.13 || ^17 || ^18
+    dependencies:
+      react: 18.2.0
+    dev: false
 
   /@next/env/13.2.4:
     resolution: {integrity: sha512-+Mq3TtpkeeKFZanPturjcXt+KHfKYnLlX6jMLyCrmpq6OOs4i1GqBOAauSkii9QeKCMTYzGppar21JU57b/GEA==}
