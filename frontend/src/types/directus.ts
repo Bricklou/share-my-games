@@ -323,7 +323,7 @@ export type Game = {
 	slug: string;
 	tags: GameTags[];
 	update_at?: string | undefined;
-    socials: SocialNetworks[]
+	socials: SocialNetworks[];
 };
 
 export type GameCreator = {

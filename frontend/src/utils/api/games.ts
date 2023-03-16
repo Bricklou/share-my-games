@@ -1,4 +1,4 @@
-import type { Creator, Tag, Game, SocialNetworks} from '../../types/games';
+import type {Creator, Tag, Game, SocialNetworks} from '../../types/games';
 import {directus} from '@/utils/database';
 import type * as directusTypes from '@/types/directus';
 
@@ -42,8 +42,8 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 			'creator.*',
 			'description',
 			'rating',
-            // Socials
-            'socials.*',
+			// Socials
+			'socials.*',
 			// Tags relation
 			'tags.*.id',
 			'tags.*.name',
@@ -74,7 +74,7 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 		update_at: gameData[0].update_at!,
 		published_at: gameData[0].published_at!,
 		rating: gameData[0].rating!,
-        socials: gameData[0].socials as unknown as SocialNetworks[],
+		socials: gameData[0].socials as unknown as SocialNetworks[],
 		tags,
 		previews: [],
 	};

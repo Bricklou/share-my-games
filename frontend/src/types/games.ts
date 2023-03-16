@@ -13,15 +13,15 @@ export type Game = {
 	creator: Creator;
 	tags: Tag[];
 	previews: Preview[];
-    socials: SocialNetworks[];
+	socials: SocialNetworks[];
 	rating?: number;
 };
 
 export type SocialNetworks = {
-    id: number;
-    link: string;
-    type: 'itch' | 'patreon' | 'discord' | 'website'
-}
+	id: number;
+	link: string;
+	type: 'itch' | 'patreon' | 'discord' | 'website';
+};
 
 export type Creator = {
 	id: number;

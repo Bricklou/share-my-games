@@ -1,9 +1,9 @@
-import { SocialNetworks } from "@/types/games";
+import {type SocialNetworks} from '@/types/games';
 
-interface SocialProps {
-    social: SocialNetworks;
-}
+type SocialProps = {
+	social: SocialNetworks;
+};
 
 export function GameSocial(): JSX.Element {
-    return <div></div>;
+	return <div></div>;
 }
