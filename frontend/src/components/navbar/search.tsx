@@ -111,6 +111,7 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 					break;
 
 				default:
+					inputRef.current?.focus();
 			}
 		},
 		[currentIndex, searchResults.length, searching],
@@ -178,7 +179,7 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 				className='bg-opacity-70 bg-base-100 h-screen w-screen top-0 left-0 fixed cursor-default'
 			></button>
 
-			<div className='-top-40 z-10 mx-auto max-w-screen-md w-full relative'>
+			<div className='relative top-10 md:-top-40 z-10 px-4 md:mx-auto max-w-screen-md w-full'>
 				<div className='relative'>
 					<FormInput
 						ref={inputRef}
@@ -199,41 +200,41 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 						<kbd className='kbd kbd-md rounded-md'>ctrl</kbd>
 						<kbd className='kbd kbd-md rounded-md'>k</kbd>
 					</span>
-				</div>
 
-				{searchResults.length > 0 && (
-					<ul className='absolute bg-base-300 gap-2 mt-2 w-full' ref={listRef}>
-						{searchResults.map(game => (
-							<li key={game.id} className='px-4 py-2 hover:bg-primary hover:text-primary-content focus-within:bg-primary focus-within:text-primary-content'>
-								<Link
-									className='text-left block'
-									href={`/game/${game.slug}`}
-									replace={true}
-									onClick={() => {
-										exitSearch();
-									}}
-								>
-									<p
-										className='font-bold'
-										dangerouslySetInnerHTML={{__html: highlightWord(game.name, searchText)}}
-									/>
-									<p className='text-sm'>
-										<span
-											className='italic'
-											dangerouslySetInnerHTML={{__html: highlightWord(game.slug, searchText)}}
+					{searchResults.length > 0 && (
+						<ul className='absolute bg-base-300 gap-2 mt-2 w-full' ref={listRef}>
+							{searchResults.map(game => (
+								<li key={game.id} className='px-4 py-2 hover:bg-primary hover:text-primary-content focus-within:bg-primary focus-within:text-primary-content'>
+									<Link
+										className='text-left block'
+										href={`/game/${game.slug}`}
+										replace={true}
+										onClick={() => {
+											exitSearch();
+										}}
+									>
+										<p
+											className='font-bold'
+											dangerouslySetInnerHTML={{__html: highlightWord(game.name, searchText)}}
 										/>
-										{' - '}
-										<span
-											dangerouslySetInnerHTML={{
-												__html: highlightWord(game.creator.name, searchText),
-											}}
-										/>
-									</p>
-								</Link>
-							</li>
-						))}
-					</ul>
-				)}
+										<p className='text-sm'>
+											<span
+												className='italic'
+												dangerouslySetInnerHTML={{__html: highlightWord(game.slug, searchText)}}
+											/>
+											{' - '}
+											<span
+												dangerouslySetInnerHTML={{
+													__html: highlightWord(game.creator.name, searchText),
+												}}
+											/>
+										</p>
+									</Link>
+								</li>
+							))}
+						</ul>
+					)}
+				</div>
 			</div>
 		</div>
 	);
