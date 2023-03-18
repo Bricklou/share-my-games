@@ -1,4 +1,4 @@
-import type {Creator, Tag, Game, SocialNetworks} from '../../types/games';
+import type {Creator, Tag, Game, SocialNetworks, GamePreview} from '../../types/games';
 import {directus} from '@/utils/database';
 import type * as directusTypes from '@/types/directus';
 
@@ -33,15 +33,11 @@ export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 export async function getGame(slug: string): Promise<Game | undefined> {
 	const {data: gameData} = await directus.items<'game', directusTypes.Game>('game').readByQuery({
 		fields: [
-			'id',
-			'create_at',
-			'update_at',
-			'name',
-			'slug',
-			'published_at',
+			'*',
+			// Creator
 			'creator.*',
-			'description',
-			'rating',
+			// Previews
+			'previews.*',
 			// Socials
 			'socials.*',
 			// Tags relation
@@ -76,7 +72,7 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 		rating: gameData[0].rating!,
 		socials: gameData[0].socials as unknown as SocialNetworks[],
 		tags,
-		previews: [],
+		previews: gameData[0].previews as unknown as GamePreview[],
 	};
 	/* eslint-enable @typescript-eslint/naming-convention */
 

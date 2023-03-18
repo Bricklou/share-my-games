@@ -317,7 +317,7 @@ export type Game = {
 	description?: string | undefined;
 	id: number;
 	name: string;
-	previews: string & GamePreviews[];
+	previews: GamePreviews[];
 	published_at?: string | undefined;
 	rating?: number | undefined;
 	slug: string;

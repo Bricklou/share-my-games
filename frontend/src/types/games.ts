@@ -1,6 +1,7 @@
-import {type DirectusFiles} from './directus';
-
-export type Preview = DirectusFiles;
+export type GamePreview = {
+	id: number;
+	preview: string;
+};
 
 export type Game = {
 	id: number;
@@ -12,7 +13,7 @@ export type Game = {
 	published_at: string;
 	creator: Creator;
 	tags: Tag[];
-	previews: Preview[];
+	previews: GamePreview[];
 	socials: SocialNetworks[];
 	rating?: number;
 };

@@ -7,6 +7,7 @@ import type {Game, SocialNetworks, Tag} from '@/types/games';
 import {Rating} from '@/components/rating/rating';
 import {SiDiscord, SiPatreon, SiItchdotio} from '@icons-pack/react-simple-icons';
 import {Globe} from 'lucide-react';
+import {Gallery} from '@/components/gallery/gallery';
 
 type GameProps = {
 	data: Game;
@@ -72,6 +73,8 @@ export function GameView(props: GameProps) {
 		return notFound();
 	}
 
+	console.log(data);
+
 	return (
 		<article className='prose md:prose-lg lg:prose-xl w-full max-w-none'>
 			<header className='flex flex-col md:flex-row items-center mb-4'>
@@ -89,11 +92,12 @@ export function GameView(props: GameProps) {
 				{' - '}
                 Published the {new Date(data.published_at).toLocaleDateString()}
 			</p>
+
 			<div className='px-4 md:px-8 w-full'>
 				<div className='flex flex-col lg:flex-row-reverse gap-16'>
 					<aside className='card bg-base-300 lg:max-w-xs w-full not-prose lg:sticky lg:top-32 mb-auto'>
 						<div className='card-body'>
-							{data.socials && (<>
+							{data.socials.length > 0 && (<>
 								<h2 className='card-title'>Socials</h2>
 								<ul className='flex flex-col gap-2 px-4'>
 									{data.socials.map(social => toSocialLink(social))}
@@ -110,10 +114,15 @@ export function GameView(props: GameProps) {
 						</div>
 					</aside>
 
-					<section
-						className='flex-1 prose max-w-none'
-						dangerouslySetInnerHTML={{__html: data.description}}
-					></section>
+					<section className='flex-1'>
+						<div className='py-4'>
+							{data.previews && <Gallery images={data.previews}/>}
+						</div>
+						<div className='prose max-w-none'
+							dangerouslySetInnerHTML={{__html: data.description}}>
+
+						</div>
+					</section>
 				</div>
 			</div>
 		</article>
