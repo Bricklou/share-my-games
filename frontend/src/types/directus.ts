@@ -311,6 +311,8 @@ export type DirectusWebhooks = {
 	url: string;
 };
 
+export type GameStatus = 'draft' | 'under_review' | 'ready' | 'published';
+
 export type Game = {
 	create_at?: string | undefined;
 	creator: GameCreator;
@@ -325,6 +327,7 @@ export type Game = {
 	update_at?: string | undefined;
 	socials: SocialNetworks[];
 	is_nsfw?: boolean;
+	status: GameStatus;
 };
 
 export type GameCreator = {

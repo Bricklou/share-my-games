@@ -73,8 +73,6 @@ export function GameView(props: GameProps) {
 		return notFound();
 	}
 
-	console.log(data);
-
 	return (
 		<article className='prose md:prose-lg lg:prose-xl w-full max-w-none'>
 			<header className='flex flex-col md:flex-row items-center mb-4'>

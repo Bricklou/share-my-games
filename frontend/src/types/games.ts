@@ -1,3 +1,5 @@
+import {type GameStatus} from './directus';
+
 export type GamePreview = {
 	id: number;
 	preview: string;
@@ -17,6 +19,7 @@ export type Game = {
 	previews: GamePreview[];
 	socials: SocialNetworks[];
 	rating?: number;
+	status: GameStatus;
 };
 
 export type SocialNetworks = {

@@ -9,6 +9,12 @@ type GetGamesParams = {
 export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 	const {data} = await directus.items<'game', Game>('game').readByQuery({
 		fields: ['*', 'creator.*', 'rating'],
+		filter: {
+			status: {
+				_eq: 'published',
+			},
+		},
+
 		sort: params?.sortBy ? [params.sortBy] : ['-published_at'],
 	});
 
@@ -21,6 +27,7 @@ export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 	for (const game of data) {
 		games.push({
 			...game,
+			status: game.status as unknown as directusTypes.GameStatus,
 			creator: game.creator as unknown as Creator,
 			tags: [],
 			previews: [],
@@ -49,6 +56,9 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 			slug: {
 				_eq: slug,
 			},
+			status: {
+				_eq: 'published',
+			},
 		},
 		limit: 1,
 	});
@@ -72,6 +82,7 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 		rating: gameData[0].rating!,
 		socials: gameData[0].socials as unknown as SocialNetworks[],
 		tags,
+		status: gameData[0].status as unknown as directusTypes.GameStatus,
 		previews: gameData[0].previews as unknown as GamePreview[],
 	};
 	/* eslint-enable @typescript-eslint/naming-convention */
@@ -79,10 +90,7 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 	return game;
 }
 
-export type GameSearchResult = Omit<
-Game,
-'tags' | 'create_at' | 'update_at' | 'published_at' | 'tags' | 'previews' | 'description' | 'socials'
->;
+export type GameSearchResult = Pick<Game, 'id' | 'name' | 'slug' | 'creator'>;
 
 export async function searchGames(query: string): Promise<GameSearchResult[]> {
 	const {data} = await directus.items<'game', GameSearchResult>('game').readByQuery({
@@ -107,6 +115,9 @@ export async function searchGames(query: string): Promise<GameSearchResult[]> {
 					},
 				},
 			],
+			status: {
+				_eq: 'published',
+			},
 		},
 		limit: 10,
 	});
