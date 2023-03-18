@@ -167,7 +167,7 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 	const showDialog = () => (
 		<dialog
 			aria-label='search dialog'
-			className='top-0 left-0 fixed h-screen w-screen z-50 p-4 md:flex md:flex-col md:justify-center'
+			className='bg-transparent top-0 left-0 fixed h-screen w-screen z-50 p-4 md:flex md:flex-col md:justify-center'
 		>
 			<button
 				type='button'

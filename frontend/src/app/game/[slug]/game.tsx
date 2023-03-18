@@ -115,7 +115,7 @@ export function GameView(props: GameProps) {
 					</aside>
 
 					<section className='flex-1'>
-						<div className='py-4 not-prose' >
+						<div className='py-4 not-prose mb-8' >
 							{data.previews && <GalleryWithPreview images={data.previews} minHeight={300} className='md:h-[35vh] lg:h-[27vh] xl:h-[38vh] 2xl:h-[50vh] max-h-[50vh] h-full' />}
 						</div>
 						<div className='prose max-w-none'
