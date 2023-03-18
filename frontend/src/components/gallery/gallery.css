@@ -1,0 +1,4 @@
+.embla__container {
+    display: flex;
+    align-items: flex-start; /* Add this */
+}

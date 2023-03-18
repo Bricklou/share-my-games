@@ -12,15 +12,9 @@ const nextConfig = {
 		dirs: ['src'],
 	},
 	output: 'standalone',
+	swcMinify: true,
 	images: {
-		remotePatterns: [
-			{
-				protocol: apiUrl.protocol.replace(':', ''),
-				hostname: apiUrl.hostname,
-				port: apiUrl.port,
-				pathname: apiUrl.pathname + 'assets/*',
-			},
-		],
+		domains: [apiUrl.hostname],
 	},
 };
 

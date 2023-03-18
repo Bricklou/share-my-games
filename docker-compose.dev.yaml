@@ -10,9 +10,9 @@ services:
     restart: always
     environment:
       PGDATA: /var/lib/postgresql/data/pgdata
-      POSTGRES_USER: smg
-      POSTGRES_PASSWORD: smg
-      POSTGRES_DB: smg
+      POSTGRES_USER: directus
+      POSTGRES_PASSWORD: directus
+      POSTGRES_DB: directus
     volumes:
       - db_data:/var/lib/postgresql/data
     ports:

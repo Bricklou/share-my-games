@@ -165,8 +165,7 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 	}
 
 	const showDialog = () => (
-		<div
-			role='dialog'
+		<dialog
 			aria-label='search dialog'
 			className='top-0 left-0 fixed h-screen w-screen z-50 p-4 md:flex md:flex-col md:justify-center'
 		>
@@ -236,7 +235,7 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 					)}
 				</div>
 			</div>
-		</div>
+		</dialog>
 	);
 
 	return (

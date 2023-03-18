@@ -1,6 +1,7 @@
 export type GamePreview = {
 	id: number;
 	preview: string;
+	is_nsfw: boolean;
 };
 
 export type Game = {

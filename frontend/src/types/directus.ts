@@ -324,6 +324,7 @@ export type Game = {
 	tags: GameTags[];
 	update_at?: string | undefined;
 	socials: SocialNetworks[];
+	is_nsfw?: boolean;
 };
 
 export type GameCreator = {
