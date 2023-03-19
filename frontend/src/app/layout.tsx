@@ -17,8 +17,18 @@ export async function generateMetadata(): Promise<Metadata> {
 		return {
 			title: globals.project_name,
 			description: globals.project_descriptor,
+			openGraph: {
+				title: globals.project_name,
+				description: globals.project_descriptor,
+				type: 'website',
+			},
+			twitter: {
+				title: globals.project_name,
+				card: 'summary_large_image',
+			},
 		};
 	} catch (e) {
+		console.log('yolo');
 		return {
 			title: 'Sharing my games',
 			description: 'Simple website to share all the kinky games I played. UwU',
