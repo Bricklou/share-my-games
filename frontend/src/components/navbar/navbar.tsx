@@ -1,12 +1,9 @@
 import {Menu} from 'lucide-react';
 import Link from 'next/link';
 import {SearchInput} from './search';
+import {NsfwToggle} from './nsfwToggle';
 
-export type NavBarProps = {
-	// OnDrawerClick: (state: boolean) => void;
-};
-
-export function NavBar(props: NavBarProps): JSX.Element {
+export function NavBar(): JSX.Element {
 	return (
 		<div className='border-b bg-base-200 sticky top-0 z-50'>
 			<div className='navbar container mx-auto py-3'>
@@ -34,6 +31,7 @@ export function NavBar(props: NavBarProps): JSX.Element {
 				</div>
 
 				<div className='navbar-end md:mr-2'>
+					<NsfwToggle />
 					<SearchInput />
 				</div>
 			</div>

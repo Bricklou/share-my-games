@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import {ImageOverlay} from './imageOverlay';
 
 import './gallery.css';
+import {useShowNsfw} from '@/context/showNsfw';
 
 type GalleryProps = {
 	images: GamePreview[];
@@ -25,7 +26,7 @@ export function Gallery({images, onImageClick, minHeight = 300, className, ...pr
 		loop: true,
 		draggable: true,
 	});
-	const [showNsfw, setShowNsfw] = useState(false);
+	const [showNsfw, toggleNsfw] = useShowNsfw();
 
 	const [selectedIndex, setSelectedIndex] = useState(0);
 
@@ -44,19 +45,6 @@ export function Gallery({images, onImageClick, minHeight = 300, className, ...pr
 			emblaApi?.off('select', selectHandler);
 		};
 	}, [emblaApi]);
-
-	const toggleNsfw = useCallback(() => {
-		setShowNsfw(!showNsfw);
-		localStorage.setItem('showNSFW', JSON.stringify(!showNsfw));
-	}, [showNsfw]);
-
-	useEffect(() => {
-		const lsShowNsfw = localStorage.getItem('showNSFW');
-		if (lsShowNsfw) {
-			const parsed = JSON.parse(lsShowNsfw) as boolean;
-			setShowNsfw(parsed);
-		}
-	}, []);
 
 	const {length} = images;
 	const canScrollNext = Boolean(emblaApi?.canScrollNext());

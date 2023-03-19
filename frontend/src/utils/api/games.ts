@@ -8,10 +8,15 @@ type GetGamesParams = {
 
 export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 	const {data} = await directus.items<'game', Game>('game').readByQuery({
-		fields: ['*', 'creator.*', 'rating'],
+		fields: ['*', 'creator.*', 'rating', 'previews.*'],
 		filter: {
 			status: {
 				_eq: 'published',
+			},
+		},
+		deep: {
+			previews: {
+				_limit: 1,
 			},
 		},
 
@@ -30,7 +35,7 @@ export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 			status: game.status as unknown as directusTypes.GameStatus,
 			creator: game.creator as unknown as Creator,
 			tags: [],
-			previews: [],
+			previews: game.previews as unknown as GamePreview[],
 		});
 	}
 

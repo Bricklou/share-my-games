@@ -37,6 +37,8 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 		initialData: props.games,
 	});
 
+	console.log(games);
+
 	return (
 		<div>
 			{loading ? (

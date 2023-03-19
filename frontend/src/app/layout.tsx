@@ -5,6 +5,7 @@ import {type Metadata} from 'next';
 import './globals.css';
 import {getGlobals} from '@/utils/api';
 import {Footer} from '@/components/footer/footer';
+import {NsfwContextProvider} from '@/context/showNsfw';
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -28,7 +29,6 @@ export async function generateMetadata(): Promise<Metadata> {
 			},
 		};
 	} catch (e) {
-		console.log('yolo');
 		return {
 			title: 'Sharing my games',
 			description: 'Simple website to share all the kinky games I played. UwU',
@@ -41,9 +41,11 @@ export default async function RootLayout({children}: {children: JSX.Element}) {
 		<html lang='en'>
 			<body className='min-h-screen m-0 p-0 flex flex-col'>
 				<QueryProvider>
-					<NavBar />
-					{children}
-					<Footer />
+					<NsfwContextProvider>
+						<NavBar />
+						{children}
+						<Footer />
+					</NsfwContextProvider>
 				</QueryProvider>
 			</body>
 		</html>

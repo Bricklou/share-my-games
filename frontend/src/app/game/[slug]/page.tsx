@@ -14,14 +14,12 @@ type PageProps = {
 export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 	try {
 		if (!params.slug) {
-			console.log('test');
 			throw new Error('No slug');
 		}
 
 		const game = await getGame(params.slug);
 
 		if (!game) {
-			console.log('test2');
 			throw new Error('No game');
 		}
 
