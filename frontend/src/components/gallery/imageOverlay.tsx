@@ -5,9 +5,11 @@ import {Gallery} from './gallery';
 export type ImageOverlayProps = {
 	onClose: () => void;
 	images: GamePreview[];
+	currentIndex?: number;
+	imageFetchWidth?: number;
 };
 
-export function ImageOverlay(props: ImageOverlayProps): JSX.Element {
+export function ImageOverlay({currentIndex = 0, imageFetchWidth, ...props}: ImageOverlayProps): JSX.Element {
 	useEffect(() => {
 		document.body.classList.add('overflow-hidden');
 
@@ -28,7 +30,7 @@ export function ImageOverlay(props: ImageOverlayProps): JSX.Element {
 			></button>
 
 			<div className='relative px-4 md:mx-auto max-w-screen-2xl w-full flex flex-col justify-center min-h-[70vh]'>
-				<Gallery images={props.images} minHeight={500} className='h-full' />
+				<Gallery images={props.images} minHeight={500} className='h-full' currentIndex={currentIndex} imageFetchWidth={imageFetchWidth} />
 			</div>
 		</dialog>
 	);

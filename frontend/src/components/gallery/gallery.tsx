@@ -19,16 +19,19 @@ type GalleryProps = {
 	onImageClick?: (index: number) => void;
 	// The minimum height of the gallery
 	minHeight?: number;
+	imageFetchWidth?: number;
+	currentIndex?: number;
 } & HTMLAttributes<HTMLDivElement>;
 
-export function Gallery({images, onImageClick, minHeight = 300, className, ...props}: GalleryProps): JSX.Element {
+export function Gallery({images, onImageClick, minHeight = 300, imageFetchWidth = window.innerWidth / 2, className, currentIndex = 0, ...props}: GalleryProps): JSX.Element {
 	const [emblaRef, emblaApi] = useEmblaCarousel({
 		loop: true,
 		draggable: true,
+		startIndex: currentIndex,
 	});
 	const [showNsfw, toggleNsfw] = useShowNsfw();
 
-	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [selectedIndex, setSelectedIndex] = useState(currentIndex);
 
 	const onSelect = useCallback((index?: number) => emblaApi?.scrollTo(index ?? 0), [emblaApi]);
 
@@ -43,8 +46,9 @@ export function Gallery({images, onImageClick, minHeight = 300, className, ...pr
 		// Cleanup
 		return () => {
 			emblaApi?.off('select', selectHandler);
+			emblaApi?.destroy();
 		};
-	}, [emblaApi]);
+	}, [currentIndex, emblaApi]);
 
 	const {length} = images;
 	const canScrollNext = Boolean(emblaApi?.canScrollNext());
@@ -68,7 +72,7 @@ export function Gallery({images, onImageClick, minHeight = 300, className, ...pr
 					{images.map((each, index) => (
 						<div key={index} className='relative flex-[0_0_100%]' style={{minHeight}}>
 							<Image
-								src={makeUrl(each.preview)}
+								src={each.preview}
 								onClick={() => onImageClick?.(index)}
 								alt='Game preview'
 								className={classNames('object-contain my-0 relative', {
@@ -76,8 +80,10 @@ export function Gallery({images, onImageClick, minHeight = 300, className, ...pr
 									'cursor-pointer': Boolean(onImageClick),
 								})}
 								fill
+								loader={({src}) => makeUrl(src, {filename: 'preview.png', width: imageFetchWidth})}
 								sizes='(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw'
 								quality={100}
+								priority={index === currentIndex}
 							/>
 						</div>
 					))}
@@ -99,19 +105,39 @@ export function Gallery({images, onImageClick, minHeight = 300, className, ...pr
 export function GalleryWithPreview(props: Omit<GalleryProps, 'onImageClick'>): JSX.Element {
 	const [showOverlay, setShowOverlay] = useState(false);
 	const [selectedIndex, setSelectedIndex] = useState(0);
+	const [imageFetchWidth, setImageFetchWidth] = useState(window.innerWidth);
+
+	useEffect(() => {
+		function handleResize() {
+			// Only update if the width changes of 50px to prevent unnecessary re-renders
+			if (Math.abs(window.innerWidth - imageFetchWidth) > 300) {
+				setImageFetchWidth(window.innerWidth);
+			}
+		}
+
+		window.addEventListener('resize', handleResize);
+
+		return () => {
+			window.removeEventListener('resize', handleResize);
+		};
+	}, [imageFetchWidth]);
 
 	return (
 		<>
 			<Gallery onImageClick={index => {
 				setSelectedIndex(index);
 				setShowOverlay(true);
-			}} {...props} />
+			}} {...props}
+			imageFetchWidth={Math.floor(imageFetchWidth / 2)}
+			/>
 			{showOverlay && (
 				<ImageOverlay
 					onClose={() => {
 						setShowOverlay(false);
 					}}
+					currentIndex={selectedIndex}
 					images={props.images}
+					imageFetchWidth={imageFetchWidth}
 				/>
 			)}
 		</>
