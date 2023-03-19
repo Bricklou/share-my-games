@@ -16,7 +16,7 @@ const Input: ForwardRefRenderFunction<HTMLInputElement, InputProps> = (
 ) => (
 	<div className='form-control'>
 		<input
-			className={classnames('input input-bordered', className)}
+			className={classnames('appearance-none input input-bordered', className)}
 			{...props}
 			name={name}
 			ref={ref}

@@ -102,10 +102,12 @@ export function SearchInput(props: SearchInputProps): JSX.Element {
 					// Click on the current item in the list
 					event.preventDefault();
 					if (inputRef.current === document.activeElement) {
-						const item = listRef.current?.querySelector(`li:nth-child(${currentIndex + 1}) a`);
-						if (item instanceof HTMLLIElement) {
+						const item = listRef.current?.querySelector('li:first-child a');
+						if (item instanceof HTMLAnchorElement) {
 							item.click();
 						}
+					} else if (document.activeElement instanceof HTMLAnchorElement) {
+						document.activeElement.click();
 					}
 
 					break;
