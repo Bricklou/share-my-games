@@ -12,8 +12,8 @@ export async function getGlobals(): Promise<DefaultItem<Settings>> {
 	return settings as DefaultItem<Settings>;
 }
 
-export function makeUrl(hash: string, {filename, width}: {width?: number; filename?: string}): string {
-	const url = `${process.env.NEXT_PUBLIC_DIRECTUS_URL ?? ''}/assets/${hash}` + (filename ? `/${filename}` : '') + (width ? `?width=${width}` : '');
+export function makeUrl(hash: string, options?: {width?: number; filename?: string}): string {
+	const url = `${process.env.NEXT_PUBLIC_DIRECTUS_URL ?? ''}/assets/${hash}` + (options?.filename ? `/${options.filename}` : '') + (options?.width ? `?width=${options.width}` : '');
 
 	return url;
 }

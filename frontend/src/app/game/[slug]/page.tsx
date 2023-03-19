@@ -36,14 +36,14 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 				description: 'Simple website to share all the kinky games I played. UwU',
 				type: 'article',
 				authors: game.creator.name,
-				images: game.previews?.map(preview => makeUrl(preview.preview, 'image.png')) ?? [],
+				images: game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [],
 				publishedTime: game.published_at,
 				tags: game.tags.map(tag => tag.name),
 			},
 			twitter: {
 				title: game.name,
 				description: 'Simple website to share all the kinky games I played. UwU',
-				images: game.previews?.map(preview => makeUrl(preview.preview, 'image.png')) ?? [],
+				images: game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [],
 				card: 'summary_large_image',
 			},
 		} satisfies Metadata;
