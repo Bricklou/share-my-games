@@ -15,8 +15,8 @@ type CardProps = {
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => {
-	// Is newly added if the game was created in the last 7 days
-	const isNew = new Date(props.game.create_at).getTime() > new Date().getTime() - (7 * 24 * 60 * 60 * 1000);
+	// Is newly added if the game was created in the last 3 days
+	const isNew = new Date(props.game.create_at).getTime() > new Date().getTime() - (3 * 24 * 60 * 60 * 1000);
 	const [showNsfw] = useShowNsfw();
 
 	return (
