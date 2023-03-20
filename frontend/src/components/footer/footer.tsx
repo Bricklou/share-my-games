@@ -3,7 +3,7 @@ export function Footer(): JSX.Element {
 		<footer className='footer footer-left p-4 bg-base-300 text-base-content'>
 			<div className='flex container mx-auto justify-between items-center'>
 				<p>Copyright &copy; {new Date().getFullYear()}</p>
-				<p>Made with ❤ by a mysterious wanderer who love games</p>
+				<p>Made with ❤ by a mysterious wanderer who loves games</p>
 
 				<p className='italic'>
                     Commit:{' '}
