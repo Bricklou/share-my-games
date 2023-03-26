@@ -20,6 +20,7 @@ export type Game = {
 	socials: SocialNetworks[];
 	rating?: number;
 	status: GameStatus;
+    dev_finished: boolean;
 };
 
 export type SocialNetworks = {

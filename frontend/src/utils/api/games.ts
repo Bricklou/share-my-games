@@ -89,6 +89,7 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 		tags,
 		status: gameData[0].status as unknown as directusTypes.GameStatus,
 		previews: gameData[0].previews as unknown as GamePreview[],
+        dev_finished: gameData[0].dev_finished,
 	};
 	/* eslint-enable @typescript-eslint/naming-convention */
 
