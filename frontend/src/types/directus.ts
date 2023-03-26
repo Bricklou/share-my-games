@@ -328,7 +328,7 @@ export type Game = {
 	socials: SocialNetworks[];
 	is_nsfw?: boolean;
 	status: GameStatus;
-    dev_finished: boolean;
+	dev_finished: boolean;
 };
 
 export type GameCreator = {
