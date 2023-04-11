@@ -6,7 +6,6 @@ const apiUrl = url.parse(process.env.NEXT_PUBLIC_DIRECTUS_URL);
 const nextConfig = {
 	experimental: {
 		appDir: true,
-		typedRoutes: true,
 	},
 	eslint: {
 		dirs: ['src'],
