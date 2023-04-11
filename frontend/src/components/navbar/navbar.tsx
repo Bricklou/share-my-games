@@ -2,6 +2,7 @@ import {Menu} from 'lucide-react';
 import Link from 'next/link';
 import {SearchInput} from './search';
 import {NsfwToggle} from './nsfwToggle';
+import {FeedButton} from './feedButton';
 
 export function NavBar(): JSX.Element {
 	return (
@@ -31,6 +32,7 @@ export function NavBar(): JSX.Element {
 				</div>
 
 				<div className='navbar-end md:mr-2'>
+					<FeedButton/>
 					<NsfwToggle />
 					<SearchInput />
 				</div>

@@ -9,7 +9,7 @@ export function NsfwToggle(): JSX.Element {
 		<button
 			type='button'
 			className='btn btn-ghost btn-circle'
-			aria-label={showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}
+			title={showNsfw ? 'Hide NSFW content' : 'Show NSFW content'}
 			onClick={() => {
 				toggleNsfw();
 			}}
