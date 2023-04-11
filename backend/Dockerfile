@@ -9,4 +9,4 @@ COPY ./package-lock.json ./package-lock.json
 # Install extensions
 RUN npm ci
 
-CMD npx directus bootstrap && npx directus start
+CMD npm exec directus bootstrap && npm exec directus start
