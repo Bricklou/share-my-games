@@ -32,6 +32,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 			keywords: game.tags.map(tag => tag.name).join(', '),
 			applicationName: 'Sharing my games',
 			openGraph: {
+				siteName: 'Sharing my games',
 				title: game.name,
 				description: 'Simple website to share all the kinky games I played. UwU',
 				type: 'article',
@@ -41,6 +42,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 				tags: game.tags.map(tag => tag.name),
 			},
 			twitter: {
+				site: 'Sharing my games',
 				title: game.name,
 				description: 'Simple website to share all the kinky games I played. UwU',
 				images: game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [],

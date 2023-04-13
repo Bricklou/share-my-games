@@ -26,7 +26,7 @@ export type Game = {
 export type SocialNetworks = {
 	id: number;
 	link: string;
-	type: 'itch' | 'patreon' | 'discord' | 'website' | 'twitter' | 'subscribestar';
+	type: 'itch' | 'patreon' | 'discord' | 'website' | 'twitter' | 'subscribestar' | 'steam';
 };
 
 export type Creator = {

@@ -5,7 +5,7 @@ import {getGame} from '@/utils/api/games';
 import {notFound} from 'next/navigation';
 import type {Game, SocialNetworks, Tag} from '@/types/games';
 import {Rating} from '@/components/rating/rating';
-import {SiDiscord, SiPatreon, SiItchdotio} from '@icons-pack/react-simple-icons';
+import {SiDiscord, SiPatreon, SiItchdotio, SiSteam} from '@icons-pack/react-simple-icons';
 import {Check, Construction, Globe, TwitterIcon} from 'lucide-react';
 import {GalleryWithPreview} from '@/components/gallery/gallery';
 import classNames from 'classnames';
@@ -39,9 +39,13 @@ function toSocialLink(social: SocialNetworks): JSX.Element | undefined {
 			icon = <TwitterIcon />;
 			name = 'Twitter';
 			break;
+		case 'steam':
+			icon = <SiSteam/>;
+			name = 'Steam';
+			break;
 		default:
 			icon = <Globe />;
-			name = social.type[0].toUpperCase() + social.type.substr(1);
+			name = social.type[0].toUpperCase() + social.type.substring(1);
 	}
 
 	return (
