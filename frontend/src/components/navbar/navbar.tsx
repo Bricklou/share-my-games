@@ -3,10 +3,12 @@ import Link from 'next/link';
 import {SearchInput} from './search';
 import {NsfwToggle} from './nsfwToggle';
 import {FeedButton} from './feedButton';
+import ActiveLink from '../activeLink';
+import {ThemeButton} from './themeButton';
 
 export function NavBar(): JSX.Element {
 	return (
-		<div className='border-b bg-base-200 sticky top-0 z-50'>
+		<div className='border-b border-base-300 bg-base-200 sticky top-0 z-50'>
 			<div className='navbar container mx-auto py-3'>
 				<div className='navbar-start md:hidden'>
 					<div className='dropdown'>
@@ -19,8 +21,14 @@ export function NavBar(): JSX.Element {
 							className='menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-200 rounded-box w-52'
 						>
 							<li role='menuitem'>
-								<Link href='/'>Home</Link>
+								<ActiveLink href='/' activeClassName='text-primary'>Home</ActiveLink>
 							</li>
+							{/* <li role='menuitem'>
+								<ActiveLink href='/by-tags' activeClassName='text-primary'>Tags</ActiveLink>
+							</li>
+							<li role='menuitem'>
+								<ActiveLink href='/by-creators' activeClassName='text-primary'>Games</ActiveLink>
+							</li> */}
 						</ul>
 					</div>
 				</div>
@@ -29,9 +37,19 @@ export function NavBar(): JSX.Element {
 					<Link href='/' className='normal-case text-xl btn btn-ghost'>
                         Sharing my games
 					</Link>
+
+					{/* 					<div className='hidden md:flex'>
+						<Link href='/by-tags' className='btn btn-ghost'>
+                            Tags
+						</Link>
+						<Link href='/by-creators' className='btn btn-ghost'>
+                            Creators
+						</Link>
+					</div> */}
 				</div>
 
 				<div className='navbar-end md:mr-2'>
+					<ThemeButton/>
 					<FeedButton/>
 					<NsfwToggle />
 					<SearchInput />

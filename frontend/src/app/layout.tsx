@@ -6,6 +6,8 @@ import './globals.css';
 import {getGlobals} from '@/utils/api';
 import {Footer} from '@/components/footer/footer';
 import {NsfwContextProvider} from '@/context/showNsfw';
+import {ThemeProvider} from '@/context/themeProvider';
+import {type PropsWithChildren} from 'react';
 
 export const dynamic = 'force-dynamic';
 export const dynamicParams = true;
@@ -36,18 +38,20 @@ export async function generateMetadata(): Promise<Metadata> {
 	}
 }
 
-export default async function RootLayout({children}: {children: JSX.Element}) {
+export default async function RootLayout({children}: PropsWithChildren) {
 	return (
-		<html lang='en'>
-			<body className='min-h-screen m-0 p-0 flex flex-col'>
-				<QueryProvider>
-					<NsfwContextProvider>
-						<NavBar />
-						{children}
-						<Footer />
-					</NsfwContextProvider>
-				</QueryProvider>
-			</body>
+		<html lang='en' suppressHydrationWarning>
+			<ThemeProvider>
+				<body className='min-h-screen m-0 p-0 flex flex-col'>
+					<QueryProvider>
+						<NsfwContextProvider>
+							<NavBar />
+							{children}
+							<Footer />
+						</NsfwContextProvider>
+					</QueryProvider>
+				</body>
+			</ThemeProvider>
 		</html>
 	);
 }

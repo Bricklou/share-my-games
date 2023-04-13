@@ -22,7 +22,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 	return (
 		<div className={classNames('card bg-base-200', className)}>
 			{props.game.previews && (
-				<figure className='h-48 relative'>
+				<figure className='h-48 relative bg-base-300'>
 					<Link href={`/game/${props.game.slug}`} className='link link-primary link-hover'>
 						<Image
 							src={makeUrl(props.game.previews[0].preview)}

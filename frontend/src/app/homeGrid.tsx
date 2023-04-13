@@ -56,6 +56,7 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 						name='Sort By'
 						parentClass='md:max-w-xs flex-1 w-full'
 						className='w-full'
+						value={sort}
 						onChange={event => {
 							setSort(event.target.value as keyof Game);
 						}}
