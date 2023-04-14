@@ -9,8 +9,10 @@ type GetGamesParams = {
 	limit?: number;
 };
 
+const defaultPageLimit = 36;
+
 export async function getGames(params?: GetGamesParams): Promise<Paginated<Game>> {
-	const pageLimit = params?.limit ?? 54;
+	const pageLimit = params?.limit ?? defaultPageLimit;
 	const {data, meta} = await directus.items<'game', Game>('game').readByQuery({
 		fields: ['*', 'creator.*', 'rating', 'previews.*'],
 		filter: {
