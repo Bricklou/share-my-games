@@ -5,6 +5,7 @@ import {directus} from '../database';
 type GetCreatorsParams = {
 	page?: number;
 	limit?: number;
+	sort?: Array<keyof Creator | `-${keyof Creator}`>;
 };
 
 const defaultPageLimit = 36;
@@ -16,7 +17,7 @@ export async function getCreators(params?: GetCreatorsParams): Promise<Paginated
 		limit: pageLimit,
 		page: params?.page,
 		meta: 'filter_count',
-
+		sort: params?.sort ?? ['name'],
 		filter: {
 			games: {
 				status: {
