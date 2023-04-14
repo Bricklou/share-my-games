@@ -9,6 +9,7 @@ type SearchParams = Record<string, string | string[] | undefined>;
 export default async function Home({searchParams}: {searchParams: SearchParams}) {
 	let sort: keyof Game | undefined;
 	let sortOrder: 'asc' | 'desc' | undefined;
+	let page: number | undefined;
 
 	if (searchParams) {
 		if (
@@ -26,20 +27,30 @@ export default async function Home({searchParams}: {searchParams: SearchParams})
 		) {
 			sortOrder = searchParams.sortOrder as 'asc' | 'desc';
 		}
+
+		if (
+			searchParams.page
+            && typeof searchParams.page === 'string'
+            && !isNaN(parseInt(searchParams.page, 10))
+		) {
+			page = Math.max(parseInt(searchParams.page, 10), 1);
+		}
 	}
 
 	const games = await getGames({
 		sortBy: sort ?? 'name',
+		page: page ?? 1,
 	});
 
 	return (
-		<main className='flex-1'>
-			<div className='container mx-auto py-12'>
+		<main className='flex-1 flex'>
+			<div className='container mx-auto py-12 flex-1'>
 				<HomeGrid
-					games={games}
+					gamesData={games}
 					searchParams={{
 						sort,
 						sortOrder,
+						page,
 					}}
 				/>
 			</div>

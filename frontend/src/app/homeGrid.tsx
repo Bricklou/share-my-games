@@ -9,12 +9,15 @@ import {SortAsc, SortDesc} from 'lucide-react';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 import qs from 'qs';
+import {Pagination} from '@/components/pagination/pagination';
+import {type Paginated} from '@/types/paginated';
 
 type HomeGridProps = {
-	games: Game[];
+	gamesData: Paginated<Game>;
 	searchParams: {
 		sort?: keyof Game;
 		sortOrder?: 'asc' | 'desc';
+		page?: number;
 	};
 };
 
@@ -25,19 +28,20 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(
 		props.searchParams.sortOrder ?? (sort === 'create_at' ? 'desc' : 'asc'),
 	);
+	const [page, setPage] = useState<number>(props.searchParams.page ?? 1);
 
-	const {data: games} = useQuery({
-		queryKey: ['home', {sort, sortOrder}],
-		async queryFn({queryKey}: {queryKey: [string, {sort: keyof Game; sortOrder: 'asc' | 'desc'}]}) {
-			const [, {sort, sortOrder}] = queryKey;
-			router.push(qs.stringify({sort, sortOrder}, {addQueryPrefix: true}));
-			return getGames({sortBy: `${sortOrder === 'asc' ? '' : '-'}${sort}`});
+	const {data: gamesData} = useQuery({
+		queryKey: ['home', {sort, sortOrder, page}],
+		async queryFn({queryKey}: {queryKey: [string, {sort: keyof Game; sortOrder: 'asc' | 'desc'; page: number}]}) {
+			const [, {sort, sortOrder, page}] = queryKey;
+			router.push(qs.stringify({sort, sortOrder, page}, {addQueryPrefix: true}));
+			return getGames({sortBy: `${sortOrder === 'asc' ? '' : '-'}${sort}`, page});
 		},
-		initialData: props.games,
+		initialData: props.gamesData,
 	});
 
 	return (
-		<div>
+		<div className='flex flex-col h-full'>
 			<header className='flex flex-col md:flex-row items-center px-8 md:p-0 mb-8'>
 				<h1 className='text-3xl font-bold mb-4'>List of games I played</h1>
 				<div className='flex-1 flex justify-end w-full items-center gap-2'>
@@ -69,10 +73,20 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 					</FormSelect>
 				</div>
 			</header>
-			<div className='grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-8 gap-4'>
-				{games.map(game => (
-					<Card key={game.id} game={game} />
-				))}
+			<div className='flex-1'>
+				<div className='grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-8 gap-4'>
+					{gamesData.data.map(game => (
+						<Card key={game.id} game={game} />
+					))}
+				</div>
+			</div>
+			<div className='flex flex-row items-center justify-center px-8 mt-8 md:p-0'>
+				<Pagination
+					onChange={setPage}
+					pageSize={gamesData.meta.pageSize}
+					currentPage={gamesData.meta.page}
+					itemsCount={gamesData.meta.itemsCount}
+				/>
 			</div>
 		</div>
 	);

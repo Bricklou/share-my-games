@@ -1,13 +1,17 @@
 import type {Creator, Tag, Game, SocialNetworks, GamePreview} from '../../types/games';
+import type {Paginated} from '@/types/paginated';
 import {directus} from '@/utils/database';
 import type * as directusTypes from '@/types/directus';
 
 type GetGamesParams = {
 	sortBy?: keyof Game | `-${keyof Game}`;
+	page?: number;
 };
 
-export async function getGames(params?: GetGamesParams): Promise<Game[]> {
-	const {data} = await directus.items<'game', Game>('game').readByQuery({
+const pageLimit = 54;
+
+export async function getGames(params?: GetGamesParams): Promise<Paginated<Game>> {
+	const {data, meta} = await directus.items<'game', Game>('game').readByQuery({
 		fields: ['*', 'creator.*', 'rating', 'previews.*'],
 		filter: {
 			status: {
@@ -21,10 +25,13 @@ export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 		},
 
 		sort: params?.sortBy ? [params.sortBy] : ['-published_at'],
+		limit: pageLimit,
+		page: params?.page,
+		meta: 'filter_count',
 	});
 
 	if (!data) {
-		return [];
+		return {data: [], meta: {itemsCount: 0, page: 0, pageSize: 0}};
 	}
 
 	const games: Game[] = [];
@@ -39,7 +46,14 @@ export async function getGames(params?: GetGamesParams): Promise<Game[]> {
 		});
 	}
 
-	return games;
+	return {
+		data: games,
+		meta: {
+			itemsCount: meta?.filter_count ?? 0,
+			page: params?.page ?? 1,
+			pageSize: pageLimit,
+		},
+	};
 }
 
 export async function getGame(slug: string): Promise<Game | undefined> {
