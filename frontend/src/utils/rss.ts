@@ -6,7 +6,7 @@ import {type Enclosure} from 'feed/lib/typings';
 
 export async function generateRssFeed(request: Request): Promise<Feed> {
 	const globals = await getGlobals();
-	const games = await getGames();
+	const games = await getGames({limit: -1});
 
 	const {url: reqUrl} = request;
 	const parsedUrl = new URL(reqUrl);
@@ -27,7 +27,7 @@ export async function generateRssFeed(request: Request): Promise<Feed> {
 		},
 	});
 
-	games.forEach(game => {
+	games.data.forEach(game => {
 		const gameUrl = `${domain}/game/${game.slug}`;
 
 		let image: Enclosure | undefined;

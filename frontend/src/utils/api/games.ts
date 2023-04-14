@@ -6,11 +6,11 @@ import type * as directusTypes from '@/types/directus';
 type GetGamesParams = {
 	sortBy?: keyof Game | `-${keyof Game}`;
 	page?: number;
+	limit?: number;
 };
 
-const pageLimit = 54;
-
 export async function getGames(params?: GetGamesParams): Promise<Paginated<Game>> {
+	const pageLimit = params?.limit ?? 54;
 	const {data, meta} = await directus.items<'game', Game>('game').readByQuery({
 		fields: ['*', 'creator.*', 'rating', 'previews.*'],
 		filter: {
