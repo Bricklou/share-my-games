@@ -20,7 +20,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 	const [showNsfw] = useShowNsfw();
 
 	return (
-		<div className={classNames('card bg-base-200', className)}>
+		<div className={classNames('card bg-base-200', className)} ref={ref}>
 			{props.game.previews && (
 				<figure className='h-48 relative bg-base-300'>
 					<Link href={`/game/${props.game.slug}`} className='link link-primary link-hover'>
@@ -81,4 +81,4 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 	);
 };
 
-export const Card = forwardRef(_Card);
+export const GameCard = forwardRef(_Card);

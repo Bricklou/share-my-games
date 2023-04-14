@@ -1,6 +1,6 @@
 'use client';
 
-import {Card} from '@/components/card/card';
+import {GameCard} from '@/components/card/gameCard';
 import {FormSelect} from '@/components/select/select';
 import {type Game} from '@/types/games';
 import {getGames} from '@/utils/api/games';
@@ -47,6 +47,7 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 				<div className='flex-1 flex justify-end w-full items-center gap-2'>
 					<div>
 						<button
+							type='button'
 							className='btn btn-ghost btn-sm'
 							onClick={() => {
 								setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
@@ -76,7 +77,7 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 			<div className='flex-1'>
 				<div className='grid grid-flow-row grid-cols-1 md:grid-cols-2 lg:grid-cols-3 px-8 gap-4'>
 					{gamesData.data.map(game => (
-						<Card key={game.id} game={game} />
+						<GameCard key={game.id} game={game} />
 					))}
 				</div>
 			</div>

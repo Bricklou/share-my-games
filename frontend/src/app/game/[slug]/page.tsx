@@ -1,7 +1,6 @@
 import {GameView} from './game';
 import {getGame} from '@/utils/api/games';
 import {notFound} from 'next/navigation';
-import {dehydrate, HydrationBoundary} from '@tanstack/react-query';
 import {type Metadata} from 'next';
 import {makeUrl} from '@/utils/api';
 

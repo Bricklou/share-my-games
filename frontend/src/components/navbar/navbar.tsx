@@ -23,12 +23,9 @@ export function NavBar(): JSX.Element {
 							<li role='menuitem'>
 								<ActiveLink href='/' activeClassName='text-primary'>Home</ActiveLink>
 							</li>
-							{/* <li role='menuitem'>
-								<ActiveLink href='/by-tags' activeClassName='text-primary'>Tags</ActiveLink>
-							</li>
 							<li role='menuitem'>
-								<ActiveLink href='/by-creators' activeClassName='text-primary'>Games</ActiveLink>
-							</li> */}
+								<ActiveLink href='/creators' activeClassName='text-primary'>Creators</ActiveLink>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -38,14 +35,11 @@ export function NavBar(): JSX.Element {
                         Sharing my games
 					</Link>
 
-					{/* 					<div className='hidden md:flex'>
-						<Link href='/by-tags' className='btn btn-ghost'>
-                            Tags
-						</Link>
-						<Link href='/by-creators' className='btn btn-ghost'>
+					<div className='hidden md:flex'>
+						<Link href='/creators' className='btn btn-ghost'>
                             Creators
 						</Link>
-					</div> */}
+					</div>
 				</div>
 
 				<div className='navbar-end md:mr-2'>

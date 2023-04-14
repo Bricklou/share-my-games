@@ -2,11 +2,14 @@ import type {Creator, Tag, Game, SocialNetworks, GamePreview} from '../../types/
 import type {Paginated} from '@/types/paginated';
 import {directus} from '@/utils/database';
 import type * as directusTypes from '@/types/directus';
+import type {Filter, Deep} from '@directus/sdk';
 
 type GetGamesParams = {
 	sortBy?: keyof Game | `-${keyof Game}`;
 	page?: number;
 	limit?: number;
+	filter?: Filter<Game>;
+	deep?: Deep<Game>;
 };
 
 const defaultPageLimit = 36;
@@ -16,11 +19,13 @@ export async function getGames(params?: GetGamesParams): Promise<Paginated<Game>
 	const {data, meta} = await directus.items<'game', Game>('game').readByQuery({
 		fields: ['*', 'creator.*', 'rating', 'previews.*'],
 		filter: {
+			...(params?.filter ?? {}),
 			status: {
 				_eq: 'published',
 			},
 		},
 		deep: {
+			...(params?.deep ?? {}),
 			previews: {
 				_limit: 1,
 			},

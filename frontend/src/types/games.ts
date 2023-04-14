@@ -33,6 +33,7 @@ export type Creator = {
 	id: number;
 	name: string;
 	slug: string;
+	games?: Game[];
 };
 
 export type Tag = {
