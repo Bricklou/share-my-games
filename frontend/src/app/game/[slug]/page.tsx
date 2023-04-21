@@ -2,7 +2,7 @@ import {GameView} from './game';
 import {getGame} from '@/utils/api/games';
 import {notFound} from 'next/navigation';
 import {type Metadata} from 'next';
-import {makeUrl} from '@/utils/api';
+import {getGlobals, makeUrl} from '@/utils/api';
 
 type PageProps = {
 	params: {
@@ -16,35 +16,39 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 			throw new Error('No slug');
 		}
 
+		const globals = await getGlobals();
 		const game = await getGame(params.slug);
 
 		if (!game) {
 			throw new Error('No game');
 		}
 
+		let previews = game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [];
+		previews = previews.reverse();
+
 		return {
 			title: game.name,
-			description: 'Simple website to share all the kinky games I played. UwU',
+			description: globals.project_descriptor,
 			authors: {
 				name: game.creator.name,
 			},
 			keywords: game.tags.map(tag => tag.name).join(', '),
-			applicationName: 'Sharing my games',
+			applicationName: globals.project_name,
 			openGraph: {
-				siteName: 'Sharing my games',
+				siteName: globals.project_name,
 				title: game.name,
-				description: 'Simple website to share all the kinky games I played. UwU',
+				description: globals.project_descriptor,
 				type: 'article',
 				authors: game.creator.name,
-				images: game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [],
+				images: previews,
 				publishedTime: game.published_at,
 				tags: game.tags.map(tag => tag.name),
 			},
 			twitter: {
-				site: 'Sharing my games',
+				site: globals.project_name,
 				title: game.name,
-				description: 'Simple website to share all the kinky games I played. UwU',
-				images: game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [],
+				description: globals.project_descriptor,
+				images: previews,
 				card: 'summary_large_image',
 			},
 		} satisfies Metadata;
