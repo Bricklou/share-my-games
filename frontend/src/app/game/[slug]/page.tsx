@@ -23,8 +23,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 			throw new Error('No game');
 		}
 
-		let previews = game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [];
-		previews = previews.reverse();
+		const previews = game.previews?.map(preview => makeUrl(preview.preview, {filename: 'image.png'})) ?? [];
 
 		return {
 			title: game.name,
