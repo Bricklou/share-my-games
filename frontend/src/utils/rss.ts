@@ -1,7 +1,9 @@
+import 'server-only';
+
 import {Feed} from 'feed';
 import {getGames} from './api/games';
 import {getGlobals, makeUrl} from './api';
-import url from 'url';
+
 import {type Enclosure} from 'feed/lib/typings';
 
 export async function generateRssFeed(request: Request): Promise<Feed> {

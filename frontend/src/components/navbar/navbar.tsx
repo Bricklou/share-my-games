@@ -1,10 +1,10 @@
-import {Menu} from 'lucide-react';
 import Link from 'next/link';
 import {SearchInput} from './search';
 import {NsfwToggle} from './nsfwToggle';
 import {FeedButton} from './feedButton';
 import ActiveLink from '../activeLink';
 import {ThemeButton} from './themeButton';
+import {Menu} from '@/components/icons';
 
 export function NavBar(): JSX.Element {
 	return (

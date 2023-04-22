@@ -11,16 +11,20 @@ const NsfwContext = createContext<NsfwContextType>([
 ]);
 
 function NsfwContextProvider({children}: React.PropsWithChildren): JSX.Element {
+	const windowValid = typeof window !== 'undefined';
+
 	// The globalThis is used to make sure that the code works in both the browser and the server
 	// Since the server can't work with localStorage, we need to check if it exists
-	const defaultValue = globalThis.localStorage ? localStorage.getItem('showNSFW') : null;
+	const defaultValue = windowValid && window.localStorage ? localStorage.getItem('showNSFW') : null;
 	const parsed = defaultValue ? (JSON.parse(defaultValue) as boolean) : false;
 
 	const [nsfw, setNsfw] = useState(parsed);
 
 	const toggleNsfw = () => {
 		setNsfw(!nsfw);
-		localStorage.setItem('showNSFW', JSON.stringify(!nsfw));
+		if (windowValid) {
+			window.localStorage.setItem('showNSFW', JSON.stringify(!nsfw));
+		}
 	};
 
 	return <NsfwContext.Provider value={[nsfw, toggleNsfw]}>{children}</NsfwContext.Provider>;

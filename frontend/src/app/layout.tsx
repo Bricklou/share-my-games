@@ -1,17 +1,11 @@
 import type React from 'react';
 import {NavBar} from '@/components/navbar/navbar';
-import {QueryProvider} from '@/components/QueryProvider';
 import {type Metadata} from 'next';
 import './globals.css';
 import {getGlobals} from '@/utils/api';
 import {Footer} from '@/components/footer/footer';
-import {NsfwContextProvider} from '@/context/showNsfw';
-import {ThemeProvider} from '@/context/themeProvider';
 import {type PropsWithChildren} from 'react';
-
-export const dynamic = 'force-dynamic';
-export const dynamicParams = true;
-export const revalidate = 600;
+import {AppProviders} from '@/context/Providers';
 
 export async function generateMetadata(): Promise<Metadata> {
 	try {
@@ -29,8 +23,9 @@ export async function generateMetadata(): Promise<Metadata> {
 				title: globals.project_name,
 				card: 'summary_large_image',
 			},
-		};
+		} satisfies Metadata;
 	} catch (e) {
+		console.error('Error fetching metadata:', e);
 		return {
 			title: 'Sharing my games',
 			description: 'Simple website to share all the kinky games I played. UwU',
@@ -41,17 +36,13 @@ export async function generateMetadata(): Promise<Metadata> {
 export default async function RootLayout({children}: PropsWithChildren) {
 	return (
 		<html lang='en' suppressHydrationWarning>
-			<ThemeProvider>
-				<body className='min-h-screen m-0 p-0 flex flex-col'>
-					<QueryProvider>
-						<NsfwContextProvider>
-							<NavBar />
-							{children}
-							<Footer />
-						</NsfwContextProvider>
-					</QueryProvider>
-				</body>
-			</ThemeProvider>
+			<body className='min-h-screen m-0 p-0 flex flex-col'>
+				<AppProviders>
+					<NavBar/>
+					{children}
+					<Footer />
+				</AppProviders>
+			</body>
 		</html>
 	);
 }

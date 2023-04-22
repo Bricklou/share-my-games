@@ -1,7 +1,7 @@
 'use client';
 
 import type {GamePreview} from '@/types/games';
-import {Eye, EyeOff} from 'lucide-react';
+import {Eye, EyeOff} from '@/components/icons';
 import {type HTMLAttributes, useCallback, useEffect, useState} from 'react';
 import Image from 'next/image';
 import {makeUrl} from '@/utils/api';
@@ -9,12 +9,11 @@ import useEmblaCarousel from 'embla-carousel-react';
 import {Dots} from './dots';
 import {GalleryControls} from './galleryControls';
 import classNames from 'classnames';
-import {ImageOverlay} from './imageOverlay';
 
 import './gallery.css';
 import {useShowNsfw} from '@/context/showNsfw';
 
-type GalleryProps = {
+export type GalleryProps = {
 	images: GamePreview[];
 	onImageClick?: (index: number) => void;
 	// The minimum height of the gallery
@@ -110,46 +109,3 @@ export function Gallery({
 	);
 }
 
-export function GalleryWithPreview(props: Omit<GalleryProps, 'onImageClick'>): JSX.Element {
-	const [showOverlay, setShowOverlay] = useState(false);
-	const [selectedIndex, setSelectedIndex] = useState(0);
-	const [imageFetchWidth, setImageFetchWidth] = useState(window.innerWidth);
-
-	useEffect(() => {
-		function handleResize() {
-			// Only update if the width changes of 50px to prevent unnecessary re-renders
-			if (Math.abs(window.innerWidth - imageFetchWidth) > 300) {
-				setImageFetchWidth(window.innerWidth);
-			}
-		}
-
-		window.addEventListener('resize', handleResize);
-
-		return () => {
-			window.removeEventListener('resize', handleResize);
-		};
-	}, [imageFetchWidth]);
-
-	return (
-		<>
-			<Gallery
-				onImageClick={index => {
-					setSelectedIndex(index);
-					setShowOverlay(true);
-				}}
-				{...props}
-				imageFetchWidth={Math.floor(imageFetchWidth / 2)}
-			/>
-			{showOverlay && (
-				<ImageOverlay
-					onClose={() => {
-						setShowOverlay(false);
-					}}
-					currentIndex={selectedIndex}
-					images={props.images}
-					imageFetchWidth={imageFetchWidth}
-				/>
-			)}
-		</>
-	);
-}

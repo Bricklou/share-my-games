@@ -1,7 +1,5 @@
 import {type Game} from '@/types/games';
 import {getGames} from '@/utils/api/games';
-import {useSearchParams} from 'next/navigation';
-import {useEffect} from 'react';
 import {HomeGrid} from './homeGrid';
 
 type SearchParams = Record<string, string | string[] | undefined>;
@@ -38,7 +36,7 @@ export default async function Home({searchParams}: {searchParams: SearchParams})
 	}
 
 	const games = await getGames({
-		sortBy: sort ?? 'name',
+		sortBy: sort ?? undefined,
 		page: page ?? 1,
 	});
 

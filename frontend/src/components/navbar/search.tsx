@@ -1,7 +1,7 @@
 'use client';
 
 import {type GameSearchResult, searchGames} from '@/utils/api/games';
-import {Search} from 'lucide-react';
+import {Search} from '@/components/icons';
 import Link from 'next/link';
 import {useCallback, useEffect, useRef, useState, type HTMLAttributes} from 'react';
 import {FormInput} from '../input/input';

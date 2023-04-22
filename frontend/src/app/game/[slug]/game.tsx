@@ -5,9 +5,8 @@ import {getGame} from '@/utils/api/games';
 import {notFound} from 'next/navigation';
 import type {Game, SocialNetworks, Tag} from '@/types/games';
 import {Rating} from '@/components/rating/rating';
-import {SiDiscord, SiPatreon, SiItchdotio, SiSteam} from '@icons-pack/react-simple-icons';
-import {Check, Construction, Globe, TwitterIcon} from 'lucide-react';
-import {GalleryWithPreview} from '@/components/gallery/gallery';
+import {SiDiscord, SiPatreon, SiItchdotio, SiSteam, Check, Construction, Globe, TwitterIcon} from '@/components/icons';
+import {GalleryWithPreview} from '@/components/gallery/galleryOverlay';
 import classNames from 'classnames';
 
 type GameProps = {

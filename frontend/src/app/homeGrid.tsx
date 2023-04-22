@@ -5,7 +5,7 @@ import {FormSelect} from '@/components/select/select';
 import {type Game} from '@/types/games';
 import {getGames} from '@/utils/api/games';
 import {useQuery} from '@tanstack/react-query';
-import {SortAsc, SortDesc} from 'lucide-react';
+import {SortAsc, SortDesc} from '@/components/icons';
 import {useRouter} from 'next/navigation';
 import {useState} from 'react';
 import qs from 'qs';
