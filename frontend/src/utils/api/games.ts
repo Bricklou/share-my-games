@@ -3,6 +3,7 @@ import type {Paginated} from '@/types/paginated';
 import {directus} from '@/utils/database';
 import type * as directusTypes from '@/types/directus';
 import type {Filter, Deep} from '@directus/sdk';
+import {cache} from 'react';
 
 type GetGamesParams = {
 	sortBy?: keyof Game | `-${keyof Game}`;
@@ -14,7 +15,7 @@ type GetGamesParams = {
 
 const defaultPageLimit = 36;
 
-export async function getGames(params?: GetGamesParams): Promise<Paginated<Game>> {
+export const getGames = cache(async (params?: GetGamesParams): Promise<Paginated<Game>> => {
 	const pageLimit = params?.limit ?? defaultPageLimit;
 	const {data, meta} = await directus.items<'game', Game>('game').readByQuery({
 		fields: ['*', 'creator.*', 'rating', 'previews.*'],
@@ -61,9 +62,9 @@ export async function getGames(params?: GetGamesParams): Promise<Paginated<Game>
 			pageSize: pageLimit,
 		},
 	};
-}
+});
 
-export async function getGame(slug: string): Promise<Game | undefined> {
+export const getGame = cache(async (slug: string): Promise<Game | undefined> => {
 	const {data: gameData} = await directus.items<'game', directusTypes.Game>('game').readByQuery({
 		fields: [
 			'*',
@@ -115,11 +116,11 @@ export async function getGame(slug: string): Promise<Game | undefined> {
 	/* eslint-enable @typescript-eslint/naming-convention */
 
 	return game;
-}
+});
 
 export type GameSearchResult = Pick<Game, 'id' | 'name' | 'slug' | 'creator'>;
 
-export async function searchGames(query: string): Promise<GameSearchResult[]> {
+export const searchGames = cache(async (query: string): Promise<GameSearchResult[]> => {
 	const {data} = await directus.items<'game', GameSearchResult>('game').readByQuery({
 		fields: ['id', 'name', 'slug', 'creator.*'],
 		filter: {
@@ -154,4 +155,4 @@ export async function searchGames(query: string): Promise<GameSearchResult[]> {
 	}
 
 	return data;
-}
+});

@@ -1,5 +1,4 @@
 'use client';
-import 'client-only';
 
 import {type PropsWithChildren, useState} from 'react';
 import {NsfwContextProvider} from './showNsfw';

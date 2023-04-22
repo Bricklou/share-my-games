@@ -1,5 +1,3 @@
-import 'server-only';
-
 import {Feed} from 'feed';
 import {getGames} from './api/games';
 import {getGlobals, makeUrl} from './api';
