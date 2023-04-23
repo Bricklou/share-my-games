@@ -13,6 +13,10 @@ export type PaginationProps = {
 export function Pagination({itemsCount, pageSize, currentPage, onChange, siblingCount = 2}: PaginationProps): JSX.Element {
 	const pagesCount = Math.ceil(itemsCount / pageSize);
 
+	if (pagesCount <= 1) {
+		return <></>;
+	}
+
 	const pages = Array.from({length: pagesCount}, (_, i) => i + 1);
 
 	return (
