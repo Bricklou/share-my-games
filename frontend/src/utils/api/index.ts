@@ -1,16 +1,25 @@
-import {type Settings} from '@/types/games';
-import {directus} from '@/utils/database';
-import {type DefaultItem} from '@directus/sdk';
+
 import {cache} from 'react';
+import { graphqlSystemClient } from '../database';
+import { SettingsQuery } from '../gql-gen/graphql';
+import { QUERY_SETTINGS } from '../graphql/Global';
 
-export const getGlobals = cache(async (): Promise<DefaultItem<Settings>> => {
-	const settings = await directus.singleton('directus_settings').read();
+interface GlobalsSettings {
+    project_name: string;
+    project_descriptor: string;
+}
 
-	if (!settings) {
+export const getGlobals = cache(async (): Promise<GlobalsSettings> => {
+    const {settings} = await graphqlSystemClient.request<SettingsQuery>(QUERY_SETTINGS)
+
+	if (!settings || !settings.project_name || !settings.project_descriptor) {
 		throw new Error('Settings not found');
 	}
 
-	return settings as DefaultItem<Settings>;
+	return {
+        project_name: settings.project_name,
+        project_descriptor: settings.project_descriptor,
+    }
 });
 
 export function makeUrl(hash: string, options?: {width?: number; filename?: string}): string {

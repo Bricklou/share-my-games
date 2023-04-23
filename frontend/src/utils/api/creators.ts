@@ -9,12 +9,12 @@ type GetCreatorsParams = {
 	sort?: Array<keyof Creator | `-${keyof Creator}`>;
 };
 
-const defaultPageLimit = 36;
+const defaultPageLimit = 24;
 
 export const getCreators = cache(async (params?: GetCreatorsParams): Promise<Paginated<Creator>> => {
 	const pageLimit = params?.limit ?? defaultPageLimit;
 	const {data, meta} = await directus.items<'game_creator', Creator>('game_creator').readByQuery({
-		fields: ['*', 'games.id'],
+		fields: ['*'],
 		limit: pageLimit,
 		page: params?.page,
 		meta: 'filter_count',

@@ -1,9 +1,11 @@
-import type {Creator, Tag, Game, SocialNetworks, GamePreview} from '../../types/games';
+//import type {Game, SocialNetworks} from '../../types/games';
 import type {Paginated} from '@/types/paginated';
-import {directus} from '@/utils/database';
-import type * as directusTypes from '@/types/directus';
 import type {Filter, Deep} from '@directus/sdk';
 import {cache} from 'react';
+import { QUERY_GAMES_LIST } from '../graphql/GameList';
+import { ArrayItem, graphqlClient } from '../database';
+import { Game, GameListQuery, GameListQueryVariables } from '../gql-gen/graphql';
+
 
 type GetGamesParams = {
 	sortBy?: keyof Game | `-${keyof Game}`;
@@ -13,51 +15,25 @@ type GetGamesParams = {
 	deep?: Deep<Game>;
 };
 
-const defaultPageLimit = 36;
+const defaultPageLimit = 18;
 
-export const getGames = cache(async (params?: GetGamesParams): Promise<Paginated<Game>> => {
+export const getGames = cache(async (params?: GetGamesParams): Promise<Paginated<GameListQuery['game']>> => {
 	const pageLimit = params?.limit ?? defaultPageLimit;
-	const {data, meta} = await directus.items<'game', Game>('game').readByQuery({
-		fields: ['*', 'creator.*', 'rating', 'previews.*'],
-		filter: {
-			...(params?.filter ?? {}),
-			status: {
-				_eq: 'published',
-			},
-		},
-		deep: {
-			...(params?.deep ?? {}),
-			previews: {
-				_limit: 1,
-			},
-		},
 
-		sort: params?.sortBy ? [params.sortBy] : ['-published_at'],
-		limit: pageLimit,
-		page: params?.page,
-		meta: 'filter_count',
-	});
+    const data = await graphqlClient.request<GameListQuery, GameListQueryVariables>(QUERY_GAMES_LIST, {
+        limit: pageLimit,
+        sort: params?.sortBy ? [params.sortBy] : ['-published_at'],
+        page: params?.page,
+    })
 
-	if (!data) {
+	if (!data.game) {
 		return {data: [], meta: {itemsCount: 0, page: 0, pageSize: 0}};
 	}
 
-	const games: Game[] = [];
-
-	for (const game of data) {
-		games.push({
-			...game,
-			status: game.status as unknown as directusTypes.GameStatus,
-			creator: game.creator as unknown as Creator,
-			tags: [],
-			previews: game.previews as unknown as GamePreview[],
-		});
-	}
-
 	return {
-		data: games,
+		data: data.game,
 		meta: {
-			itemsCount: meta?.filter_count ?? 0,
+			itemsCount: data.meta[0].countDistinct?.id ?? 0,
 			page: params?.page ?? 1,
 			pageSize: pageLimit,
 		},

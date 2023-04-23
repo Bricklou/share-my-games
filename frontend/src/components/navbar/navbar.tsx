@@ -26,6 +26,9 @@ export function NavBar(): JSX.Element {
 							<li role='menuitem'>
 								<ActiveLink href='/creators' activeClassName='text-primary'>Creators</ActiveLink>
 							</li>
+							<li role='menuitem'>
+								<ActiveLink href='/tags' activeClassName='text-primary'>Tags</ActiveLink>
+							</li>
 						</ul>
 					</div>
 				</div>
@@ -38,6 +41,9 @@ export function NavBar(): JSX.Element {
 					<div className='hidden md:flex'>
 						<Link href='/creators' className='btn btn-ghost'>
                             Creators
+						</Link>
+						<Link href='/tags' className='btn btn-ghost'>
+                            Tags
 						</Link>
 					</div>
 				</div>

@@ -23,7 +23,27 @@
             "files": [
                 "*.ts",
                 "*.tsx"
-            ]
+            ],
+        },
+        {
+            "files": [
+                "src/utils/graphql/**/*.tsx"
+            ],
+            "rules": {
+                "@typescript-eslint/naming-convention": [
+                    "error",
+                    {
+                        "selector": "variable",
+                        "modifiers": [
+                            "exported",
+                            "const"
+                        ],
+                        "format": [
+                            "UPPER_CASE"
+                        ]
+                    }
+                ]
+            }
         },
         {
             "files": [

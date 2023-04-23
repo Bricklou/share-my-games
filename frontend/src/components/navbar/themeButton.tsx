@@ -15,7 +15,7 @@ export function ThemeButton(): JSX.Element {
 		<button
 			type='button'
 			className='btn btn-ghost btn-circle'
-			title={`Toggle theme to ${theme === 'dark' ? 'light' : 'dark'} mode`}
+			title={theme === 'dark' ? 'Toggle theme to light mode' : 'Toggle theme to dark mode'}
 			onClick={onClick}
 		>
 			{theme === 'light' ? <Sun/> : <Moon/>}

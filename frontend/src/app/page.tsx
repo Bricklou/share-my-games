@@ -1,8 +1,8 @@
 import {type Game} from '@/types/games';
 import {getGames} from '@/utils/api/games';
 import {HomeGrid} from './homeGrid';
-
-type SearchParams = Record<string, string | string[] | undefined>;
+import {type SearchParams} from '@/types/paginated';
+import {getPageNumber} from '@/types/paginated';
 
 export default async function Home({searchParams}: {searchParams: SearchParams}) {
 	let sort: keyof Game | undefined;
@@ -26,13 +26,7 @@ export default async function Home({searchParams}: {searchParams: SearchParams})
 			sortOrder = searchParams.sortOrder as 'asc' | 'desc';
 		}
 
-		if (
-			searchParams.page
-            && typeof searchParams.page === 'string'
-            && !isNaN(parseInt(searchParams.page, 10))
-		) {
-			page = Math.max(parseInt(searchParams.page, 10), 1);
-		}
+		page = getPageNumber(searchParams);
 	}
 
 	const games = await getGames({

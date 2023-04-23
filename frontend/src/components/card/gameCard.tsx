@@ -1,7 +1,6 @@
 'use client';
 
 import {useShowNsfw} from '@/context/showNsfw';
-import {type Game} from '@/types/games';
 import {makeUrl} from '@/utils/api';
 import classNames from 'classnames';
 import {Clock, User} from 'lucide-react';
@@ -9,9 +8,11 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';
 import {Rating} from '../rating/rating';
+import { GameListQuery } from '@/utils/gql-gen/graphql';
+import type { ArrayItem } from '@/utils/database';
 
 type CardProps = {
-	game: Game;
+	game: ArrayItem<GameListQuery['game']>;
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => {
@@ -21,11 +22,11 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 
 	return (
 		<div className={classNames('card bg-base-200', className)} ref={ref}>
-			{props.game.previews && (
+			{props.game.previews?.[0]?.preview && (
 				<figure className='h-48 relative bg-base-300'>
 					<Link href={`/game/${props.game.slug}`} className='link link-primary link-hover'>
 						<Image
-							src={makeUrl(props.game.previews[0].preview)}
+							src={makeUrl(props.game.previews[0].preview.id)}
 							alt='Game preview'
 							className={classNames('object-cover relative scale-105', {
 								'blur-2xl': props.game.previews[0].is_nsfw && !showNsfw,
@@ -36,8 +37,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 						/>
 					</Link>
 				</figure>
-			)
-			}
+			)}
 			<div className='card-body py-4'>
 				<h2 className='card-title'>
 					<Link href={`/game/${props.game.slug}`} className='link link-primary link-hover'>
@@ -57,7 +57,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 						aria-label='Creator'
 					>
 						<User className='inline-block w-6 h-6' />
-						<span className='ml-2'>{props.game.creator.name}</span>
+						<span className='ml-2'>{props.game.creator!.name}</span>
 					</div>
 					<div className='divider divider-horizontal mx-0 md:mx-2'></div>
 					<div
