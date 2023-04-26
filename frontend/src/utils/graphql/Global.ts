@@ -1,4 +1,4 @@
-import {gql} from '../database'
+import {gql} from '../database';
 
 export const QUERY_SETTINGS = gql`
 query Settings {
@@ -9,9 +9,9 @@ query Settings {
 }
 `;
 
-export interface GlobalSettingsQuery {
-    settings: {
-        project_name: string | null;
-        project_descriptor: string | null;
-    }
-}
+export type GlobalSettingsQuery = {
+	settings: {
+		projectName: string | undefined;
+		projectDescriptor: string | undefined;
+	};
+};

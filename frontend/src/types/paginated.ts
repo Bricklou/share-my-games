@@ -1,7 +1,7 @@
 export type Paginated<T> = {
-    // If T is already an array, skip the conversion and just return T
-    // Otherwise, convert T to an array
-	data: T extends (infer U)[] ? U[] : T;
+	// If T is already an array, skip the conversion and just return T
+	// Otherwise, convert T to an array
+	data: T extends Array<infer U> ? U[] : T;
 	meta: {
 		itemsCount: number;
 		pageSize: number;

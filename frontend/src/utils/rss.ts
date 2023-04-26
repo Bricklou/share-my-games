@@ -6,23 +6,23 @@ import {type Enclosure} from 'feed/lib/typings';
 
 export async function generateRssFeed(request: Request): Promise<Feed> {
 	const globals = await getGlobals();
-	const games = await getGames({limit: -1});
+	const games = await getGames({limit: -1, withDescription: true});
 
 	const {url: reqUrl} = request;
 	const parsedUrl = new URL(reqUrl);
 	const domain = `${parsedUrl.protocol}//${parsedUrl.host}:${parsedUrl.port}`;
 
 	const feed = new Feed({
-		title: globals.project_name,
-		description: globals.project_descriptor,
+		title: globals.projectName,
+		description: globals.projectDescriptor,
 		id: reqUrl,
 		link: reqUrl,
-		copyright: `All rights reserved ${globals.project_name}`,
+		copyright: `All rights reserved ${globals.projectName}`,
 		feedLinks: {
 			rss2: `${domain}/rss`,
 		},
 		author: {
-			name: globals.project_name,
+			name: globals.projectName,
 			link: domain,
 		},
 	});
@@ -34,7 +34,7 @@ export async function generateRssFeed(request: Request): Promise<Feed> {
 
 		if (game.previews.length >= 1) {
 			image = {
-				url: makeUrl(game.previews[0].preview, {
+				url: makeUrl(game.previews[0].preview.id, {
 					filename: 'preview.png',
 				}),
 				type: 'image/png',

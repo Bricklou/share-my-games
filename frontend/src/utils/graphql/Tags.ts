@@ -1,39 +1,39 @@
-import { Variables, gql } from "graphql-request";
-import { Game } from "./Games";
+import {type Variables, gql} from 'graphql-request';
+import {type Game} from './Games';
 
-export interface Tag {
-    id: string;
-    name: string;
-    slug: string;
-    games?: GameTag[];
-}
+export type Tag = {
+	id: string;
+	name: string;
+	slug: string;
+	games?: GameTag[];
+};
 
-export interface GameTag {
-    id: string;
-    tags_id: Tag;
-    game_id: Game;
-}
+export type GameTag = {
+	id: string;
+	tags_id: Tag;
+	game_id: Game;
+};
 
 export type TagsListQueryItem = Tag & {
-    games: {
-        count: number;
-    };
+	games: {
+		count: number;
+	};
 };
-export interface TagsListQuery {
-    tags: TagsListQueryItem[];
-    meta: [
-        {
-            countDistinct: {
-                id: number;
-            };
-        }
-    ];
-}
-export interface TagsListQueryVariables extends Variables {
-    sort: string[];
-    page: number;
-    limit: number;
-}
+export type TagsListQuery = {
+	tags: TagsListQueryItem[];
+	meta: [
+		{
+			countDistinct: {
+				id: number;
+			};
+		},
+	];
+};
+export type TagsListQueryVariables = {
+	sort: string[];
+	page: number;
+	limit: number;
+} & Variables;
 export const QUERY_TAGS_LIST = gql`
     query TagsList($sort: [String] = [], $page: Int = 1, $limit: Int = -1) {
         tags(
@@ -59,41 +59,41 @@ export const QUERY_TAGS_LIST = gql`
     }
 `;
 
-export interface TagQuery {
-    tags: [
-        Pick<Tag, "id" | "name" | "slug"> & {
-            games: {
-                game_id: Pick<
-                    Game,
-                    | "id"
-                    | "name"
-                    | "slug"
-                    | "rating"
-                    | "create_at"
-                    | "update_at"
-                    | "published_at"
-                    | "previews"
-                    | "creator"
-                >;
-            }[];
-        }
-    ];
-    meta: [
-        {
-            countDistinct: {
-                id: number;
-            };
-        }
-    ];
-}
+export type TagQuery = {
+	tags: [
+		Pick<Tag, 'id' | 'name' | 'slug'> & {
+			games: Array<{
+				game_id: Pick<
+				Game,
+				| 'id'
+				| 'name'
+				| 'slug'
+				| 'rating'
+				| 'create_at'
+				| 'update_at'
+				| 'published_at'
+				| 'previews'
+				| 'creator'
+				>;
+			}>;
+		},
+	];
+	meta: [
+		{
+			countDistinct: {
+				id: number;
+			};
+		},
+	];
+};
 
-export interface TagQueryVariables extends Variables {
-    slug: string;
-}
+export type TagQueryVariables = {
+	slug: string;
+} & Variables;
 
 export const QUERY_TAG = gql`
     query Tag($slug: String!) {
-        tags(filter: { slug: { _eq: $slug } }, limit: 1) {
+        tags(filter: { slug: { _eq: $slug }, games: { game_id: { status: { _eq: "published" } } } }, limit: 1) {
             id
             name
             slug

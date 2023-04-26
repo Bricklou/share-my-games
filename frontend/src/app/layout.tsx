@@ -12,15 +12,15 @@ export async function generateMetadata(): Promise<Metadata> {
 		const globals = await getGlobals();
 
 		return {
-			title: globals.project_name,
-			description: globals.project_descriptor,
+			title: globals.projectName,
+			description: globals.projectDescriptor,
 			openGraph: {
-				title: globals.project_name,
-				description: globals.project_descriptor,
+				title: globals.projectName,
+				description: globals.projectDescriptor,
 				type: 'website',
 			},
 			twitter: {
-				title: globals.project_name,
+				title: globals.projectName,
 				card: 'summary_large_image',
 			},
 		} satisfies Metadata;

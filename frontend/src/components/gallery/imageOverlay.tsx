@@ -1,10 +1,10 @@
-import {type GamePreview} from '@/types/games';
 import {useEffect} from 'react';
 import {Gallery} from './gallery';
+import {type Preview} from '@/utils/graphql/Games';
 
 export type ImageOverlayProps = {
 	onClose: () => void;
-	images: GamePreview[];
+	images: Preview[];
 	currentIndex?: number;
 	imageFetchWidth?: number;
 };

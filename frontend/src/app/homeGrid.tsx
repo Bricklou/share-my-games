@@ -2,13 +2,13 @@
 
 import {GameCard} from '@/components/card/gameCard';
 import {FormSelect} from '@/components/select/select';
-import {GetGamesResult, getGames} from '@/utils/api/games';
+import {type GetGamesResult, getGames} from '@/utils/api/games';
 import {useQuery} from '@tanstack/react-query';
 import {SortAsc, SortDesc} from '@/components/icons';
 import {useState} from 'react';
 import {Pagination} from '@/components/pagination/pagination';
 import {type Paginated} from '@/types/paginated';
-import { GamesListQueryFields } from '@/utils/graphql/Games';
+import {type GamesListQueryFields} from '@/utils/graphql/Games';
 
 type HomeGridProps = {
 	gamesData: Paginated<GetGamesResult>;

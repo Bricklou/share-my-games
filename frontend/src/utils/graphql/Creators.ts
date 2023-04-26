@@ -1,32 +1,32 @@
-import { Variables, gql } from "graphql-request";
-import { Game, GamesListQueryItem } from "./Games";
+import {type Variables, gql} from 'graphql-request';
+import {Game, type GamesListQueryItem} from './Games';
 
-export interface Creator {
-    id: string;
-    name: string;
-    slug: string;
-}
+export type Creator = {
+	id: string;
+	name: string;
+	slug: string;
+};
 
 export type CreatorsListQueryItem = Creator & {
-    games: {
-        count: number;
-    };
+	games: {
+		count: number;
+	};
 };
-export interface CreatorsListQuery {
-    creator: CreatorsListQueryItem[];
-    meta: [
-        {
-            countDistinct: {
-                id: number;
-            };
-        }
-    ];
-}
-export interface CreatorsListQueryVariables extends Variables {
-    limit?: number;
-    page?: number;
-    sort?: string[];
-}
+export type CreatorsListQuery = {
+	creator: CreatorsListQueryItem[];
+	meta: [
+		{
+			countDistinct: {
+				id: number;
+			};
+		},
+	];
+};
+export type CreatorsListQueryVariables = {
+	limit?: number;
+	page?: number;
+	sort?: string[];
+} & Variables;
 
 export const QUERY_CREATOR_LIST = gql`
     query GameList($limit: Int = -1, $page: Int = 1) {
@@ -39,9 +39,7 @@ export const QUERY_CREATOR_LIST = gql`
             }
         }
 
-        meta: game_creator_aggregated(
-            filter: { games: { status: { _eq: "published" } } }
-        ) {
+        meta: game_creator_aggregated(filter: { games: { status: { _eq: "published" } } }) {
             countDistinct {
                 id
             }
@@ -49,25 +47,27 @@ export const QUERY_CREATOR_LIST = gql`
     }
 `;
 
-export interface CreatorQuery {
-    creator: [Pick<Creator, "id" | "name" | "slug"> & {
-        games: GamesListQueryItem[];
-    }];
-    meta: [
-        {
-            countDistinct: {
-                id: number;
-            };
-        }
-    ];
-}
-export interface CreatorQueryVariables extends Variables {
-    slug: string;
-}
+export type CreatorQuery = {
+	creator: [
+		Pick<Creator, 'id' | 'name' | 'slug'> & {
+			games: GamesListQueryItem[];
+		},
+	];
+	meta: [
+		{
+			countDistinct: {
+				id: number;
+			};
+		},
+	];
+};
+export type CreatorQueryVariables = {
+	slug: string;
+} & Variables;
 
 export const QUERY_CREATOR = gql`
     query Creator($slug: String!) {
-        creator: game_creator(limit: 1, filter: { slug: { _eq: $slug } }) {
+        creator: game_creator(limit: 1, filter: { slug: { _eq: $slug }, games: { status: { _eq: "published" } } }) {
             id
             name
             slug
@@ -89,12 +89,7 @@ export const QUERY_CREATOR = gql`
             }
         }
 
-        meta: game_aggregated(
-            filter: {
-                creator: { slug: { _eq: $slug } },
-                status: { _eq: "published" }
-            }
-        ) {
+        meta: game_aggregated(filter: { creator: { slug: { _eq: $slug } }, status: { _eq: "published" } }) {
             countDistinct {
                 id
             }

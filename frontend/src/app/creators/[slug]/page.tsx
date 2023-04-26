@@ -23,13 +23,13 @@ export default async function CreatorPage(props: PageProps): Promise<JSX.Element
 		return notFound();
 	}
 
-    creator.games.forEach(game => {
-        game.creator = {
-            id: creator.id,
-            name: creator.name,
-            slug: creator.slug,
-        };
-    });
+	creator.games.forEach(game => {
+		game.creator = {
+			id: creator.id,
+			name: creator.name,
+			slug: creator.slug,
+		};
+	});
 
 	return (
 		<div className='flex-1 flex'>

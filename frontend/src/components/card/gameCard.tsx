@@ -8,7 +8,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';
 import {Rating} from '../rating/rating';
-import { GamesListQueryItem } from '@/utils/graphql/Games';
+import {type GamesListQueryItem} from '@/utils/graphql/Games';
 
 type CardProps = {
 	game: GamesListQueryItem;

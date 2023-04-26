@@ -29,7 +29,7 @@ export default async function TagPage(props: PageProps): Promise<JSX.Element> {
 				<h1 className='text-3xl font-bold mb-4'>
                     Games for{' '}
 					<span className='text-primary'>{tag.name}</span>
-                    {' '}
+					{' '}
                     tag
 				</h1>
 

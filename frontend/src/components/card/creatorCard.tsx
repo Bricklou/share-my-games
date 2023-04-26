@@ -1,4 +1,4 @@
-import { CreatorsListQueryItem } from '@/utils/graphql/Creators';
+import {type CreatorsListQueryItem} from '@/utils/graphql/Creators';
 import {ChevronRight} from 'lucide-react';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';

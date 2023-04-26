@@ -23,11 +23,11 @@
             "files": [
                 "*.ts",
                 "*.tsx"
-            ],
+            ]
         },
         {
             "files": [
-                "src/utils/graphql/**/*.tsx"
+                "src/utils/graphql/**/*.ts"
             ],
             "rules": {
                 "@typescript-eslint/naming-convention": [

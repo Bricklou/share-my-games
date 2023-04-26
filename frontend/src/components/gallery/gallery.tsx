@@ -1,6 +1,6 @@
 'use client';
 
-import type {GamePreview} from '@/types/games';
+import {type Preview} from '@/utils/graphql/Games';
 import {Eye, EyeOff} from '@/components/icons';
 import {type HTMLAttributes, useCallback, useEffect, useState} from 'react';
 import Image from 'next/image';
@@ -14,7 +14,7 @@ import './gallery.css';
 import {useShowNsfw} from '@/context/showNsfw';
 
 export type GalleryProps = {
-	images: GamePreview[];
+	images: Preview[];
 	onImageClick?: (index: number) => void;
 	// The minimum height of the gallery
 	minHeight?: number;
@@ -79,7 +79,7 @@ export function Gallery({
 					{images.map((each, index) => (
 						<div key={index} className='relative flex-[0_0_100%] overflow-hidden' style={{minHeight}}>
 							<Image
-								src={each.preview}
+								src={each.preview.id}
 								onClick={() => onImageClick?.(index)}
 								alt='Game preview'
 								className={classNames('object-contain my-0 relative', {

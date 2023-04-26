@@ -2,7 +2,7 @@
 
 import {Pagination} from '@/components/pagination/pagination';
 import {type Paginated} from '@/types/paginated';
-import {GetCreatorsResult, getCreators} from '@/utils/api/creators';
+import {type GetCreatorsResult, getCreators} from '@/utils/api/creators';
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {CreatorCard} from '@/components/card/creatorCard';

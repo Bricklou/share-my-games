@@ -1,4 +1,4 @@
-import { TagsListQueryItem } from '@/utils/graphql/Tags';
+import {type TagsListQueryItem} from '@/utils/graphql/Tags';
 import {ChevronRight} from 'lucide-react';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';

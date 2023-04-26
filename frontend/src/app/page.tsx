@@ -2,7 +2,7 @@ import {getGames} from '@/utils/api/games';
 import {HomeGrid} from './homeGrid';
 import {type SearchParams} from '@/types/paginated';
 import {getPageNumber} from '@/types/paginated';
-import { GamesListQueryFields } from '@/utils/graphql/Games';
+import {type GamesListQueryFields} from '@/utils/graphql/Games';
 
 export default async function Home({searchParams}: {searchParams: SearchParams}) {
 	let sort: GamesListQueryFields | undefined;

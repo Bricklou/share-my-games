@@ -2,7 +2,7 @@
 
 import {Pagination} from '@/components/pagination/pagination';
 import {type Paginated} from '@/types/paginated';
-import {GetTagsResult, getTags} from '@/utils/api/tags';
+import {type GetTagsResult, getTags} from '@/utils/api/tags';
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {TagCard} from '@/components/card/tagCard';
