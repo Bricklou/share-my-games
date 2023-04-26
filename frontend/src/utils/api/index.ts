@@ -1,4 +1,3 @@
-
 import {cache} from 'react';
 import {type RequiredFields, graphqlSystemClient} from '../database';
 import {QUERY_SETTINGS, type GlobalSettingsQuery} from '../graphql/Global';
@@ -8,13 +7,15 @@ type GlobalSettings = RequiredFields<GlobalSettingsQuery['settings']>;
 export const getGlobals = cache(async (): Promise<GlobalSettings> => {
 	const {settings} = await graphqlSystemClient.request<GlobalSettingsQuery>(QUERY_SETTINGS);
 
-	if (!settings?.projectName || !settings?.projectDescriptor) {
+	if (!settings?.project_name || !settings?.project_descriptor) {
 		throw new Error('Settings not found');
 	}
 
 	return {
-		projectName: settings.projectName,
-		projectDescriptor: settings.projectDescriptor,
+		/* eslint-disable @typescript-eslint/naming-convention */
+		project_name: settings.project_name,
+		project_descriptor: settings.project_descriptor,
+		/* eslint-enable @typescript-eslint/naming-convention */
 	} satisfies GlobalSettings;
 });
 

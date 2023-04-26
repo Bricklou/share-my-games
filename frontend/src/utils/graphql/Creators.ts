@@ -50,7 +50,7 @@ export const QUERY_CREATOR_LIST = gql`
 export type CreatorQuery = {
 	creator: [
 		Pick<Creator, 'id' | 'name' | 'slug'> & {
-			games: GamesListQueryItem[];
+			games: Array<GamesListQueryItem<false>>;
 		},
 	];
 	meta: [

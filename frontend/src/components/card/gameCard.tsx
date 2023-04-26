@@ -11,7 +11,7 @@ import {Rating} from '../rating/rating';
 import {type GamesListQueryItem} from '@/utils/graphql/Games';
 
 type CardProps = {
-	game: GamesListQueryItem;
+	game: GamesListQueryItem<false>;
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => {

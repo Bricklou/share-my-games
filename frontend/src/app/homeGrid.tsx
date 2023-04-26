@@ -11,7 +11,7 @@ import {type Paginated} from '@/types/paginated';
 import {type GamesListQueryFields} from '@/utils/graphql/Games';
 
 type HomeGridProps = {
-	gamesData: Paginated<GetGamesResult>;
+	gamesData: Paginated<GetGamesResult<false>>;
 	searchParams: {
 		sort?: GamesListQueryFields;
 		sortOrder?: 'asc' | 'desc';

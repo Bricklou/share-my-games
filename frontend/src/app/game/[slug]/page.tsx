@@ -30,7 +30,7 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 
 		return {
 			title: game.name,
-			description: globals.projectDescriptor,
+			description: globals.project_descriptor,
 			authors: {
 				name: game.creator?.name ?? undefined,
 			},
@@ -38,11 +38,11 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 				?.map(tag => tag?.tags_id?.name)
 				.filter(Boolean)
 				.join(', '),
-			applicationName: globals.projectName,
+			applicationName: globals.project_name,
 			openGraph: {
-				siteName: globals.projectName,
+				siteName: globals.project_name,
 				title: game.name,
-				description: globals.projectDescriptor,
+				description: globals.project_descriptor,
 				type: 'article',
 				authors: game.creator?.name ?? undefined,
 				images: previews,
@@ -50,9 +50,9 @@ export async function generateMetadata({params}: PageProps): Promise<Metadata> {
 				tags,
 			},
 			twitter: {
-				site: globals.projectName,
+				site: globals.project_name,
 				title: game.name,
-				description: globals.projectDescriptor,
+				description: globals.project_descriptor,
 				images: previews,
 				card: 'summary_large_image',
 			},

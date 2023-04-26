@@ -69,7 +69,7 @@ export type GamesListQueryVariables = {
 } & Variables;
 
 export const QUERY_GAMES_LIST = gql`
-    query GameList($limit: Int = -1, $sort: [String] = [], $page: Int = 1, withDescription: Boolean = false) {
+    query GameList($limit: Int = -1, $sort: [String] = [], $page: Int = 1, $withDescription: Boolean = false) {
         game(
             limit: $limit,
             sort: $sort,

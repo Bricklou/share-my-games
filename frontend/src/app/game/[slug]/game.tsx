@@ -7,7 +7,7 @@ import {Rating} from '@/components/rating/rating';
 import {SiDiscord, SiPatreon, SiItchdotio, SiSteam, Check, Construction, Globe, TwitterIcon} from '@/components/icons';
 import {GalleryWithPreview} from '@/components/gallery/galleryOverlay';
 import classNames from 'classnames';
-import {GameTag, type SocialNetwork, Tag} from '@/utils/graphql/Games';
+import {type SocialNetwork} from '@/utils/graphql/Games';
 
 type GameProps = {
 	data: GetGameResult;

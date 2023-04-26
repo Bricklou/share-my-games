@@ -11,7 +11,7 @@ query Settings {
 
 export type GlobalSettingsQuery = {
 	settings: {
-		projectName: string | undefined;
-		projectDescriptor: string | undefined;
+		project_name: string | undefined;
+		project_descriptor: string | undefined;
 	};
 };

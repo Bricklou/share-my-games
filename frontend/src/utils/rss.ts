@@ -13,16 +13,16 @@ export async function generateRssFeed(request: Request): Promise<Feed> {
 	const domain = `${parsedUrl.protocol}//${parsedUrl.host}:${parsedUrl.port}`;
 
 	const feed = new Feed({
-		title: globals.projectName,
-		description: globals.projectDescriptor,
+		title: globals.project_name,
+		description: globals.project_descriptor,
 		id: reqUrl,
 		link: reqUrl,
-		copyright: `All rights reserved ${globals.projectName}`,
+		copyright: `All rights reserved ${globals.project_name}`,
 		feedLinks: {
 			rss2: `${domain}/rss`,
 		},
 		author: {
-			name: globals.projectName,
+			name: globals.project_name,
 			link: domain,
 		},
 	});
