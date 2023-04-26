@@ -1,17 +1,14 @@
 'use client';
 
 import {Pagination} from '@/components/pagination/pagination';
-import {type Tag} from '@/types/games';
 import {type Paginated} from '@/types/paginated';
-import {getTags} from '@/utils/api/tags';
-import {useRouter, useSearchParams} from 'next/navigation';
+import {GetTagsResult, getTags} from '@/utils/api/tags';
 import {useState} from 'react';
-import * as qs from 'qs';
 import {useQuery} from '@tanstack/react-query';
 import {TagCard} from '@/components/card/tagCard';
 
 export type TagsProps = {
-	tagsData: Paginated<Tag>;
+	tagsData: Paginated<GetTagsResult>;
 	searchParams: {
 		page?: number;
 	};

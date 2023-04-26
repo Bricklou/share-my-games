@@ -8,3 +8,10 @@ query Settings {
 	}
 }
 `;
+
+export interface GlobalSettingsQuery {
+    settings: {
+        project_name: string | null;
+        project_descriptor: string | null;
+    }
+}

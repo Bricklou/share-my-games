@@ -1,11 +1,11 @@
-import {type Game} from '@/types/games';
 import {getGames} from '@/utils/api/games';
 import {HomeGrid} from './homeGrid';
 import {type SearchParams} from '@/types/paginated';
 import {getPageNumber} from '@/types/paginated';
+import { GamesListQueryFields } from '@/utils/graphql/Games';
 
 export default async function Home({searchParams}: {searchParams: SearchParams}) {
-	let sort: keyof Game | undefined;
+	let sort: GamesListQueryFields | undefined;
 	let sortOrder: 'asc' | 'desc' | undefined;
 	let page: number | undefined;
 
@@ -15,7 +15,7 @@ export default async function Home({searchParams}: {searchParams: SearchParams})
             && typeof searchParams.sort === 'string'
             && searchParams.sort in ['name', 'creator.name', 'rating', 'published_at']
 		) {
-			sort = searchParams.sort as keyof Game;
+			sort = searchParams.sort as GamesListQueryFields;
 		}
 
 		if (
@@ -30,7 +30,7 @@ export default async function Home({searchParams}: {searchParams: SearchParams})
 	}
 
 	const games = await getGames({
-		sortBy: sort ?? undefined,
+		sortBy: sort,
 		page: page ?? 1,
 	});
 

@@ -1,7 +1,6 @@
 import {GameCard} from '@/components/card/gameCard';
 import {getCreator} from '@/utils/api/creators';
 import {notFound} from 'next/navigation';
-import {type HTMLAttributes} from 'react';
 
 type PageProps = {
 	params: {
@@ -10,8 +9,6 @@ type PageProps = {
 };
 
 export default async function CreatorPage(props: PageProps): Promise<JSX.Element> {
-	let page: number | undefined;
-
 	const {slug} = props.params;
 
 	if (!slug) {
@@ -25,6 +22,14 @@ export default async function CreatorPage(props: PageProps): Promise<JSX.Element
 	if (!creator) {
 		return notFound();
 	}
+
+    creator.games.forEach(game => {
+        game.creator = {
+            id: creator.id,
+            name: creator.name,
+            slug: creator.slug,
+        };
+    });
 
 	return (
 		<div className='flex-1 flex'>

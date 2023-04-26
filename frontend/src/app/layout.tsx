@@ -35,7 +35,7 @@ export async function generateMetadata(): Promise<Metadata> {
 
 export default async function RootLayout({children}: PropsWithChildren) {
 	return (
-		<html lang='en' suppressHydrationWarning>
+		<html lang='en'>
 			<body className='min-h-screen m-0 p-0 flex flex-col'>
 				<AppProviders>
 					<NavBar/>

@@ -1,15 +1,14 @@
 'use client';
 
 import {Pagination} from '@/components/pagination/pagination';
-import {type Creator} from '@/types/games';
 import {type Paginated} from '@/types/paginated';
-import {getCreators} from '@/utils/api/creators';
+import {GetCreatorsResult, getCreators} from '@/utils/api/creators';
 import {useState} from 'react';
 import {useQuery} from '@tanstack/react-query';
 import {CreatorCard} from '@/components/card/creatorCard';
 
 export type CreatorsProps = {
-	creatorsData: Paginated<Creator>;
+	creatorsData: Paginated<GetCreatorsResult>;
 	searchParams: {
 		page?: number;
 	};

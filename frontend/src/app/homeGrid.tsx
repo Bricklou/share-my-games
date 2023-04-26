@@ -2,29 +2,25 @@
 
 import {GameCard} from '@/components/card/gameCard';
 import {FormSelect} from '@/components/select/select';
-import {type Game} from '@/types/games';
-import {getGames} from '@/utils/api/games';
+import {GetGamesResult, getGames} from '@/utils/api/games';
 import {useQuery} from '@tanstack/react-query';
 import {SortAsc, SortDesc} from '@/components/icons';
-import {useRouter} from 'next/navigation';
 import {useState} from 'react';
-import qs from 'qs';
 import {Pagination} from '@/components/pagination/pagination';
 import {type Paginated} from '@/types/paginated';
+import { GamesListQueryFields } from '@/utils/graphql/Games';
 
 type HomeGridProps = {
-	gamesData: Paginated<Game>;
+	gamesData: Paginated<GetGamesResult>;
 	searchParams: {
-		sort?: keyof Game;
+		sort?: GamesListQueryFields;
 		sortOrder?: 'asc' | 'desc';
 		page?: number;
 	};
 };
 
 export function HomeGrid(props: HomeGridProps): JSX.Element {
-	const router = useRouter();
-
-	const [sort, setSort] = useState<keyof Game>(props.searchParams.sort ?? 'create_at');
+	const [sort, setSort] = useState<GamesListQueryFields>(props.searchParams.sort ?? 'create_at');
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>(
 		props.searchParams.sortOrder ?? (sort === 'create_at' ? 'desc' : 'asc'),
 	);
@@ -32,9 +28,8 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 
 	const {data: gamesData} = useQuery({
 		queryKey: ['home', {sort, sortOrder, page}],
-		async queryFn({queryKey}: {queryKey: [string, {sort: keyof Game; sortOrder: 'asc' | 'desc'; page: number}]}) {
+		async queryFn({queryKey}: {queryKey: [string, {sort: GamesListQueryFields; sortOrder: 'asc' | 'desc'; page: number}]}) {
 			const [, {sort, sortOrder, page}] = queryKey;
-			router.push(qs.stringify({sort, sortOrder, page}, {addQueryPrefix: true}));
 			return getGames({sortBy: `${sortOrder === 'asc' ? '' : '-'}${sort}`, page});
 		},
 		initialData: props.gamesData,
@@ -63,7 +58,7 @@ export function HomeGrid(props: HomeGridProps): JSX.Element {
 						className='w-full'
 						value={sort}
 						onChange={event => {
-							setSort(event.target.value as keyof Game);
+							setSort(event.target.value as GamesListQueryFields);
 						}}
 					>
 						<option value='name'>Name</option>

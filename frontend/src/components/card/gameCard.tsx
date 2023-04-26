@@ -8,11 +8,10 @@ import Image from 'next/image';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';
 import {Rating} from '../rating/rating';
-import { GameListQuery } from '@/utils/gql-gen/graphql';
-import type { ArrayItem } from '@/utils/database';
+import { GamesListQueryItem } from '@/utils/graphql/Games';
 
 type CardProps = {
-	game: ArrayItem<GameListQuery['game']>;
+	game: GamesListQueryItem;
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => {
@@ -57,7 +56,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 						aria-label='Creator'
 					>
 						<User className='inline-block w-6 h-6' />
-						<span className='ml-2'>{props.game.creator!.name}</span>
+						<span className='ml-2'>{props.game.creator.name}</span>
 					</div>
 					<div className='divider divider-horizontal mx-0 md:mx-2'></div>
 					<div

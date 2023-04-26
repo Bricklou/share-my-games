@@ -1,19 +1,19 @@
 'use client';
 
 import {useQuery} from '@tanstack/react-query';
-import {getGame} from '@/utils/api/games';
+import {GetGameResult, getGame} from '@/utils/api/games';
 import {notFound} from 'next/navigation';
-import type {Game, SocialNetworks, Tag} from '@/types/games';
 import {Rating} from '@/components/rating/rating';
 import {SiDiscord, SiPatreon, SiItchdotio, SiSteam, Check, Construction, Globe, TwitterIcon} from '@/components/icons';
 import {GalleryWithPreview} from '@/components/gallery/galleryOverlay';
 import classNames from 'classnames';
+import { GameTag, SocialNetwork, Tag } from '@/utils/graphql/Games';
 
 type GameProps = {
-	data: Game;
+	data: GetGameResult;
 };
 
-function toSocialLink(social: SocialNetworks): JSX.Element | undefined {
+function toSocialLink(social: SocialNetwork): JSX.Element | undefined {
 	let icon: React.ReactNode;
 	let name: string;
 
@@ -55,18 +55,6 @@ function toSocialLink(social: SocialNetworks): JSX.Element | undefined {
 			</a>
 		</li>
 	);
-}
-
-function sortTags(a: Tag, b: Tag): number {
-	if (a.name < b.name) {
-		return -1;
-	}
-
-	if (a.name > b.name) {
-		return 1;
-	}
-
-	return 0;
 }
 
 export function GameView(props: GameProps) {
@@ -133,9 +121,9 @@ export function GameView(props: GameProps) {
 							</span>
 							<h2 className='card-title'>Tags</h2>
 							<div className='flex flex-row flex-wrap gap-2'>
-								{data.tags.sort(sortTags).map(tag => (
-									<div key={tag.slug} className='badge badge-primary grow shrink'>
-										{tag.name}
+								{data.tags.map(tag => (
+									<div key={tag.tags_id.slug} className='badge badge-primary grow shrink'>
+										{tag.tags_id.name}
 									</div>
 								))}
 							</div>

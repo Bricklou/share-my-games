@@ -1,16 +1,12 @@
 
 import {cache} from 'react';
-import { graphqlSystemClient } from '../database';
-import { SettingsQuery } from '../gql-gen/graphql';
-import { QUERY_SETTINGS } from '../graphql/Global';
+import { RequiredFields, graphqlSystemClient } from '../database';
+import { QUERY_SETTINGS, GlobalSettingsQuery } from '../graphql/Global';
 
-interface GlobalsSettings {
-    project_name: string;
-    project_descriptor: string;
-}
+type GlobalSettings = RequiredFields<GlobalSettingsQuery['settings']>;
 
-export const getGlobals = cache(async (): Promise<GlobalsSettings> => {
-    const {settings} = await graphqlSystemClient.request<SettingsQuery>(QUERY_SETTINGS)
+export const getGlobals = cache(async (): Promise<GlobalSettings> => {
+    const {settings} = await graphqlSystemClient.request<GlobalSettingsQuery>(QUERY_SETTINGS)
 
 	if (!settings || !settings.project_name || !settings.project_descriptor) {
 		throw new Error('Settings not found');
@@ -19,7 +15,7 @@ export const getGlobals = cache(async (): Promise<GlobalsSettings> => {
 	return {
         project_name: settings.project_name,
         project_descriptor: settings.project_descriptor,
-    }
+    } satisfies GlobalSettings
 });
 
 export function makeUrl(hash: string, options?: {width?: number; filename?: string}): string {

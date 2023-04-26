@@ -1,10 +1,10 @@
-import {type Creator} from '@/types/games';
+import { CreatorsListQueryItem } from '@/utils/graphql/Creators';
 import {ChevronRight} from 'lucide-react';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';
 
 type CardProps = {
-	creator: Creator;
+	creator: CreatorsListQueryItem;
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => (
@@ -13,7 +13,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 			<div className='card-body p-4 flex flex-row justify-between group-hover:text-primary'>
 				<h2 className='card-title text-base'>
 					{props.creator.name}
-					<span className='text-sm font-light'>({props.creator.games?.length} games)</span>
+					<span className='text-sm font-light'>({props.creator.games.count} games)</span>
 				</h2>
 				<ChevronRight className='w-8 h-8' />
 			</div>

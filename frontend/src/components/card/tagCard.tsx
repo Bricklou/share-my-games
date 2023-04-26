@@ -1,10 +1,10 @@
-import {type Tag} from '@/types/games';
+import { TagsListQueryItem } from '@/utils/graphql/Tags';
 import {ChevronRight} from 'lucide-react';
 import Link from 'next/link';
 import {forwardRef, type ForwardRefRenderFunction, type HTMLAttributes} from 'react';
 
 type CardProps = {
-	tag: Tag;
+	tag: TagsListQueryItem;
 } & HTMLAttributes<HTMLDivElement>;
 
 const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, ...props}, ref) => (
@@ -13,7 +13,7 @@ const _Card: ForwardRefRenderFunction<HTMLDivElement, CardProps> = ({className, 
 			<div className='card-body p-4 flex flex-row justify-between group-hover:text-primary'>
 				<h2 className='card-title text-base'>
 					{props.tag.name}
-					<span className='text-sm font-light'>({props.tag.games?.length} games)</span>
+					<span className='text-sm font-light'>({props.tag.games.count} games)</span>
 				</h2>
 				<ChevronRight className='w-8 h-8' />
 			</div>

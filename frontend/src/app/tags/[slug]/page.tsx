@@ -9,8 +9,6 @@ type PageProps = {
 };
 
 export default async function TagPage(props: PageProps): Promise<JSX.Element> {
-	let page: number | undefined;
-
 	const {slug} = props.params;
 
 	if (!slug) {
@@ -31,11 +29,13 @@ export default async function TagPage(props: PageProps): Promise<JSX.Element> {
 				<h1 className='text-3xl font-bold mb-4'>
                     Games for{' '}
 					<span className='text-primary'>{tag.name}</span>
+                    {' '}
+                    tag
 				</h1>
 
 				<div className='grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4'>
 					{tag.games?.map(game => (
-						<GameCard key={game.id} game={game} />
+						<GameCard key={game.game_id.id} game={game.game_id} />
 					))}
 				</div>
 			</div>
