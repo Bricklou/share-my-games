@@ -1,14 +1,24 @@
-import { NgModule, isDevMode } from '@angular/core';
+import { APP_ID, NgModule, isDevMode } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { SharedModule } from './modules/shared/shared.module';
+import { AuthModule } from './modules/auth/auth.module';
+import { LoadingBarService } from './services/loading-bar.service';
+import { LoadingBarIndicatorComponent } from './components/loading-bar-indicator/loading-bar-indicator.component';
 
 @NgModule({
-  declarations: [AppComponent],
+  declarations: [AppComponent, LoadingBarIndicatorComponent],
   imports: [
     BrowserModule,
+    BrowserAnimationsModule,
+
+    SharedModule,
+    AuthModule,
+
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: !isDevMode(),
@@ -17,7 +27,13 @@ import { ServiceWorkerModule } from '@angular/service-worker';
       registrationStrategy: 'registerWhenStable:30000',
     }),
   ],
-  providers: [],
+  providers: [
+    { provide: APP_ID, useValue: 'share-my-games' },
+
+    LoadingBarService,
+    SharedModule,
+    AuthModule,
+  ],
   bootstrap: [AppComponent],
 })
 export class AppModule {}

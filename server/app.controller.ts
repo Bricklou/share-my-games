@@ -8,7 +8,7 @@ interface Speaker {
 
 @Controller()
 export class AppController {
-  @Get('api/speaker')
+  @Get('speaker')
   public findAllSpeakers(): Speaker[] {
     return [
       {
