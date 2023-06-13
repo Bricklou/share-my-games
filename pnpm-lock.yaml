@@ -49,6 +49,7 @@ specifiers:
   karma-coverage: ~2.2.0
   karma-jasmine: ~5.1.0
   karma-jasmine-html-reporter: ~2.1.0
+  lucide-angular: ^0.244.0
   postcss-import: ^15.1.0
   prettier: ^2.8.8
   reflect-metadata: ^0.1.13
@@ -79,6 +80,7 @@ dependencies:
   class-validator: 0.14.0
   dotenv: 16.1.4
   express: 4.18.2
+  lucide-angular: 0.244.0_fgbwqzfbdk2zmlbknakcbkzbue
   reflect-metadata: 0.1.13
   rxjs: 7.8.1
   tslib: 2.5.3
@@ -7069,6 +7071,17 @@ packages:
     resolution: {integrity: sha512-ERJq3FOzJTxBbFjZ7iDs+NiK4VI9Wz+RdrrAB8dio1oV+YvdPzUEE4QNiT2VD51DkIbCYRUUzCRkssXCHqSnKQ==}
     engines: {node: 14 || >=16.14}
     dev: true
+
+  /lucide-angular/0.244.0_fgbwqzfbdk2zmlbknakcbkzbue:
+    resolution: {integrity: sha512-mHwLqZiWOa+p0+pPUOQgWkTWpIkKohu5TlnuJ5vyV1vyWHDSI8+xN10YZLINcK0+CgJ17h5ZIq/n5xt5oKki8g==}
+    peerDependencies:
+      '@angular/common': 13.x - 16.x
+      '@angular/core': 13.x - 16.x
+    dependencies:
+      '@angular/common': 16.0.5_khe3cv67ujwvf7cfhrm36a3u7q
+      '@angular/core': 16.0.5_rxjs@7.8.1+zone.js@0.13.1
+      tslib: 2.5.3
+    dev: false
 
   /magic-string/0.30.0:
     resolution: {integrity: sha512-LA+31JYDJLs82r2ScLrlz1GjSgu66ZV518eyWT+S8VhyQn/JL0u9MeBOvQMGYiPk1DBiSN9DDMOcXvigJZaViQ==}

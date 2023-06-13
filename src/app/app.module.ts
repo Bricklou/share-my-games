@@ -10,6 +10,8 @@ import { AuthModule } from './modules/auth/auth.module';
 import { LoadingBarService } from './services/loading-bar.service';
 import { LoadingBarIndicatorComponent } from './components/loading-bar-indicator/loading-bar-indicator.component';
 
+export const APP_NAME = 'Share My Games';
+
 @NgModule({
   declarations: [AppComponent, LoadingBarIndicatorComponent],
   imports: [

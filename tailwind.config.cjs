@@ -1,6 +1,6 @@
 const daisyui_themes = require("daisyui/src/theming/themes");
-const halloween = daisyui_themes["[data-theme=halloween]"];
-const garden = daisyui_themes["[data-theme=garden]"];
+const cupcake = daisyui_themes["[data-theme=cupcake]"];
+const night = daisyui_themes["[data-theme=night]"];
 
 /** @type {import('tailwindcss').Config} */
 module.exports = {
@@ -14,17 +14,11 @@ module.exports = {
     themes: [
       {
         light: {
-          ...garden,
-          "--rounded-btn": "0",
+          ...cupcake
         },
         dark: {
-          ...halloween,
-          "--rounded-btn": "0",
-          primary: garden.primary,
-          secondary: garden.secondary,
-          "secondary-content": garden["secondary-content"],
-          accent: garden.accent,
-          "accent-content": garden["accent-content"],
+          ...cupcake,
+          ...night,
         },
       },
     ],
