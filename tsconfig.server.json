@@ -5,7 +5,8 @@
     "module": "commonjs",
     "types": ["node"],
     "emitDecoratorMetadata": true,
-    "experimentalDecorators": true
+    "experimentalDecorators": true,
+    "typeRoots": ["server/typings"]
   },
   "files": ["src/main.server.ts", "server.ts"],
   "angularCompilerOptions": {
