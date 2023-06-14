@@ -14,11 +14,14 @@ module.exports = {
     themes: [
       {
         light: {
-          ...cupcake
+          ...cupcake,
         },
         dark: {
-          ...cupcake,
           ...night,
+          // Add some cupcake configurations
+          "--rounded-btn": cupcake["--rounded-btn"],
+          "--tab-border": cupcake["--tab-border"],
+          "--tab-radius": cupcake["--tab-radius"],
         },
       },
     ],
