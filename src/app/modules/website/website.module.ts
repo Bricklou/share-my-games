@@ -6,6 +6,8 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { WebsiteComponent } from './website.component';
 import { SharedModule } from '../shared/shared.module';
 import { NavThemeButtonComponent } from './components/navbar/nav-items/theme-button.component';
+import { HomeComponent } from './pages/home/home.component';
+import { FooterComponent } from './components/footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +17,8 @@ import { NavThemeButtonComponent } from './components/navbar/nav-items/theme-but
     NotFoundComponent,
     NavThemeButtonComponent,
     NavbarComponent,
+    HomeComponent,
+    FooterComponent,
   ],
   imports: [CommonModule, WebsiteRoutingModule, SharedModule],
 })
