@@ -18,7 +18,7 @@ export const APP_NAME = 'Share My Games';
     BrowserModule,
     BrowserAnimationsModule,
 
-    SharedModule,
+    SharedModule.forRoot(),
     AuthModule,
 
     AppRoutingModule,
@@ -33,8 +33,6 @@ export const APP_NAME = 'Share My Games';
     { provide: APP_ID, useValue: 'share-my-games' },
 
     LoadingBarService,
-    SharedModule,
-    AuthModule,
   ],
   bootstrap: [AppComponent],
 })

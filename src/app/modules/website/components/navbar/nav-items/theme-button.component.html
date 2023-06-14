@@ -1,1 +1,7 @@
-<button type="button" class="btn btn-ghost btn-circle"></button>
+<button type="button" class="btn btn-ghost btn-circle"
+  [title]="theme ? 'Toggle theme to light mode' : 'Toggle theme to dark mode'" (click)="onButtonClick()">
+  <lucide-angular name="sun" *ngIf="theme === 'light'; else isDarkMode" aria-hidden="true"></lucide-angular>
+  <ng-template #isDarkMode>
+    <lucide-angular name="moon" aria-hidden="true"></lucide-angular>
+  </ng-template>
+</button>

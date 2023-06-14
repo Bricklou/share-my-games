@@ -5,9 +5,17 @@ import { WebsiteRoutingModule } from './website-routing.module';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { WebsiteComponent } from './website.component';
 import { SharedModule } from '../shared/shared.module';
+import { NavThemeButtonComponent } from './components/navbar/nav-items/theme-button.component';
 
 @NgModule({
-  declarations: [NotFoundComponent, NavbarComponent, WebsiteComponent],
-  imports: [CommonModule, WebsiteRoutingModule, SharedModule.forRoot()],
+  declarations: [
+    // Components
+    WebsiteComponent,
+
+    NotFoundComponent,
+    NavThemeButtonComponent,
+    NavbarComponent,
+  ],
+  imports: [CommonModule, WebsiteRoutingModule, SharedModule],
 })
 export class WebsiteModule {}
