@@ -1,6 +1,7 @@
-import { Injectable } from '@angular/core';
+import { Inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoggerService } from './logger.service';
+import { isPlatformServer } from '@angular/common';
 
 export enum Theme {
   light = 'light',
@@ -14,8 +15,15 @@ export class ThemeService {
   public _theme = new BehaviorSubject<Theme>(Theme.light);
   public readonly events: Observable<Theme>;
 
-  public constructor(private logger: LoggerService) {
+  public constructor(
+    // eslint-disable-next-line @typescript-eslint/ban-types
+    @Inject(PLATFORM_ID) platformID: Object,
+    private logger: LoggerService
+  ) {
     this.events = this._theme.asObservable();
+
+    if (isPlatformServer(platformID)) return;
+
     this.updateDom(this._theme.value);
 
     const theme = localStorage.getItem(this.themeKey);
