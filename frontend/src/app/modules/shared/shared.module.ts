@@ -6,6 +6,7 @@ import { LoggerService } from './services/logger.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
 import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 @NgModule({
   declarations: [],
@@ -32,7 +33,7 @@ export class SharedModule {
   public static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: [ThemeService, LoggerService],
+      providers: [SsrCookieService, ThemeService, LoggerService],
     };
   }
 }

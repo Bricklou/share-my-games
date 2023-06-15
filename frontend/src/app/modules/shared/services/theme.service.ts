@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { LoggerService } from './logger.service';
 import { DOCUMENT } from '@angular/common';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
 
 export enum Theme {
   light = 'light',
@@ -17,19 +18,20 @@ export class ThemeService {
 
   public constructor(
     @Inject(DOCUMENT) private document: Document,
-    private logger: LoggerService
+    private logger: LoggerService,
+    cookieService: SsrCookieService
   ) {
     this.events = this._theme.asObservable();
 
     this.updateDom(this._theme.value);
 
-    const theme = localStorage.getItem(this.themeKey);
+    const theme = cookieService.get(this.themeKey);
     if (theme) {
       this._theme.next(theme as Theme);
     }
 
     this.events.subscribe((theme) => {
-      localStorage.setItem(this.themeKey, theme);
+      cookieService.set(this.themeKey, theme);
       this.logger.debug(`Theme changed to "${theme}"`);
       this.updateDom(theme);
     });
