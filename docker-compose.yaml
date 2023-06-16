@@ -55,8 +55,6 @@ services:
     container_name: frontend
     build:
       context: ./frontend
-      args:
-        NEXT_PUBLIC_DIRECTUS_URL: http://localhost:8055
     restart: always
     environment:
       NEXT_PUBLIC_DIRECTUS_URL: http://localhost:8055
