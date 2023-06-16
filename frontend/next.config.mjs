@@ -4,9 +4,6 @@ const apiUrl = url.parse(process.env.NEXT_PUBLIC_DIRECTUS_URL);
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-	experimental: {
-		appDir: true,
-	},
 	eslint: {
 		dirs: ['src'],
 	},

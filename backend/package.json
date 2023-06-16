@@ -12,9 +12,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "directus": "^10.0.0",
+    "directus": "^10.3.0",
     "directus-extension-display-link": "^1.6.1",
     "directus-extension-wpslug-interface": "^1.1.0",
-    "pg": "^8.10.0"
+    "pg": "^8.11.0"
   }
 }
