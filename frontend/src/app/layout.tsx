@@ -6,6 +6,7 @@ import {getGlobals} from '@/utils/api';
 import {Footer} from '@/components/footer/footer';
 import {type PropsWithChildren} from 'react';
 import {AppProviders} from '@/context/Providers';
+import Script from 'next/script';
 
 export async function generateMetadata(): Promise<Metadata> {
 	try {
@@ -43,6 +44,7 @@ export default async function RootLayout({children}: PropsWithChildren) {
 					<Footer />
 				</AppProviders>
 			</body>
+			<Script src='/api/url' type='application/javascript' strategy='beforeInteractive' />
 		</html>
 	);
 }
