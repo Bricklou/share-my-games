@@ -43,7 +43,7 @@ const config = (config, _options, targetOptions) => {
           if (arr3[index3].options?.postcssOptions) {
             arr3[index3].options.postcssOptions.config = path.resolve(
               __dirname,
-              "./postcss.config.cjs"
+              "./postcss.config.js"
             );
           }
         }
@@ -55,51 +55,6 @@ const config = (config, _options, targetOptions) => {
     "@": path.resolve(__dirname, "./src"),
     "@app": path.resolve(__dirname, "./src/app"),
   };
-
-  // Running with SSR
-  if (targetOptions.target === "server") {
-    config.resolve?.extensions?.push(".mjs", ".graphql", ".gql");
-
-    config.module?.rules?.push({
-      test: /\.mjs$/,
-      include: /node_modules/,
-      type: "javascript/auto",
-    });
-
-    config.externalsPresets = { node: true };
-
-    config.externals.push(
-      nodeExternals({
-        allowlist: [/^(?!(livereload|concurrently|fsevents)).*/],
-      })
-    );
-
-    config.plugins?.push(
-      new IgnorePlugin({
-        checkResource: (resource) => {
-          const lazyImports = [
-            "@nestjs/microservices",
-            "@nestjs/microservices/microservices-module",
-            "@nestjs/websockets/socket-module",
-            "cache-manager",
-            "class-validator",
-            "class-transform",
-          ];
-
-          if (!lazyImpots.includes(resource)) {
-            return false;
-          }
-
-          try {
-            require.resolve(resource);
-          } catch (_err) {
-            return true;
-          }
-          return false;
-        },
-      })
-    );
-  }
 
   return config;
 };

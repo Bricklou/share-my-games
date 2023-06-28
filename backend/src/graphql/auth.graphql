@@ -1,0 +1,15 @@
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input RegisterInput {
+    username: String!
+    email: String!
+    password: String!
+}
+
+type Query {
+    login(input: LoginInput!): String
+    register(input: RegisterInput!): String
+}
