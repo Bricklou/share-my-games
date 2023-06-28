@@ -6,10 +6,10 @@ import {
 import { Subscription } from 'rxjs';
 
 @Component({
-  selector: 'app-nav-theme-btn',
+  selector: 'app-theme-btn',
   templateUrl: './theme-button.component.html',
 })
-export class NavThemeButtonComponent implements OnDestroy {
+export class ThemeButtonComponent implements OnDestroy {
   protected theme: Theme;
 
   private subscription: Subscription;

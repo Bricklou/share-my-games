@@ -6,7 +6,6 @@ import { AppComponent } from './app.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './modules/shared/shared.module';
-import { AuthModule } from './modules/auth/auth.module';
 import { LoadingBarService } from './services/loading-bar.service';
 import { LoadingBarIndicatorComponent } from './components/loading-bar-indicator/loading-bar-indicator.component';
 
@@ -19,7 +18,6 @@ export const APP_NAME = 'Share My Games';
     BrowserAnimationsModule,
 
     SharedModule.forRoot(),
-    AuthModule,
 
     AppRoutingModule,
     ServiceWorkerModule.register('ngsw-worker.js', {

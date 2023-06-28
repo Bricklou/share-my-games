@@ -48,6 +48,6 @@ export class ThemeService {
   }
 
   private updateDom(theme: Theme): void {
-    this.document.body.setAttribute('data-theme', theme);
+    this.document.documentElement.setAttribute('data-theme', theme);
   }
 }

@@ -7,12 +7,19 @@ import {
   TitleStrategy,
 } from '@angular/router';
 import { APP_NAME } from './app.module';
+import { authGuard } from './modules/shared/guards/auth.guard';
 
 const routes: Routes = [
   {
     path: 'admin',
     loadChildren: () =>
       import('./modules/admin/admin.module').then((m) => m.AdminModule),
+    canActivate: [authGuard],
+  },
+  {
+    path: 'auth',
+    loadChildren: () =>
+      import('./modules/shared/shared.module').then((m) => m.SharedModule),
   },
   {
     path: '',
