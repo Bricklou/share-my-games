@@ -44,7 +44,13 @@
         ],
         "@typescript-eslint/explicit-function-return-type": "error",
         "@typescript-eslint/explicit-member-accessibility": "error",
-        "@typescript-eslint/naming-convention": "error"
+        "@typescript-eslint/naming-convention": "error",
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+            "ignoreStatic": true
+          }
+        ]
       }
     },
     {

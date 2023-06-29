@@ -6,6 +6,7 @@ import { Request, Response } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import * as cookieParser from 'cookie-parser';
+import expressAsyncHandler from 'express-async-handler';
 
 import { AppServerModule } from '@/main.server';
 import { environment } from '@/environments/environment';
@@ -45,56 +46,60 @@ export function app(): express.Express {
   );
 
   // All regular routes use the Universal engine
-  server.get('*', async (req: Request, res: Response): Promise<void> => {
-    const setCookies: string[] = [];
+  // eslint-disable-next-line @typescript-eslint/no-misused-promises
+  server.get(
+    '*',
+    expressAsyncHandler(async (req: Request, res: Response): Promise<void> => {
+      const setCookies: string[] = [];
 
-    const providers: Provider[] = [
-      { provide: 'REQUEST', useValue: req },
-      { provide: 'RESPONSE', useValue: res },
-    ];
+      const providers: Provider[] = [
+        { provide: 'REQUEST', useValue: req },
+        { provide: 'RESPONSE', useValue: res },
+      ];
 
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-    const userSession = req.cookies?.['connect.sid'] as string | undefined;
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+      const userSession = req.cookies?.['connect.sid'] as string | undefined;
 
-    if (userSession) {
-      try {
-        const resp = await fetch(environment.api, {
-          method: 'POST',
-          headers: {
-            /* eslint-disable @typescript-eslint/naming-convention */
-            cookie: `connect.sid=${userSession}`,
-            'Content-Type': 'application/json',
-            /* eslint-enable @typescript-eslint/naming-convention */
-          },
-        });
+      if (userSession) {
+        try {
+          const resp = await fetch(environment.api, {
+            method: 'POST',
+            headers: {
+              /* eslint-disable @typescript-eslint/naming-convention */
+              cookie: `connect.sid=${userSession}`,
+              'Content-Type': 'application/json',
+              /* eslint-enable @typescript-eslint/naming-convention */
+            },
+          });
 
-        checkStatus(resp);
+          checkStatus(resp);
 
-        const data = (await resp.json()) as Promise<User>;
-        providers.push({
-          provide: INIT_AUTH,
-          useValue: data,
-        });
+          const data = (await resp.json()) as Promise<User>;
+          providers.push({
+            provide: INIT_AUTH,
+            useValue: data,
+          });
 
-        const setCookie = resp.headers.get('set-cookie');
-        if (setCookie) {
-          setCookies.push(setCookie);
-        }
-      } catch (err) {
-        if (isHttpResponseError(err) && !err.message.match(/401/)) {
-          console.error(err);
+          const setCookie = resp.headers.get('set-cookie');
+          if (setCookie) {
+            setCookies.push(setCookie);
+          }
+        } catch (err) {
+          if (isHttpResponseError(err) && !err.message.match(/401/)) {
+            console.error(err);
+          }
         }
       }
-    }
 
-    res.setHeader('set-cookie', setCookies);
+      res.setHeader('set-cookie', setCookies);
 
-    res.render(indexHtml, {
-      req,
-      res,
-      providers,
-    });
-  });
+      res.render(indexHtml, {
+        req,
+        res,
+        providers,
+      });
+    })
+  );
 
   return server;
 }

@@ -1,6 +1,6 @@
 const path = require("path");
 
-const config = (config, _options, targetOptions) => {
+const config = (config, _options) => {
   config.module.rules.push({
     test: /\.(graphql|gql)$/,
     exclude: /node_modules/,
