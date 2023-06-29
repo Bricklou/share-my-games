@@ -8,6 +8,10 @@ import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
+    // Import all modules that contain resolvers before loading the GraphQLModule
+    UserModule,
+    AuthModule,
+
     GraphQLModule.forRoot<ApolloDriverConfig>({
       // Apollo configuration options
       driver: ApolloDriver,
@@ -23,10 +27,6 @@ import { AuthModule } from './auth/auth.module';
       sortSchema: true,
       installSubscriptionHandlers: true,
     }),
-
-    // Import all modules that contain resolvers
-    UserModule,
-    AuthModule,
   ],
 })
 export class GraphqlConfigModule {}

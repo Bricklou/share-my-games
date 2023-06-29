@@ -19,8 +19,6 @@ export class AuthResolver {
     const { user, token } = await this.authService.login(loginInput);
     this.authService.configureCookie(request, token);
 
-    request.session.save();
-
     return user;
   }
 
@@ -35,4 +33,6 @@ export class AuthResolver {
 
     return user;
   }
+
+  // TODO: add the logout mutation
 }

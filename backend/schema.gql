@@ -1,23 +1,39 @@
-# ------------------------------------------------------
-# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
-# ------------------------------------------------------
+# This file was generated. Do not edit manually.
 
-type User {
-  id: Int!
-  username: String!
-  email: String!
-  password: String!
-  isAdmin: Boolean!
-  createdAt: DateTime!
-  updatedAt: DateTime!
+schema {
+    query: Query
+    mutation: Mutation
 }
 
-"""
-A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
-"""
-scalar DateTime
+type Mutation {
+    login(loginInput: LoginInput!): User!
+    register(registerInput: RegisterInput!): User!
+}
 
 type Query {
-  getUser(id: Int!): User!
-  getUsers: [User!]!
+    getUser(id: Float!): User!
+    getUsers(skip: Int!, take: Int!): [User!]!
+}
+
+"user"
+type User {
+    createdAt: DateTime!
+    email: String!
+    id: ID!
+    updatedAt: DateTime!
+    username: String!
+}
+
+"A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format."
+scalar DateTime
+
+input LoginInput {
+    email: String!
+    password: String!
+}
+
+input RegisterInput {
+    email: String!
+    password: String!
+    username: String!
 }

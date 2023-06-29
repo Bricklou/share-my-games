@@ -69,7 +69,7 @@ export class AuthService {
     }
   }
 
-  public configureCookie(request: Request, token: string): void {
+  public configureCookie(request: Record<string, any>, token: string): void {
     request.session[AuthService.COOKIE_NAME] = token;
   }
 }

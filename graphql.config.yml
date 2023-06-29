@@ -1,0 +1,9 @@
+schema: backend/schema.gql
+documents: 'frontend/src/**/*.graphql'
+include:
+  - 'frontend/src/**/*.{ts,graphql}'
+extensions:
+    endpoints:
+        default:
+          url: 'http://localhost:3000/graphql'
+    introspection: true
