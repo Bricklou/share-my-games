@@ -1,22 +1,57 @@
-<div class="flex flex-col">
-  <header class="container mx-auto my-4 flex justify-between">
-    <!-- Back button -->
-    <div class="tooltip tooltip-right" data-tip="Go to homepage">
-      <a routerLink="/" class="btn btn-ghost btn-circle">
-        <lucide-angular name="arrow-left" aria-hidden="true"></lucide-angular>
-        <span class="sr-only">Go to homepage</span>
-      </a>
+<header class="container mx-auto my-4 flex justify-between">
+  <!-- Back button -->
+  <div class="tooltip tooltip-right" data-tip="Go to homepage">
+    <a routerLink="/" class="btn btn-ghost btn-circle">
+      <lucide-angular name="arrow-left" aria-hidden="true"></lucide-angular>
+      <span class="sr-only">Go to homepage</span>
+    </a>
+  </div>
+
+  <!-- Theme button -->
+  <app-theme-btn />
+</header>
+
+<main class="flex-1 flex flex-col items-center justify-center">
+  <div class="container mx-auto p-4 max-w-md">
+    <div class="flex flex-col">
+      <h1 class="text-4xl font-bold mb-4">Login</h1>
+
+      <form class="flex flex-col w-full items-center gap-y-4" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+        <div class="form-control w-full">
+          <label for="email" class="label">Email</label>
+
+          <input type="email" id="email" class="input input-primary input-bordered" formControlName="email"
+            autocomplete="email" placeholder="Email" />
+
+          <div class="text-red-500 mt-2" *ngIf="loginForm.get('email')?.errors">
+            Email is invalid
+          </div>
+        </div>
+
+        <div class="form-control w-full">
+          <label for="password" class="label">Password</label>
+
+          <input type="password" id="password" class="input input-primary input-bordered" formControlName="password"
+            autocomplete="current-password" placeholder="Password" />
+
+          <div class="text-red-500 mt-2" *ngIf="loginForm.get('password')?.errors">
+            Password is invalid
+          </div>
+        </div>
+
+        <div class="form-control">
+          <label class="label cursor-pointer">
+            <span for="remember" class="label-text">Remember me</span>
+            <input type="checkbox" id="remember" checked="checked" class="checkbox checkbox-primary ml-4" />
+          </label>
+        </div>
+
+        <div class="mt-2 form-control w-full items-center">
+          <button type="submit" class="btn btn-primary w-full md:w-3/4">Login</button>
+        </div>
+      </form>
     </div>
+  </div>
+</main>
 
-    <!-- Theme button -->
-    <app-theme-btn />
-  </header>
-
-  <main>
-    <div class="">
-
-    </div>
-  </main>
-
-  <footer></footer>
-</div>
+<footer></footer>
