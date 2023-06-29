@@ -1,14 +1,13 @@
 import { ModuleWithProviders, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { LucideAngularModule, icons } from 'lucide-angular';
+import { icons, LucideAngularModule } from 'lucide-angular';
 import { ThemeService } from './services/theme.service';
 import { LoggerService } from './services/logger.service';
 import { LazyLoadImageModule } from 'ng-lazyload-image';
-import { HttpClientModule } from '@angular/common/http';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SsrCookieService } from 'ngx-cookie-service-ssr';
 import { SharedRoutingModule } from './shared-routing.module';
-import { AuthService } from './services/auth.service';
+import { AuthService } from './services/auth/auth.service';
 import { LoginComponent } from './pages/login/login.component';
 import { GraphQLModule } from './graphql.module';
 import { ThemeButtonComponent } from './components/theme-button/theme-button.component';
@@ -29,9 +28,9 @@ import { ThemeButtonComponent } from './components/theme-button/theme-button.com
   exports: [
     CommonModule,
     LazyLoadImageModule,
-    HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    GraphQLModule,
 
     LucideAngularModule,
 

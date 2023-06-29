@@ -37,7 +37,8 @@
         "./src/app/modules/auth/*"
       ]
     },
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "typeRoots": ["./src/typings"]
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

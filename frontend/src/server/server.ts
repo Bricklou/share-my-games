@@ -1,15 +1,17 @@
 import { Provider } from '@angular/core';
 import 'zone.js/dist/zone-node';
-
-import { APP_BASE_HREF } from '@angular/common';
 import { ngExpressEngine } from '@nguniversal/express-engine';
 import * as express from 'express';
+import { Request, Response } from 'express';
 import { existsSync } from 'fs';
 import { join } from 'path';
 import * as cookieParser from 'cookie-parser';
 
 import { AppServerModule } from '@/main.server';
-import { checkStatus, isHttpResponseError } from './fetchUtils';
+import { environment } from '@/environments/environment';
+import { checkStatus, isHttpResponseError } from '@/server/fetchUtils';
+import { INIT_AUTH } from '@shared/services/auth/auth.service';
+import { User } from '@shared/interfaces/user';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
@@ -43,12 +45,49 @@ export function app(): express.Express {
   );
 
   // All regular routes use the Universal engine
-  server.get('*', (req, res): void => {
+  server.get('*', async (req: Request, res: Response): Promise<void> => {
+    const setCookies: string[] = [];
+
     const providers: Provider[] = [
-      { provide: APP_BASE_HREF, useValue: req.baseUrl },
       { provide: 'REQUEST', useValue: req },
       { provide: 'RESPONSE', useValue: res },
     ];
+
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
+    const userSession = req.cookies?.['connect.sid'] as string | undefined;
+
+    if (userSession) {
+      try {
+        const resp = await fetch(environment.api, {
+          method: 'POST',
+          headers: {
+            /* eslint-disable @typescript-eslint/naming-convention */
+            cookie: `connect.sid=${userSession}`,
+            'Content-Type': 'application/json',
+            /* eslint-enable @typescript-eslint/naming-convention */
+          },
+        });
+
+        checkStatus(resp);
+
+        const data = (await resp.json()) as Promise<User>;
+        providers.push({
+          provide: INIT_AUTH,
+          useValue: data,
+        });
+
+        const setCookie = resp.headers.get('set-cookie');
+        if (setCookie) {
+          setCookies.push(setCookie);
+        }
+      } catch (err) {
+        if (isHttpResponseError(err) && !err.message.match(/401/)) {
+          console.error(err);
+        }
+      }
+    }
+
+    res.setHeader('set-cookie', setCookies);
 
     res.render(indexHtml, {
       req,

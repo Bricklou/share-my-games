@@ -21,7 +21,7 @@
           <label for="email" class="label">Email</label>
 
           <input type="email" id="email" class="input input-primary input-bordered" formControlName="email"
-            autocomplete="email" placeholder="Email" />
+            autocomplete="email" placeholder="Email" [ngClass]="{ invalid: formControls.email.hasError }" />
 
           <div class="text-red-500 mt-2" *ngIf="loginForm.get('email')?.errors">
             Email is invalid
@@ -32,7 +32,8 @@
           <label for="password" class="label">Password</label>
 
           <input type="password" id="password" class="input input-primary input-bordered" formControlName="password"
-            autocomplete="current-password" placeholder="Password" />
+            autocomplete="current-password" placeholder="Password"
+            [ngClass]="{ invalid: formControls.password.hasError}" />
 
           <div class="text-red-500 mt-2" *ngIf="loginForm.get('password')?.errors">
             Password is invalid
@@ -42,7 +43,7 @@
         <div class="form-control">
           <label class="label cursor-pointer">
             <span for="remember" class="label-text">Remember me</span>
-            <input type="checkbox" id="remember" checked="checked" class="checkbox checkbox-primary ml-4" />
+            <input type="checkbox" id="remember" formControlName="remember" checked="checked" class="checkbox checkbox-primary ml-4" />
           </label>
         </div>
 
