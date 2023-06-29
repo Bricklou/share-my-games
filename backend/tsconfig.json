@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "module": "commonjs",
     "declaration": true,
     "removeComments": true,
@@ -15,10 +16,11 @@
     "strictNullChecks": false,
     "noImplicitAny": false,
     "strictBindCallApply": false,
-    "forceConsistentCasingInFileNames": false,
+    "forceConsistentCasingInFileNames": true,
     "noFallthroughCasesInSwitch": false,
-    "typeRoots": [
-      "./src/typings"
-    ]
+    "typeRoots": ["./src/typings"],
+    "paths": {
+      "@/*": ["src/*"]
+    }
   }
 }

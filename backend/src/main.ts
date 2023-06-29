@@ -1,21 +1,26 @@
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
-import { DatabaseService } from './services/database/database.service';
 import { ConfigService } from '@nestjs/config';
 import RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient } from 'redis';
+import { Logger, ValidationPipe } from '@nestjs/common';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+  const logger = new Logger('Bootstrap');
 
+  logger.log('Starting application...');
   const configService = app.get(ConfigService);
+  app.useGlobalPipes(new ValidationPipe());
 
   // Session
+  logger.log('Configuring session...');
   const redisClient = createClient({
     url: configService.get('REDIS_URL'),
   });
-  redisClient.connect();
+  await redisClient.connect();
 
   const redisStore = new RedisStore({
     client: redisClient,
@@ -36,10 +41,12 @@ async function bootstrap() {
     }),
   );
 
-  // Database
-  const prismaService = app.get(DatabaseService);
-  await prismaService.enableShutdownHooks(app);
+  // Allow the app to read cookies
+  app.use(cookieParser());
 
-  await app.listen(3000);
+  await app.listen(3000).then(() => {
+    logger.log('Application started: listening on http://localhost:3000');
+  });
 }
-bootstrap();
+
+void bootstrap();
