@@ -4,12 +4,13 @@ import { ConfigService } from '@nestjs/config';
 import RedisStore from 'connect-redis';
 import * as session from 'express-session';
 import { createClient } from 'redis';
-import { Logger, ValidationPipe } from '@nestjs/common';
+import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
 
-async function bootstrap() {
+const logger = new Logger('Bootstrap');
+
+async function bootstrap(): Promise<INestApplication<unknown>> {
   const app = await NestFactory.create(AppModule);
-  const logger = new Logger('Bootstrap');
 
   logger.log('Starting application...');
   const configService = app.get(ConfigService);
@@ -44,9 +45,11 @@ async function bootstrap() {
   // Allow the app to read cookies
   app.use(cookieParser());
 
+  return app;
+}
+
+bootstrap().then(async (app) => {
   await app.listen(3000).then(() => {
     logger.log('Application started: listening on http://localhost:3000');
   });
-}
-
-void bootstrap();
+});

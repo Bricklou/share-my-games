@@ -14,6 +14,7 @@ input LoginInput {
 
 type Mutation {
   login(loginInput: LoginInput!): User!
+  logout: Boolean!
   register(registerInput: RegisterInput!): User!
 }
 

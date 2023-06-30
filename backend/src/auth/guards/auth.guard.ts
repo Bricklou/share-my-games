@@ -5,7 +5,7 @@ import { Request } from 'express';
 import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
-export class GuestGuard implements CanActivate {
+export class AuthGuard implements CanActivate {
   public constructor(private authService: AuthService) {}
   public canActivate(
     context: ExecutionContext,
@@ -18,6 +18,7 @@ export class GuestGuard implements CanActivate {
 
   private async validateRequest(request: Request): Promise<boolean> {
     const user = await this.authService.restoreSessionFromRequest(request);
-    return user === undefined;
+    request.user = user;
+    return !!user;
   }
 }

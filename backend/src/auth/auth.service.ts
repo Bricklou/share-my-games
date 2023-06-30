@@ -7,7 +7,7 @@ import { User } from '@/user/models/user.model';
 
 interface AuthResponse {
   user: User;
-  token: string;
+  token: number;
 }
 
 @Injectable()
@@ -39,7 +39,7 @@ export class AuthService {
     // Return the user
     return {
       user,
-      token: 'token',
+      token: user.id,
     };
   }
 
@@ -49,8 +49,20 @@ export class AuthService {
 
     return {
       user,
-      token: 'token',
+      token: user.id,
     };
+  }
+
+  public async logout(request: Request): Promise<boolean> {
+    return new Promise<boolean>((resolve) => {
+      request.session.destroy((error) => {
+        if (error) {
+          resolve(false);
+        }
+
+        resolve(true);
+      });
+    });
   }
 
   public async restoreSessionFromRequest(
@@ -69,7 +81,7 @@ export class AuthService {
     }
   }
 
-  public configureCookie(request: Record<string, any>, token: string): void {
+  public configureCookie(request: Record<string, any>, token: number): void {
     request.session[AuthService.COOKIE_NAME] = token;
   }
 }

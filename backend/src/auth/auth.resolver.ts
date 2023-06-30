@@ -6,6 +6,7 @@ import { AuthService } from '@/auth/auth.service';
 import { UseGuards } from '@nestjs/common';
 import { GuestGuard } from '@/auth/guards/guest.guard';
 import { Request } from 'express';
+import { AuthGuard } from '@/auth/guards/auth.guard';
 
 @Resolver()
 export class AuthResolver {
@@ -34,5 +35,9 @@ export class AuthResolver {
     return user;
   }
 
-  // TODO: add the logout mutation
+  @Mutation(() => Boolean)
+  @UseGuards(AuthGuard)
+  public async logout(@Context('req') request: Request): Promise<boolean> {
+    return this.authService.logout(request);
+  }
 }
