@@ -6,6 +6,8 @@ import * as session from 'express-session';
 import { createClient } from 'redis';
 import { INestApplication, Logger, ValidationPipe } from '@nestjs/common';
 import * as cookieParser from 'cookie-parser';
+import { UserInputError } from '@nestjs/apollo';
+import { ValidationError } from 'class-validator';
 
 const logger = new Logger('Bootstrap');
 
@@ -14,7 +16,18 @@ async function bootstrap(): Promise<INestApplication<unknown>> {
 
   logger.log('Starting application...');
   const configService = app.get(ConfigService);
-  app.useGlobalPipes(new ValidationPipe());
+  app.useGlobalPipes(
+    new ValidationPipe({
+      transform: true,
+      exceptionFactory: (errors: ValidationError[]) => {
+        return new UserInputError('VALIDATION_ERROR', {
+          extensions: {
+            invalidArgs: errors,
+          },
+        });
+      },
+    }),
+  );
 
   // Session
   logger.log('Configuring session...');

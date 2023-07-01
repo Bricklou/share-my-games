@@ -13,8 +13,9 @@ import { Apollo, MutationResult } from 'apollo-angular';
 import loginMutation from './login.graphql';
 import logoutMutation from './logout.graphql';
 import meQuery from './current-user.graphql';
-import { isPlatformBrowser, isPlatformServer } from '@angular/common';
+import { isPlatformServer } from '@angular/common';
 import { INIT_AUTH_USER } from '../../utils/init-auth.token';
+import { ApolloError } from '@apollo/client/errors';
 
 interface UserLoginInput {
   email: string;
@@ -89,10 +90,17 @@ export class AuthService {
       .query<User>({
         query: meQuery,
       })
-      .subscribe((u) => {
-        if (u.data) {
-          this.setUser(u.data);
-        }
+      .subscribe({
+        next: (u) => {
+          if (u.data) {
+            this.setUser(u.data);
+          }
+        },
+        error: (error) => {
+          if (error instanceof ApolloError) {
+            this.setUser(undefined);
+          }
+        },
       });
   }
 }

@@ -8,6 +8,8 @@ import {
 import { distinctUntilChanged, Subscription } from 'rxjs';
 import { AuthService } from '../../services/auth/auth.service';
 import { ActivatedRoute, Router } from '@angular/router';
+import { ApolloError } from '@apollo/client/errors';
+import { GraphQLError } from 'graphql/error';
 
 interface UserLoginForm {
   email: FormControl<string>;
@@ -63,7 +65,7 @@ export class LoginComponent implements OnDestroy {
     }
 
     const value = this.loginForm.value;
-    if (!value.email || !value.password || !value.remember) {
+    if (!value.email || !value.password) {
       return;
     }
 
@@ -71,7 +73,7 @@ export class LoginComponent implements OnDestroy {
       .login({
         email: value.email,
         password: value.password,
-        remember: value.remember,
+        remember: value.remember ?? false,
       })
       .subscribe({
         next: (loggedIn) => {
@@ -80,9 +82,35 @@ export class LoginComponent implements OnDestroy {
           this.redirectNextUrl();
         },
         error: (err) => {
+          if (err instanceof ApolloError) {
+            err.graphQLErrors.forEach((error) => {
+              const code = error.extensions?.['code'];
+
+              switch (code) {
+                case 'VALIDATION_ERROR':
+                  this.formatBadInputErrors(error);
+                  break;
+                case 'UNAUTHORIZED':
+                  this.errors.push('Invalid credentials');
+                  break;
+                default:
+                  this.errors.push('Something went wrong');
+                  break;
+              }
+            });
+          }
           console.log(err);
         },
       });
+  }
+
+  private formatBadInputErrors(error: GraphQLError): void {
+    const errors = error.extensions['errors'] as {
+      field: string;
+      errors: string[];
+    }[];
+
+    this.errors.push(...errors.map((e) => e.errors).flat());
   }
 
   protected get formControls(): UserLoginForm {

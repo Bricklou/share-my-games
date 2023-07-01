@@ -5,6 +5,7 @@ import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { UserModule } from './user/user.module';
 import { AuthModule } from './auth/auth.module';
+import { formatError } from './utils/graphql-errors';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { AuthModule } from './auth/auth.module';
       autoTransformHttpErrors: true,
       status400ForVariableCoercionErrors: true,
       includeStacktraceInErrorResponses: process.env.NODE_ENV !== 'production',
+      formatError,
 
       // GraphQL schema configuration (code-first approach)
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),

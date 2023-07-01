@@ -18,8 +18,8 @@ export class AuthResolver {
     @Context('req') request: Request,
   ): Promise<User> {
     const { user, token } = await this.authService.login(loginInput);
+    console.log(user);
     this.authService.configureCookie(request, token, loginInput.remember);
-
     return user;
   }
 
