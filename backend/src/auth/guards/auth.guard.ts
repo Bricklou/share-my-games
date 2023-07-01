@@ -11,7 +11,7 @@ export class AuthGuard implements CanActivate {
     context: ExecutionContext,
   ): boolean | Promise<boolean> | Observable<boolean> {
     const ctx = GqlExecutionContext.create(context);
-    const { req: request } = ctx.getContext();
+    const { req: request }: { req: Request } = ctx.getContext();
 
     return this.validateRequest(request);
   }

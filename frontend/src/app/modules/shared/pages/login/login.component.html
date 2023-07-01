@@ -22,10 +22,6 @@
 
           <input type="email" id="email" class="input input-primary input-bordered" formControlName="email"
             autocomplete="email" placeholder="Email" [ngClass]="{ invalid: formControls.email.hasError }" />
-
-          <div class="text-red-500 mt-2" *ngIf="loginForm.get('email')?.errors">
-            Email is invalid
-          </div>
         </div>
 
         <div class="form-control w-full">
@@ -33,22 +29,18 @@
 
           <input type="password" id="password" class="input input-primary input-bordered" formControlName="password"
             autocomplete="current-password" placeholder="Password"
-            [ngClass]="{ invalid: formControls.password.hasError}" />
-
-          <div class="text-red-500 mt-2" *ngIf="loginForm.get('password')?.errors">
-            Password is invalid
-          </div>
+            [ngClass]="{ invalid: formControls.password.hasError }" />
         </div>
 
         <div class="form-control">
-          <label class="label cursor-pointer">
-            <span for="remember" class="label-text">Remember me</span>
-            <input type="checkbox" id="remember" formControlName="remember" checked="checked" class="checkbox checkbox-primary ml-4" />
+          <label for="remember" class="label cursor-pointer gap-4">
+            <span class="label-text">Remember me</span>
+            <input type="checkbox" id="remember" checked="checked" class="checkbox checkbox-primary" formControlName="remember" />
           </label>
         </div>
 
         <div class="mt-2 form-control w-full items-center">
-          <button type="submit" class="btn btn-primary w-full md:w-3/4">Login</button>
+          <button type="submit" class="btn btn-primary w-full md:w-3/4" [disabled]="loginForm.invalid">Login</button>
         </div>
       </form>
     </div>

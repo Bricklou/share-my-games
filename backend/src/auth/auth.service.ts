@@ -1,8 +1,13 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  UnauthorizedException,
+  UsePipes,
+  ValidationPipe,
+} from '@nestjs/common';
 import { UserService } from '@/user/user.service';
 import { LoginInput } from '@/auth/dto/login.input';
 import { RegisterInput } from '@/auth/dto/register.input';
-import { Request } from 'express';
+import { Request, Response } from 'express';
 import { User } from '@/user/models/user.model';
 
 interface AuthResponse {
@@ -43,7 +48,10 @@ export class AuthService {
     };
   }
 
+  @UsePipes(new ValidationPipe())
   public async register(registerInput: RegisterInput): Promise<AuthResponse> {
+    //await validate(registerInput);
+
     // Create and return the user
     const user = await this.userService.create(registerInput);
 
@@ -53,8 +61,8 @@ export class AuthService {
     };
   }
 
-  public async logout(request: Request): Promise<boolean> {
-    return new Promise<boolean>((resolve) => {
+  public async logout(request: Request, response: Response): Promise<boolean> {
+    const result = await new Promise<boolean>((resolve) => {
       request.session.destroy((error) => {
         if (error) {
           resolve(false);
@@ -63,12 +71,16 @@ export class AuthService {
         resolve(true);
       });
     });
+
+    response.clearCookie('connect.sid');
+
+    return result;
   }
 
   public async restoreSessionFromRequest(
     request: Request,
   ): Promise<User | undefined> {
-    const userId = request.session[AuthService.COOKIE_NAME];
+    const userId = request?.session[AuthService.COOKIE_NAME];
 
     if (!userId) {
       return undefined;
@@ -81,7 +93,22 @@ export class AuthService {
     }
   }
 
-  public configureCookie(request: Record<string, any>, token: number): void {
+  public configureCookie(
+    request: Request,
+    token: number,
+    remember = false,
+  ): void {
+    request.session.cookie.maxAge = remember ? 30 * 24 * 60 * 60 * 1000 : 0;
     request.session[AuthService.COOKIE_NAME] = token;
+  }
+
+  public async me(request: Request): Promise<User> {
+    const user = await this.restoreSessionFromRequest(request);
+
+    if (!user) {
+      throw new UnauthorizedException();
+    }
+
+    return user;
   }
 }

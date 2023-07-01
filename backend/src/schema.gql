@@ -10,23 +10,18 @@ scalar DateTime
 input LoginInput {
   email: String!
   password: String!
+  remember: Boolean
 }
 
 type Mutation {
   login(loginInput: LoginInput!): User!
   logout: Boolean!
-  register(registerInput: RegisterInput!): User!
 }
 
 type Query {
   getUser(id: Float!): User!
   getUsers(skip: Int!, take: Int!): [User!]!
-}
-
-input RegisterInput {
-  email: String!
-  password: String!
-  username: String!
+  me: User!
 }
 
 """user"""

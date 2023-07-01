@@ -41,7 +41,13 @@ export class SharedModule {
   public static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: [SsrCookieService, ThemeService, LoggerService, AuthService],
+      providers: [
+        SsrCookieService,
+        ThemeService,
+        LoggerService,
+        AuthService,
+        SsrCookieService,
+      ],
     };
   }
 }

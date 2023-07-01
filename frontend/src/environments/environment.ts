@@ -6,7 +6,7 @@ import { EnvironmentTypes } from './types';
 
 export const environment: EnvironmentTypes = {
   production: false,
-  api: 'http://localhost:3000/graphql',
+  api: 'http://localhost:4200/graphql',
 };
 
 /*

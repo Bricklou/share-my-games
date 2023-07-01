@@ -31,7 +31,7 @@ export class ThemeService {
     }
 
     this.events.subscribe((theme) => {
-      cookieService.set(this.themeKey, theme);
+      cookieService.set(this.themeKey, theme, 7 * 24 * 60 * 60);
       this.logger.debug(`Theme changed to "${theme}"`);
       this.updateDom(theme);
     });

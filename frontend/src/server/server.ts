@@ -10,14 +10,13 @@ import expressAsyncHandler from 'express-async-handler';
 
 import { AppServerModule } from '@/main.server';
 import { environment } from '@/environments/environment';
-import { checkStatus, isHttpResponseError } from '@/server/fetchUtils';
-import { INIT_AUTH } from '@shared/services/auth/auth.service';
-import { User } from '@shared/interfaces/user';
+import { User } from '@app/modules/shared/interfaces/user';
+import { INIT_AUTH_USER } from '@app/modules/shared/utils/init-auth.token';
 
 // The Express app is exported so that it can be used by serverless Functions.
 export function app(): express.Express {
   const server = express();
-  const distFolder = join(process.cwd(), 'dist/frontend/browser');
+  const distFolder = join(process.cwd(), 'dist/share-my-games/browser');
   const indexHtml = existsSync(join(distFolder, 'index.original.html'))
     ? 'index.original.html'
     : 'index';
@@ -50,48 +49,47 @@ export function app(): express.Express {
   server.get(
     '*',
     expressAsyncHandler(async (req: Request, res: Response): Promise<void> => {
-      const setCookies: string[] = [];
-
       const providers: Provider[] = [
         { provide: 'REQUEST', useValue: req },
         { provide: 'RESPONSE', useValue: res },
       ];
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access
-      const userSession = req.cookies?.['connect.sid'] as string | undefined;
+      const sessionId = req.cookies['connect.sid'] as string | undefined;
 
-      if (userSession) {
+      if (sessionId) {
         try {
+          // If there is a session cookie, fetch the user and pass it to the client
           const resp = await fetch(environment.api, {
             method: 'POST',
+            body: JSON.stringify({
+              operationName: 'me',
+              query:
+                'query me { me { id, email, username, createdAt, updatedAt } }',
+            }),
             headers: {
               /* eslint-disable @typescript-eslint/naming-convention */
-              cookie: `connect.sid=${userSession}`,
               'Content-Type': 'application/json',
+
+              // Pass the session cookie to the backend
+              Cookie: `connect.sid=${sessionId}`,
+
               /* eslint-enable @typescript-eslint/naming-convention */
             },
           });
 
-          checkStatus(resp);
+          const { data } = await (resp.json() as Promise<{
+            data: { me: User };
+          }>);
 
-          const data = (await resp.json()) as Promise<User>;
           providers.push({
-            provide: INIT_AUTH,
-            useValue: data,
+            provide: INIT_AUTH_USER,
+            useValue: data.me,
           });
-
-          const setCookie = resp.headers.get('set-cookie');
-          if (setCookie) {
-            setCookies.push(setCookie);
-          }
-        } catch (err) {
-          if (isHttpResponseError(err) && !err.message.match(/401/)) {
-            console.error(err);
-          }
+        } catch (e) {
+          console.error(e);
         }
       }
-
-      res.setHeader('set-cookie', setCookies);
 
       res.render(indexHtml, {
         req,

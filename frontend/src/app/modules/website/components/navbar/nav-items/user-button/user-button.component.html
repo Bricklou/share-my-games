@@ -1,6 +1,10 @@
-<a routerLink="/admin" class="btn btn-ghost btn-circle" [title]="showGuest ? 'Connect' : 'My Account'">
-  <lucide-angular name="log-in" *ngIf="showGuest; else isDarkMode" aria-hidden="true"></lucide-angular>
-  <ng-template #isDarkMode>
-    <lucide-angular name="user" aria-hidden="true"></lucide-angular>
-  </ng-template>
-</a>
+<div class="tooltip tooltip-bottom" [attr.data-tip]="showGuest ? 'Connect' : 'My Account'" aria-hidden="true">
+  <a routerLink="/admin" class="btn btn-ghost btn-circle">
+    <lucide-angular name="log-in" *ngIf="showGuest; else isDarkMode" aria-hidden="true"></lucide-angular>
+    <ng-template #isDarkMode>
+      <lucide-angular name="user" aria-hidden="true"></lucide-angular>
+    </ng-template>
+
+    <span class="sr-only">{{ showGuest ? "Connect" : "My Account" }}</span>
+  </a>
+</div>
