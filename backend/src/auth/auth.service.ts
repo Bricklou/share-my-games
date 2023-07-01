@@ -9,6 +9,7 @@ import { LoginInput } from '@/auth/dto/login.input';
 import { RegisterInput } from '@/auth/dto/register.input';
 import { Request, Response } from 'express';
 import { User } from '@/user/models/user.model';
+import { validate } from 'class-validator';
 
 interface AuthResponse {
   user: User;
@@ -50,7 +51,7 @@ export class AuthService {
 
   @UsePipes(new ValidationPipe())
   public async register(registerInput: RegisterInput): Promise<AuthResponse> {
-    //await validate(registerInput);
+    await validate(registerInput);
 
     // Create and return the user
     const user = await this.userService.create(registerInput);

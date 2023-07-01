@@ -1,7 +1,10 @@
 import { IsEmail, IsStrongPassword, Length } from 'class-validator';
 import { Field, ID, ObjectType } from '@nestjs/graphql';
+import * as argon2 from 'argon2';
 import {
   BaseEntity,
+  BeforeInsert,
+  BeforeUpdate,
   Column,
   CreateDateColumn,
   Entity,
@@ -18,12 +21,12 @@ export class User extends BaseEntity {
 
   @Field()
   @IsEmail()
-  @Column('varchar', { length: 100, unique: true })
+  @Column({ type: 'varchar', length: 100, unique: true })
   public email: string;
 
   @Field()
   @Length(3, 100)
-  @Column('varchar', { length: 100, unique: true })
+  @Column({ type: 'varchar', length: 100, unique: true })
   public username: string;
 
   @Column()
@@ -43,4 +46,10 @@ export class User extends BaseEntity {
   @Field()
   @UpdateDateColumn()
   public updatedAt: Date;
+
+  @BeforeInsert()
+  @BeforeUpdate()
+  public async hashPassword(): Promise<void> {
+    this.password = await argon2.hash(this.password);
+  }
 }

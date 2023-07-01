@@ -22,10 +22,11 @@ export class UserService {
   public async create(
     args: Pick<User, 'username' | 'email' | 'password'>,
   ): Promise<User> {
-    const user = new User();
-    user.username = args.username;
-    user.email = args.email;
-    user.password = await this.hashPassword(args.password);
+    const user = this.userRepository.create({
+      username: args.username,
+      email: args.email,
+      password: args.password,
+    });
 
     return await this.userRepository.save(user);
   }
@@ -58,9 +59,5 @@ export class UserService {
 
   public async comparePassword(user: User, password: string): Promise<boolean> {
     return await argon2.verify(user.password, password);
-  }
-
-  private async hashPassword(password: string): Promise<string> {
-    return await argon2.hash(password);
   }
 }
