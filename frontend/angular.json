@@ -5,7 +5,6 @@
   "projects": {
     "share-my-games": {
       "projectType": "application",
-      "schematics": {},
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -153,6 +152,19 @@
           },
           "defaultConfiguration": "production"
         }
+      }
+    }
+  },
+  "schematics": {
+    "@schematics/angular": {
+      "component": {
+        "spec": false
+      },
+      "directive": {
+        "spec": false
+      },
+      "service": {
+        "spec": false
       }
     }
   },

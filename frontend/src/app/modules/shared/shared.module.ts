@@ -1,4 +1,9 @@
-import { ModuleWithProviders, NgModule } from '@angular/core';
+import {
+  ModuleWithProviders,
+  NgModule,
+  Optional,
+  SkipSelf,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { icons, LucideAngularModule } from 'lucide-angular';
 import { ThemeService } from './services/theme.service';
@@ -28,9 +33,9 @@ import { ThemeButtonComponent } from './components/theme-button/theme-button.com
   exports: [
     CommonModule,
     LazyLoadImageModule,
+    GraphQLModule,
     FormsModule,
     ReactiveFormsModule,
-    GraphQLModule,
 
     LucideAngularModule,
 
@@ -41,13 +46,8 @@ export class SharedModule {
   public static forRoot(): ModuleWithProviders<SharedModule> {
     return {
       ngModule: SharedModule,
-      providers: [
-        SsrCookieService,
-        ThemeService,
-        LoggerService,
-        AuthService,
-        SsrCookieService,
-      ],
+      // WARNING: To make sure that the service are properly loaded, don't forget to add them in the constructor of the AppModule
+      providers: [SsrCookieService, ThemeService, LoggerService, AuthService],
     };
   }
 }

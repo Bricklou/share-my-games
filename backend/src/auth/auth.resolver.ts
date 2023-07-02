@@ -4,7 +4,7 @@ import { LoginInput } from '@/auth/dto/login.input';
 import { AuthService } from '@/auth/auth.service';
 import { UseGuards } from '@nestjs/common';
 import { GuestGuard } from '@/auth/guards/guest.guard';
-import { Request, Response } from 'express';
+import { Request } from 'express';
 import { AuthGuard } from '@/auth/guards/auth.guard';
 
 @Resolver()

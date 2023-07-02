@@ -16,6 +16,10 @@ export class LoggerService {
   public logPrefix = '[LoggerService]';
   public logWithDate = true;
 
+  public constructor() {
+    this.info('Logger constructor');
+  }
+
   public debug<P extends unknown[]>(msg: string, ...optionalParams: P): void {
     this.writeToLog(msg, LogLevel.debug, optionalParams);
   }

@@ -8,6 +8,10 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { SharedModule } from './modules/shared/shared.module';
 import { LoadingBarService } from './services/loading-bar.service';
 import { LoadingBarIndicatorComponent } from './components/loading-bar-indicator/loading-bar-indicator.component';
+import { SsrCookieService } from 'ngx-cookie-service-ssr';
+import { ThemeService } from './modules/shared/services/theme.service';
+import { LoggerService } from './modules/shared/services/logger.service';
+import { AuthService } from './modules/shared/services/auth/auth.service';
 
 export const APP_NAME = 'Share My Games';
 
@@ -34,4 +38,11 @@ export const APP_NAME = 'Share My Games';
   ],
   bootstrap: [AppComponent],
 })
-export class AppModule {}
+export class AppModule {
+  public constructor(
+    private cookieService: SsrCookieService,
+    private themeService: ThemeService,
+    private logger: LoggerService,
+    private authService: AuthService
+  ) {}
+}

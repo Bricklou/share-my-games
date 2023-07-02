@@ -6,9 +6,9 @@ import {
   PLATFORM_ID,
   TransferState,
 } from '@angular/core';
-import { BehaviorSubject, map, Observable, of } from 'rxjs';
+import { BehaviorSubject, map, Observable } from 'rxjs';
 import { User } from '../../interfaces/user';
-import { Apollo, MutationResult } from 'apollo-angular';
+import { Apollo } from 'apollo-angular';
 
 import loginMutation from './login.graphql';
 import logoutMutation from './logout.graphql';
@@ -31,8 +31,6 @@ const STATE_USER = makeStateKey<User | undefined>('auth_user');
 export class AuthService {
   private user: BehaviorSubject<User | undefined>;
 
-  public readonly events: Observable<User | undefined>;
-
   public constructor(
     private apollo: Apollo,
     private state: TransferState,
@@ -48,7 +46,6 @@ export class AuthService {
     }
 
     this.user = new BehaviorSubject(this.state.get(STATE_USER, undefined));
-    this.events = this.user.asObservable();
   }
 
   public get currentUser(): User | undefined {

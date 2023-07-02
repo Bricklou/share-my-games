@@ -1,1 +1,21 @@
-<p>admin works!</p>
+<div class="drawer lg:drawer-open" [ngClass]="{ 'drawer-open': isDrawerOpen }">
+  <input
+    id="drawer-toggle"
+    type="checkbox"
+    class="drawer-toggle"
+    aria-hidden="true"
+  />
+
+  <div class="drawer-content flex flex-col items-center justify-center">
+    Open drawer
+  </div>
+
+  <div class="drawer-side">
+    <label
+      for="drawer-toggle"
+      class="drawer-overlay"
+      aria-hidden="true"
+    ></label>
+    <app-admin-sidebar></app-admin-sidebar>
+  </div>
+</div>
