@@ -62,7 +62,7 @@ export class AuthService {
     };
   }
 
-  public async logout(request: Request, response: Response): Promise<boolean> {
+  public async logout(request: Request): Promise<boolean> {
     const result = await new Promise<boolean>((resolve) => {
       request.session.destroy((error) => {
         if (error) {
@@ -72,8 +72,6 @@ export class AuthService {
         resolve(true);
       });
     });
-
-    response.clearCookie('connect.sid');
 
     return result;
   }

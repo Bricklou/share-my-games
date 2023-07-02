@@ -1,10 +1,48 @@
-<div class="tooltip tooltip-bottom" [attr.data-tip]="showGuest ? 'Connect' : 'My Account'" aria-hidden="true">
-  <a routerLink="/admin" class="btn btn-ghost btn-circle">
-    <lucide-angular name="log-in" *ngIf="showGuest; else isDarkMode" aria-hidden="true"></lucide-angular>
-    <ng-template #isDarkMode>
-      <lucide-angular name="user" aria-hidden="true"></lucide-angular>
-    </ng-template>
-
-    <span class="sr-only">{{ showGuest ? "Connect" : "My Account" }}</span>
+<div
+  class="tooltip tooltip-bottom"
+  *ngIf="showGuest; else userLoggedIn"
+  data-tip="Connect"
+  aria-hidden="true"
+>
+  <a routerLink="/auth/login" class="btn btn-ghost btn-circle">
+    <lucide-angular name="log-in" aria-hidden="true"></lucide-angular>
+    <span class="sr-only">Connect</span>
   </a>
 </div>
+
+<ng-template #userLoggedIn>
+  <div class="tooltip tooltip-bottom" data-tip="My Account" aria-hidden="true">
+    <div class="dropdown dropdown-end">
+      <button class="btn btn-ghost btn-circle" tabindex="0" type="button">
+        <lucide-angular name="user" aria-hidden="true"></lucide-angular>
+        <span class="sr-only">My Account</span>
+      </button>
+      <ul
+        tabindex="0"
+        class="mt-3 z-[1] p-2 shadow menu menu-sm dropdown-content bg-base-200 rounded-box w-52"
+      >
+        <li>
+          <a routerLink="/account">
+            <lucide-angular name="user" aria-hidden="true"></lucide-angular>
+            <span>My Account</span>
+          </a>
+        </li>
+        <li>
+          <a routerLink="/admin">
+            <lucide-angular
+              name="layout-dashboard"
+              aria-hidden="true"
+            ></lucide-angular>
+            <span>Dashboard</span>
+          </a>
+        </li>
+        <li>
+          <button (click)="logout()" type="button">
+            <lucide-angular name="log-out" aria-hidden="true"></lucide-angular>
+            <span>Logout</span>
+          </button>
+        </li>
+      </ul>
+    </div>
+  </div>
+</ng-template>

@@ -1,0 +1,6 @@
+.tooltip:hover:has(.btn:focus) {
+  &::before,
+  &::after {
+    @apply opacity-0 !important;
+  }
+}

@@ -5,11 +5,17 @@
         <span role="menu" tabindex="0" class="btn btn-ghost btn-circle">
           <lucide-angular name="menu"></lucide-angular>
         </span>
-        <ul role="menu" tabindex="0" class="menu menu-md dropdown-content mt-3 p-2 shadow rounded-box w-52">
-
+        <ul
+          role="menu"
+          tabindex="0"
+          class="menu menu-md dropdown-content mt-3 p-2 shadow rounded-box w-52"
+        >
           <li role="menuitem" *ngFor="let item of navItems">
-            <a [routerLink]="item.path" routerLinkActive="text-primary"
-              [routerLinkActiveOptions]="{ exact: item.exact ?? false }">
+            <a
+              [routerLink]="item.path"
+              routerLinkActive="text-primary"
+              [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+            >
               {{ item.label }}
             </a>
           </li>
@@ -17,13 +23,18 @@
       </div>
     </div>
 
-    <div class='navbar-center md:navbar-start'>
+    <div class="navbar-center md:navbar-start">
       <a class="btn btn-ghost normal-case text-xl" routerLink="/">
         {{ appName }}
       </a>
       <ng-container *ngFor="let item of navItems" class="hidden sm:block">
-        <a *ngIf="!item.mobileOnly" [routerLink]="item.path" class='btn btn-ghost hidden md:inline-flex'
-          routerLinkActive="text-primary" [routerLinkActiveOptions]="{ exact: item.exact ?? false }">
+        <a
+          *ngIf="!item.mobileOnly"
+          [routerLink]="item.path"
+          class="btn btn-ghost hidden md:inline-flex"
+          routerLinkActive="text-primary"
+          [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+        >
           {{ item.label }}
         </a>
       </ng-container>

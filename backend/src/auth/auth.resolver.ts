@@ -18,18 +18,14 @@ export class AuthResolver {
     @Context('req') request: Request,
   ): Promise<User> {
     const { user, token } = await this.authService.login(loginInput);
-    console.log(user);
     this.authService.configureCookie(request, token, loginInput.remember);
     return user;
   }
 
   @Mutation(() => Boolean)
   @UseGuards(AuthGuard)
-  public async logout(
-    @Context('req') request: Request,
-    @Context('res') response: Response,
-  ): Promise<boolean> {
-    return this.authService.logout(request, response);
+  public async logout(@Context('req') request: Request): Promise<boolean> {
+    return this.authService.logout(request);
   }
 
   @Query(() => User)

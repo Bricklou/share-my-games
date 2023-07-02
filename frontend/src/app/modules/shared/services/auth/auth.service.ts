@@ -6,7 +6,7 @@ import {
   PLATFORM_ID,
   TransferState,
 } from '@angular/core';
-import { BehaviorSubject, map, Observable } from 'rxjs';
+import { BehaviorSubject, map, Observable, of } from 'rxjs';
 import { User } from '../../interfaces/user';
 import { Apollo, MutationResult } from 'apollo-angular';
 
@@ -81,8 +81,22 @@ export class AuthService {
       );
   }
 
-  public logout(): Observable<MutationResult<boolean>> {
-    return this.apollo.mutate<boolean, void>({ mutation: logoutMutation });
+  public logout(): Observable<boolean> {
+    return this.apollo
+      .mutate<boolean, void>({
+        mutation: logoutMutation,
+        fetchPolicy: 'no-cache',
+      })
+      .pipe(
+        map((u) => {
+          if (u.data) {
+            this.setUser(undefined);
+            return true;
+          }
+
+          return false;
+        })
+      );
   }
 
   private refreshSession(): void {
