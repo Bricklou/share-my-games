@@ -1,10 +1,27 @@
-<div class="tooltip tooltip-bottom" [attr.data-tip]="theme === 'dark' ? 'Toggle to light mode' : 'Toggle to dark mode'" aria-hidden="true">
-  <button type="button" class="btn btn-ghost btn-circle" (click)="onButtonClick()">
-    <lucide-angular name="sun" *ngIf="theme === 'light'; else isDarkMode" aria-hidden="true"></lucide-angular>
+<div
+  class="tooltip"
+  [ngClass]="tooltipPosition"
+  [attr.data-tip]="
+    theme === 'dark' ? 'Toggle to light mode' : 'Toggle to dark mode'
+  "
+  aria-hidden="true"
+>
+  <button
+    type="button"
+    class="btn btn-ghost btn-circle"
+    (click)="onButtonClick()"
+  >
+    <lucide-angular
+      name="sun"
+      *ngIf="theme === 'light'; else isDarkMode"
+      aria-hidden="true"
+    ></lucide-angular>
     <ng-template #isDarkMode>
       <lucide-angular name="moon" aria-hidden="true"></lucide-angular>
     </ng-template>
 
-    <span class="sr-only">{{ theme === 'dark' ? 'Toggle to light mode' : 'Toggle to dark mode' }}</span>
+    <span class="sr-only">
+      {{ theme === "dark" ? "Toggle to light mode" : "Toggle to dark mode" }}
+    </span>
   </button>
 </div>

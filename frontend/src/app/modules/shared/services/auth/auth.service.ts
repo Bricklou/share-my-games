@@ -29,7 +29,7 @@ const STATE_USER = makeStateKey<User | undefined>('auth_user');
   providedIn: 'root',
 })
 export class AuthService {
-  private user: BehaviorSubject<User | undefined>;
+  public readonly user: BehaviorSubject<User | undefined>;
 
   public constructor(
     private apollo: Apollo,
@@ -48,7 +48,7 @@ export class AuthService {
     this.user = new BehaviorSubject(this.state.get(STATE_USER, undefined));
   }
 
-  public get currentUser(): User | undefined {
+  public get userValue(): User | undefined {
     return this.user.value ?? this.state.get(STATE_USER, undefined);
   }
 
@@ -98,13 +98,13 @@ export class AuthService {
 
   private refreshSession(): void {
     this.apollo
-      .query<User>({
+      .query<{ me: User }>({
         query: meQuery,
       })
       .subscribe({
         next: (u) => {
           if (u.data) {
-            this.setUser(u.data);
+            this.setUser(u.data.me);
           }
         },
         error: (error) => {

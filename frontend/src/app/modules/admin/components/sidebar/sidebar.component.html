@@ -1,9 +1,31 @@
-<ul class="menu p-4 w-80 h-full bg-base-200 text-base-content" role="menubar">
-  <li role="menuitem">
-    <a> Salut </a>
-  </li>
+<div
+  class="w-80 bg-base-200 text-base-content min-h-screen flex flex-col"
+  role="navigation"
+>
+  <header class="bg-base-300 p-4 flex flex-col gap-4">
+    <a routerLink="/admin" class="font-bold text-2xl text-center text-primary">
+      {{ appName }}
+    </a>
 
-  <li role="menuitem">
-    <a> Salut </a>
-  </li>
-</ul>
+    <div class="flex flex-row mt-2 items-center justify-between">
+      <div class="flex flex-row items-center gap-4">
+        <lucide-angular name="user"></lucide-angular>
+        <span>{{ user.username }}</span>
+      </div>
+      <app-theme-btn tooltipPosition="tooltip-left"></app-theme-btn>
+    </div>
+  </header>
+
+  <div class="flex-1">
+    <ul class="menu">
+      <li>
+        <a routerLink="/">
+          <lucide-angular name="home" size="24"></lucide-angular>
+          <span>Go back to website</span>
+        </a>
+      </li>
+
+      <li aria-hidden="true"></li>
+    </ul>
+  </div>
+</div>

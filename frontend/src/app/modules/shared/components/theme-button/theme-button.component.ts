@@ -1,4 +1,4 @@
-import { Component, OnDestroy } from '@angular/core';
+import { Component, Input, OnDestroy } from '@angular/core';
 import {
   Theme,
   ThemeService,
@@ -11,6 +11,13 @@ import { Subscription } from 'rxjs';
 })
 export class ThemeButtonComponent implements OnDestroy {
   protected theme: Theme;
+
+  @Input()
+  public tooltipPosition:
+    | 'tooltip-left'
+    | 'tooltip-right'
+    | 'tooltip-top'
+    | 'tooltip-bottom' = 'tooltip-bottom';
 
   private subscription: Subscription;
 
