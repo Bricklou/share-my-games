@@ -158,13 +158,13 @@
   "schematics": {
     "@schematics/angular": {
       "component": {
-        "spec": false
+        "skipTests": true
       },
       "directive": {
-        "spec": false
+        "skipTests": true
       },
       "service": {
-        "spec": false
+        "skipTests": true
       }
     }
   },
