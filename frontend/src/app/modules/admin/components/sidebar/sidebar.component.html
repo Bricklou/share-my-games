@@ -10,7 +10,7 @@
     <div class="flex flex-row mt-2 items-center justify-between">
       <div class="flex flex-row items-center gap-4">
         <lucide-angular name="user"></lucide-angular>
-        <span>{{ user.username }}</span>
+        <span>{{ user?.username }}</span>
       </div>
       <app-theme-btn tooltipPosition="tooltip-left"></app-theme-btn>
     </div>
@@ -20,12 +20,101 @@
     <ul class="menu">
       <li>
         <a routerLink="/">
-          <lucide-angular name="home" size="24"></lucide-angular>
+          <lucide-angular name="home"></lucide-angular>
           <span>Go back to website</span>
         </a>
       </li>
 
+      <li>
+        <a routerLink="/admin" routerLinkActive="text-primary">
+          <lucide-angular name="layout-dashboard"></lucide-angular>
+          <span>Dashboard</span>
+        </a>
+      </li>
+
       <li aria-hidden="true"></li>
+
+      <li>
+        <details>
+          <summary>Users</summary>
+
+          <ul>
+            <li>
+              <a routerLink="/admin/users" routerLinkActive="text-primary">
+                <lucide-angular name="user"></lucide-angular>
+                <span>Users</span>
+              </a>
+            </li>
+
+            <li>
+              <a routerLink="/admin/roles" routerLinkActive="text-primary">
+                <lucide-angular name="user-cog"></lucide-angular>
+                <span>Roles</span>
+              </a>
+            </li>
+          </ul>
+        </details>
+      </li>
+
+      <li aria-hidden="true"></li>
+
+      <li>
+        <details>
+          <summary>Games</summary>
+
+          <ul>
+            <li>
+              <a
+                routerLink="/admin/content/games"
+                routerLinkActive="text-primary"
+              >
+                <lucide-angular name="gamepad"></lucide-angular>
+                <span>Games</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/admin/content/creators"
+                routerLinkActive="text-primary"
+              >
+                <lucide-angular name="user-square-2"></lucide-angular>
+                <span>Creator</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/admin/content/tags"
+                routerLinkActive="text-primary"
+              >
+                <lucide-angular name="tags"></lucide-angular>
+                <span>Tags</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/admin/content/social-networks"
+                routerLinkActive="text-primary"
+              >
+                <lucide-angular name="share-2"></lucide-angular>
+                <span>Socials Networks</span>
+              </a>
+            </li>
+
+            <li>
+              <a
+                routerLink="/admin/content/game-previews"
+                routerLinkActive="text-primary"
+              >
+                <lucide-angular name="image"></lucide-angular>
+                <span>Previews</span>
+              </a>
+            </li>
+          </ul>
+        </details>
+      </li>
     </ul>
   </div>
 </div>

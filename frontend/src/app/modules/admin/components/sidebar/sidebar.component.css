@@ -1,0 +1,17 @@
+.menu {
+  li {
+    @apply my-1;
+
+    &:first-child {
+      @apply mt-0;
+    }
+
+    &:last-child {
+      @apply mb-0;
+    }
+
+    ul {
+      @apply my-1;
+    }
+  }
+}
