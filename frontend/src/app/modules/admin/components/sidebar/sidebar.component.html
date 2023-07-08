@@ -26,7 +26,11 @@
       </li>
 
       <li>
-        <a routerLink="/admin" routerLinkActive="text-primary">
+        <a
+          routerLink="/admin"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+        >
           <lucide-angular name="layout-dashboard"></lucide-angular>
           <span>Dashboard</span>
         </a>
@@ -35,19 +39,19 @@
       <li aria-hidden="true"></li>
 
       <li>
-        <details>
+        <details #menus>
           <summary>Users</summary>
 
           <ul>
             <li>
-              <a routerLink="/admin/users" routerLinkActive="text-primary">
+              <a routerLink="/admin/system/users" routerLinkActive="active">
                 <lucide-angular name="user"></lucide-angular>
                 <span>Users</span>
               </a>
             </li>
 
             <li>
-              <a routerLink="/admin/roles" routerLinkActive="text-primary">
+              <a routerLink="/admin/system/roles" routerLinkActive="active">
                 <lucide-angular name="user-cog"></lucide-angular>
                 <span>Roles</span>
               </a>
@@ -59,35 +63,26 @@
       <li aria-hidden="true"></li>
 
       <li>
-        <details>
+        <details #menus>
           <summary>Games</summary>
 
           <ul>
             <li>
-              <a
-                routerLink="/admin/content/games"
-                routerLinkActive="text-primary"
-              >
+              <a routerLink="/admin/content/games" routerLinkActive="active">
                 <lucide-angular name="gamepad"></lucide-angular>
                 <span>Games</span>
               </a>
             </li>
 
             <li>
-              <a
-                routerLink="/admin/content/creators"
-                routerLinkActive="text-primary"
-              >
+              <a routerLink="/admin/content/creators" routerLinkActive="active">
                 <lucide-angular name="user-square-2"></lucide-angular>
                 <span>Creator</span>
               </a>
             </li>
 
             <li>
-              <a
-                routerLink="/admin/content/tags"
-                routerLinkActive="text-primary"
-              >
+              <a routerLink="/admin/content/tags" routerLinkActive="active">
                 <lucide-angular name="tags"></lucide-angular>
                 <span>Tags</span>
               </a>
@@ -96,7 +91,7 @@
             <li>
               <a
                 routerLink="/admin/content/social-networks"
-                routerLinkActive="text-primary"
+                routerLinkActive="active"
               >
                 <lucide-angular name="share-2"></lucide-angular>
                 <span>Socials Networks</span>
@@ -106,7 +101,7 @@
             <li>
               <a
                 routerLink="/admin/content/game-previews"
-                routerLinkActive="text-primary"
+                routerLinkActive="active"
               >
                 <lucide-angular name="image"></lucide-angular>
                 <span>Previews</span>

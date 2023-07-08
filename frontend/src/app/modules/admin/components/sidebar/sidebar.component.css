@@ -13,5 +13,9 @@
     ul {
       @apply my-1;
     }
+
+    a.active {
+      @apply text-primary focus:text-primary active:text-primary hover:text-primary;
+    }
   }
 }

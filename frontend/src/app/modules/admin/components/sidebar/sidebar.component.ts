@@ -1,10 +1,15 @@
 import {
+  AfterViewChecked,
   AfterViewInit,
   Component,
+  ElementRef,
+  OnChanges,
   OnDestroy,
+  OnInit,
+  QueryList,
   ViewChildren,
 } from '@angular/core';
-import { Router } from '@angular/router';
+import { NavigationEnd, Router } from '@angular/router';
 import { APP_NAME } from '@app/app.module';
 import { User } from '@app/modules/shared/interfaces/user';
 import { AuthService } from '@app/modules/shared/services/auth/auth.service';
@@ -15,11 +20,11 @@ import { Subscription } from 'rxjs';
   templateUrl: './sidebar.component.html',
   styleUrls: ['./sidebar.component.css'],
 })
-export class AdminSidebarComponent implements AfterViewInit, OnDestroy {
+export class AdminSidebarComponent implements OnDestroy, AfterViewChecked {
   protected user?: User;
 
-  @ViewChildren('details')
-  protected submenus: HTMLDetailsElement[] = [];
+  @ViewChildren('menus')
+  protected submenus?: QueryList<ElementRef<HTMLDetailsElement>>;
 
   private authSub: Subscription;
 
@@ -35,14 +40,15 @@ export class AdminSidebarComponent implements AfterViewInit, OnDestroy {
     this.user = authService.userValue;
   }
 
-  public ngAfterViewInit(): void {
-    for (const submenu of this.submenus) {
-      if (submenu.querySelector('[routerlinkactive]')) {
-        submenu.open = true;
-      } else {
-        submenu.open = false;
-      }
-    }
+  public ngAfterViewChecked(): void {
+    this.updateSubmenus();
+  }
+
+  private updateSubmenus(): void {
+    this.submenus?.forEach((submenu) => {
+      submenu.nativeElement.open =
+        !!submenu.nativeElement.querySelector('.active');
+    });
   }
 
   public ngOnDestroy(): void {
