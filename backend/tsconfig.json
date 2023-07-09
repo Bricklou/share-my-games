@@ -21,7 +21,8 @@
     "typeRoots": ["./src/typings"],
     "types": ["express-session"],
     "paths": {
-      "@/*": ["src/*"]
+      "@/*": ["src/*"],
+      "@m/*": ["src/modules/*"]
     }
   }
 }

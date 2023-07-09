@@ -6,9 +6,9 @@ import {
   RegisterCommand,
   RegisterCommandQuestions,
 } from './commands/register.command';
-import { UserService } from '@/user/user.service';
-import { AuthService } from '@/auth/auth.service';
-import { User } from '@/user/models/user.model';
+import { UserService } from '@m/user/user.service';
+import { AuthService } from '@/modules/auth/auth.service';
+import { User } from '@m/user/models/user.model';
 import { TypeOrmModule } from '@nestjs/typeorm';
 
 @Module({

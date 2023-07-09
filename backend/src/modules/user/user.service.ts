@@ -60,4 +60,8 @@ export class UserService {
   public async comparePassword(user: User, password: string): Promise<boolean> {
     return await argon2.verify(user.password, password);
   }
+
+  public async countAll(): Promise<number> {
+    return await this.userRepository.count();
+  }
 }

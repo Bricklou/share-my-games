@@ -50,7 +50,7 @@ async function bootstrap(): Promise<INestApplication<unknown>> {
       cookie: {
         sameSite: 'strict',
         secure: configService.get('NODE_ENV') === 'production',
-        httpOnly: false,
+        httpOnly: true,
       },
     }),
   );

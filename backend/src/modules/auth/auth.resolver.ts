@@ -1,13 +1,13 @@
 import { Args, Context, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { User } from '@/user/models/user.model';
-import { LoginInput } from '@/auth/dto/login.input';
-import { AuthService } from '@/auth/auth.service';
+import { User } from '@m/user/models/user.model';
+import { LoginInput } from './dto/login.input';
+import { AuthService } from './auth.service';
 import { UseGuards } from '@nestjs/common';
-import { GuestGuard } from '@/auth/guards/guest.guard';
+import { GuestGuard } from './guards/guest.guard';
 import { Request } from 'express';
-import { AuthGuard } from '@/auth/guards/auth.guard';
+import { AuthGuard } from './guards/auth.guard';
 
-@Resolver()
+@Resolver(() => User)
 export class AuthResolver {
   public constructor(private authService: AuthService) {}
 
@@ -25,12 +25,12 @@ export class AuthResolver {
   @Mutation(() => Boolean)
   @UseGuards(AuthGuard)
   public async logout(@Context('req') request: Request): Promise<boolean> {
-    return this.authService.logout(request);
+    return await this.authService.logout(request);
   }
 
   @Query(() => User)
   @UseGuards(AuthGuard)
   public async me(@Context('req') request: Request): Promise<User> {
-    return this.authService.me(request);
+    return await this.authService.me(request);
   }
 }

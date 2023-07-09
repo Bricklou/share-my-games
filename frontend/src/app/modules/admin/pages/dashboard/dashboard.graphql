@@ -1,0 +1,9 @@
+query dashboard {
+  countAllStats {
+    creators
+    games
+    roles
+    tags
+    users
+  }
+}

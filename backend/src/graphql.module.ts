@@ -3,8 +3,9 @@ import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
-import { UserModule } from './user/user.module';
-import { AuthModule } from './auth/auth.module';
+import { UserModule } from '@m/user/user.module';
+import { AuthModule } from '@m/auth/auth.module';
+import { AdminModule } from '@m/admin/admin.module';
 import { formatError } from './utils/graphql-errors';
 
 @Module({
@@ -12,6 +13,7 @@ import { formatError } from './utils/graphql-errors';
     // Import all modules that contain resolvers before loading the GraphQLModule
     UserModule,
     AuthModule,
+    AdminModule,
 
     GraphQLModule.forRoot<ApolloDriverConfig>({
       // Apollo configuration options

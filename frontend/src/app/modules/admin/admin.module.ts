@@ -13,7 +13,7 @@ import { CreatorsComponent } from './pages/content/creators/creators.component';
 import { TagsComponent } from './pages/content/tags/tags.component';
 import { SocialNetworksComponent } from './pages/content/social-networks/social-networks.component';
 import { GamePreviewsComponent } from './pages/content/game-previews/game-previews.component';
-
+import { CountUpModule } from 'ngx-countup';
 @NgModule({
   declarations: [
     AdminComponent,
@@ -27,7 +27,7 @@ import { GamePreviewsComponent } from './pages/content/game-previews/game-previe
     SocialNetworksComponent,
     GamePreviewsComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule, SharedModule],
+  imports: [CommonModule, AdminRoutingModule, SharedModule, CountUpModule],
   providers: [DrawerService],
 })
 export class AdminModule {}

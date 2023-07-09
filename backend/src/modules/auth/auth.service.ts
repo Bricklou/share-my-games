@@ -4,11 +4,11 @@ import {
   UsePipes,
   ValidationPipe,
 } from '@nestjs/common';
-import { UserService } from '@/user/user.service';
-import { LoginInput } from '@/auth/dto/login.input';
-import { RegisterInput } from '@/auth/dto/register.input';
-import { Request, Response } from 'express';
-import { User } from '@/user/models/user.model';
+import { UserService } from '@m/user/user.service';
+import { LoginInput } from '@/modules/auth/dto/login.input';
+import { RegisterInput } from '@/modules/auth/dto/register.input';
+import { Request } from 'express';
+import { User } from '@m/user/models/user.model';
 import { validate } from 'class-validator';
 
 interface AuthResponse {
