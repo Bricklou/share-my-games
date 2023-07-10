@@ -26,7 +26,7 @@ export class DashboardComponent implements OnDestroy {
   protected stats?: DashboardStats;
   protected user?: User;
 
-  public constructor(private apollo: Apollo, private authService: AuthService) {
+  public constructor(private apollo: Apollo, authService: AuthService) {
     this.user = authService.userValue;
 
     this.authSub = authService.user.subscribe((user) => {

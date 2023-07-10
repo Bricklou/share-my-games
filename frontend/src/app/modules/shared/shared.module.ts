@@ -17,7 +17,7 @@ import { ThemeButtonComponent } from './components/theme-button/theme-button.com
   imports: [
     CommonModule,
     LazyLoadImageModule,
-    GraphQLModule,
+    GraphQLModule.forRoot(),
     FormsModule,
     ReactiveFormsModule,
 

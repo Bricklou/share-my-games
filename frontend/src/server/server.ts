@@ -1,6 +1,7 @@
 import { Provider } from '@angular/core';
 import 'zone.js/dist/zone-node';
 import { ngExpressEngine } from '@nguniversal/express-engine';
+import { REQUEST, RESPONSE } from '@nguniversal/express-engine/tokens';
 import * as express from 'express';
 import { Request, Response } from 'express';
 import { existsSync } from 'fs';
@@ -50,8 +51,8 @@ export function app(): express.Express {
     '*',
     expressAsyncHandler(async (req: Request, res: Response): Promise<void> => {
       const providers: Provider[] = [
-        { provide: 'REQUEST', useValue: req },
-        { provide: 'RESPONSE', useValue: res },
+        { provide: REQUEST, useValue: req },
+        { provide: RESPONSE, useValue: res },
       ];
 
       // eslint-disable-next-line @typescript-eslint/no-unsafe-member-access

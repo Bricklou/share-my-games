@@ -86,6 +86,9 @@ dependencies:
   tslib:
     specifier: ^2.6.0
     version: 2.6.0
+  xhr2:
+    specifier: ^0.2.1
+    version: 0.2.1
   zone.js:
     specifier: ~0.13.1
     version: 0.13.1

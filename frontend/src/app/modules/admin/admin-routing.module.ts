@@ -58,6 +58,10 @@ const routes: Routes = [
         pathMatch: 'full',
         component: DashboardComponent,
       },
+      {
+        path: '**',
+        redirectTo: '',
+      },
     ],
   },
 ];

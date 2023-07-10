@@ -13,7 +13,7 @@ import { Apollo } from 'apollo-angular';
 import loginMutation from './login.graphql';
 import logoutMutation from './logout.graphql';
 import meQuery from './current-user.graphql';
-import { isPlatformServer } from '@angular/common';
+import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { INIT_AUTH_USER } from '../../utils/init-auth.token';
 import { ApolloError } from '@apollo/client/errors';
 
@@ -41,11 +41,13 @@ export class AuthService {
     if (isPlatformServer(platformId)) {
       // If we are on the server, we need to set the user state to the initial user value
       this.state.set(STATE_USER, initAuthUser);
-    } else {
+    }
+    this.user = new BehaviorSubject(this.state.get(STATE_USER, undefined));
+
+    if (isPlatformBrowser(platformId) && !this.user) {
+      // If we are on the browser, we need to refresh the user state from the server
       this.refreshSession();
     }
-
-    this.user = new BehaviorSubject(this.state.get(STATE_USER, undefined));
   }
 
   public get userValue(): User | undefined {
