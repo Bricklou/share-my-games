@@ -1,1 +1,79 @@
-<p>users works!</p>
+<header class="mb-8">
+  <h1 class="text-4xl font-semibold">Users</h1>
+</header>
+
+<div class="overflow-x-auto min-h-full">
+  <table class="table shadow rounded-lg bg-base-200">
+    <thead class="border-b border-base-100">
+      <tr>
+        <th>
+          <button type="button">ID</button>
+        </th>
+        <th>
+          <button type="button">Username</button>
+        </th>
+        <th>
+          <button type="button">E-Mail</button>
+        </th>
+        <th>
+          <button type="button">Roles</button>
+        </th>
+        <th class="text-right">Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="hover:bg-base-300" *ngFor="let user of users">
+        <th>{{ user.id }}</th>
+
+        <td>{{ user.username }}</td>
+        <td>{{ user.email }}</td>
+        <td>
+          <span class="badge badge-secondary badge-sm">admin</span>
+        </td>
+        <td class="text-right">
+          <div class="dropdown dropdown-end">
+            <label
+              tabindex="0"
+              class="btn btn-ghost btn-xs"
+              [for]="'action-' + user.id"
+            >
+              <span>Actions</span>
+              <lucide-angular name="chevron-down" class="h-6 w-4" />
+            </label>
+
+            <ul
+              tabindex="0"
+              class="dropdown-content z-[1] menu p-2 shadow-sm bg-base-200 rounded-box w-52 overflow-clip"
+              [id]="'action-' + user.id"
+            >
+              <li>
+                <a [routerLink]="'/admin/system/users/' + user.id">
+                  <lucide-angular name="edit" class="h-6 w-4" />
+                  Edit
+                </a>
+              </li>
+              <ng-container *ngIf="isAllowedToEdit(user)">
+                <li>
+                  <button type="button" (click)="openDisableDialog(user.id)">
+                    <lucide-angular name="lock" class="h-6 w-4" />
+                    <span>Disable</span>
+                  </button>
+                </li>
+                <li>
+                  <button
+                    type="button"
+                    class="text-left text-error hover:text-error-content hover:bg-error hover:bg-opacity-75"
+                    (click)="openDeleteDialog(user.id)"
+                  >
+                    <lucide-angular name="trash" class="h-6 w-4" />
+                    <span>Delete</span>
+                  </button>
+                </li>
+              </ng-container>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

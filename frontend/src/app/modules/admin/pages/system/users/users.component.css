@@ -1,0 +1,5 @@
+thead {
+  th > button {
+    @apply w-full text-left;
+  }
+}
