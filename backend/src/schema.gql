@@ -24,7 +24,7 @@ type Mutation {
 type Query {
   countAllStats: StatsResponse!
   getUser(id: Float!): User!
-  getUsers(skip: Int!, take: Int!): [User!]!
+  getUsers(skip: Int, take: Int): [User!]!
   me: User!
 }
 
