@@ -2,78 +2,144 @@
   <h1 class="text-4xl font-semibold">Users</h1>
 </header>
 
-<div class="overflow-x-auto min-h-full">
-  <table class="table shadow rounded-lg bg-base-200">
-    <thead class="border-b border-base-100">
-      <tr>
-        <th>
-          <button type="button">ID</button>
-        </th>
-        <th>
-          <button type="button">Username</button>
-        </th>
-        <th>
-          <button type="button">E-Mail</button>
-        </th>
-        <th>
-          <button type="button">Roles</button>
-        </th>
-        <th class="text-right">Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr class="hover:bg-base-300" *ngFor="let user of users">
-        <th>{{ user.id }}</th>
+<div class="overflow-x-auto">
+  <table
+    cdk-table
+    [dataSource]="usersDataSource"
+    class="table"
+    [trackBy]="trackBy"
+  >
+    <ng-template #headerBtn let-title="title" let-field="field">
+      <button type="button" (click)="onColumnClick(field)">
+        {{ title }}
 
-        <td>{{ user.username }}</td>
-        <td>{{ user.email }}</td>
-        <td>
-          <span class="badge badge-secondary badge-sm">admin</span>
-        </td>
-        <td class="text-right">
-          <div class="dropdown dropdown-end">
-            <label
-              tabindex="0"
-              class="btn btn-ghost btn-xs"
-              [for]="'action-' + user.id"
-            >
-              <span>Actions</span>
-              <lucide-angular name="chevron-down" class="h-6 w-4" />
-            </label>
+        <ng-container *ngIf="(usersDataSource.sortBy | async) === field">
+          <lucide-angular
+            *ngIf="
+              (usersDataSource.sortDirection | async) === 'asc';
+              else sortByDesc
+            "
+            name="arrow-down-narrow-wide"
+            class="w-4 h-4 inline-block ml-2"
+          />
 
-            <ul
-              tabindex="0"
-              class="dropdown-content z-[1] menu p-2 shadow-sm bg-base-200 rounded-box w-52 overflow-clip"
-              [id]="'action-' + user.id"
-            >
-              <li>
-                <a [routerLink]="'/admin/system/users/' + user.id">
-                  <lucide-angular name="edit" class="h-6 w-4" />
-                  Edit
-                </a>
-              </li>
-              <ng-container *ngIf="isAllowedToEdit(user)">
-                <li>
-                  <button type="button" (click)="openDisableDialog(user.id)">
-                    <lucide-angular name="lock" class="h-6 w-4" />
-                    <span>Disable</span>
-                  </button>
-                </li>
-                <li>
-                  <button
-                    type="button"
-                    class="text-left text-error hover:text-error-content hover:bg-error hover:bg-opacity-75"
-                    (click)="openDeleteDialog(user.id)"
-                  >
-                    <lucide-angular name="trash" class="h-6 w-4" />
-                    <span>Delete</span>
-                  </button>
-                </li>
-              </ng-container>
-            </ul>
-          </div>
-        </td>
-      </tr>
-    </tbody>
+          <ng-template #sortByDesc>
+            <lucide-angular
+              name="arrow-up-narrow-wide"
+              class="w-4 h-4 inline-block ml-2"
+            />
+          </ng-template>
+        </ng-container>
+      </button>
+    </ng-template>
+
+    <!-- ID Definition -->
+    <ng-container cdkColumnDef="id">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <ng-container
+          *ngTemplateOutlet="headerBtn; context: { title: 'ID', field: 'id' }"
+        />
+      </th>
+      <th cdk-cell *cdkCellDef="let user">{{ user.id }}</th>
+      <th cdk-footer-cell *cdkFooterCellDef>
+        <ng-container
+          *ngTemplateOutlet="headerBtn; context: { title: 'ID', field: 'id' }"
+        />
+      </th>
+    </ng-container>
+
+    <!-- Username Definition -->
+    <ng-container cdkColumnDef="username">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <ng-container
+          *ngTemplateOutlet="
+            headerBtn;
+            context: { title: 'Username', field: 'username' }
+          "
+        />
+      </th>
+      <td cdk-cell *cdkCellDef="let user">{{ user.username }}</td>
+      <th cdk-footer-cell *cdkFooterCellDef>
+        <ng-container
+          *ngTemplateOutlet="
+            headerBtn;
+            context: { title: 'Username', field: 'username' }
+          "
+        />
+      </th>
+    </ng-container>
+
+    <!-- E-Mail Definition -->
+    <ng-container cdkColumnDef="email">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <ng-container
+          *ngTemplateOutlet="
+            headerBtn;
+            context: { title: 'E-Mail', field: 'email' }
+          "
+        />
+      </th>
+      <td cdk-cell *cdkCellDef="let user">{{ user.email }}</td>
+      <th cdk-footer-cell *cdkFooterCellDef>
+        <ng-container
+          *ngTemplateOutlet="
+            headerBtn;
+            context: { title: 'E-Mail', field: 'email' }
+          "
+        />
+      </th>
+    </ng-container>
+
+    <!-- Roles Definition -->
+    <ng-container cdkColumnDef="roles">
+      <th cdk-header-cell *cdkHeaderCellDef>
+        <ng-container
+          *ngTemplateOutlet="
+            headerBtn;
+            context: { title: 'Roles', field: 'roless' }
+          "
+        />
+      </th>
+      <td cdk-cell *cdkCellDef="let user">
+        <span class="badge badge-secondary badge-sm">admin</span>
+      </td>
+      <th cdk-footer-cell *cdkFooterCellDef>
+        <ng-container
+          *ngTemplateOutlet="
+            headerBtn;
+            context: { title: 'Roles', field: 'roles' }
+          "
+        />
+      </th>
+    </ng-container>
+
+    <!-- Actions Definition -->
+    <ng-container cdkColumnDef="actions">
+      <th cdk-header-cell *cdkHeaderCellDef class="text-right">Actions</th>
+      <td cdk-cell *cdkCellDef="let user">
+        <app-user-item-action [user]="user" />
+      </td>
+      <th cdk-footer-cell *cdkFooterCellDef class="text-right">Actions</th>
+    </ng-container>
+
+    <tr
+      cdk-header-row
+      class="border-b-2 border-base-100"
+      *cdkHeaderRowDef="['id', 'username', 'email', 'roles', 'actions']"
+    ></tr>
+    <tr
+      cdk-row
+      class="hover:bg-base-300"
+      *cdkRowDef="
+        let row;
+        columns: ['id', 'username', 'email', 'roles', 'actions']
+      "
+    ></tr>
+
+    <tr
+      cdk-footer-row
+      class="border-t-2 border-base-100"
+      *cdkFooterRowDef="['id', 'username', 'email', 'roles', 'actions']"
+    ></tr>
   </table>
 </div>

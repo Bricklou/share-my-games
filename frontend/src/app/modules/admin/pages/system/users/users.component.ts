@@ -1,12 +1,16 @@
 import { Apollo } from 'apollo-angular';
-import { Component, Inject, OnDestroy, Optional } from '@angular/core';
-import { Subscription } from 'rxjs';
-import listUsersQuery from './list-users.graphql';
+import { Component } from '@angular/core';
 import { User } from '@app/modules/shared/interfaces/user';
-import { Request } from 'express';
-import { REQUEST } from '@nguniversal/express-engine/tokens';
 import { Dialog } from '@angular/cdk/dialog';
 import { AuthService } from '@app/modules/shared/services/auth/auth.service';
+import { PopupComponent } from '@app/modules/admin/components/popup/popup.component';
+import { UsersListDataSource } from './users.datasource';
+
+export enum AdminDialogResult {
+  delete = 'delete',
+  disable = 'disable',
+  cancel = 'cancel',
+}
 
 export interface AdminDialogData<TResult = string> {
   title: string;
@@ -14,7 +18,7 @@ export interface AdminDialogData<TResult = string> {
 
   actions: Array<{
     label: string;
-    style: string;
+    style?: string;
     resultID: TResult;
   }>;
 }
@@ -24,33 +28,42 @@ export interface AdminDialogData<TResult = string> {
   templateUrl: './users.component.html',
   styleUrls: ['./users.component.css'],
 })
-export class UsersComponent implements OnDestroy {
-  private querySub: Subscription;
-  protected users?: User[];
+export class UsersComponent {
+  protected usersDataSource = new UsersListDataSource(this.apollo);
   private currentUser?: User;
 
   public constructor(
     private apollo: Apollo,
-    @Optional() @Inject(REQUEST) private request: Request,
     private dialog: Dialog,
     private authService: AuthService
   ) {
     this.currentUser = this.authService.userValue;
-
-    this.querySub = this.apollo
-      .query<{ getUsers: User[] }>({
-        query: listUsersQuery,
-      })
-      .subscribe((result) => {
-        this.users = result.data.getUsers;
-      });
   }
 
-  protected openDeleteDialog(userId: number): void {
-    //
+  protected openDeleteDialog(user: User): void {
+    this.dialog.open<AdminDialogResult, AdminDialogData<AdminDialogResult>>(
+      PopupComponent,
+      {
+        data: {
+          title: `Delete user ${user.username}?`,
+          message: `Are you sure you want to delete user ${user.username}?`,
+          actions: [
+            {
+              label: 'Cancel',
+              resultID: AdminDialogResult.cancel,
+            },
+            {
+              label: 'Delete',
+              style: 'btn-danger',
+              resultID: AdminDialogResult.delete,
+            },
+          ],
+        },
+      }
+    );
   }
 
-  protected openDisableDialog(userId: number): void {
+  protected openDisableDialog(user: User): void {
     //
   }
 
@@ -58,7 +71,15 @@ export class UsersComponent implements OnDestroy {
     return user.id !== this.currentUser?.id;
   }
 
-  public ngOnDestroy(): void {
-    this.querySub.unsubscribe();
+  protected onColumnClick(fieldName: keyof User): void {
+    if (this.usersDataSource.sortBy.value === fieldName) {
+      this.usersDataSource.toggleDirection();
+    } else {
+      this.usersDataSource.sort(fieldName);
+    }
+  }
+
+  protected trackBy(index: number, user: User): number {
+    return user.id;
   }
 }

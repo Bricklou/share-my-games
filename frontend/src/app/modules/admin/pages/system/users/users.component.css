@@ -3,3 +3,20 @@ thead {
     @apply w-full text-left;
   }
 }
+
+table {
+  @apply shadow rounded-xl bg-base-200;
+
+  --grid-colums: theme("width.16") repeat(4, minmax(0, 1fr));
+
+  thead {
+    tr {
+      @apply sticky top-64 z-[3] border-b-2 border-base-100;
+    }
+  }
+
+  tr {
+    @apply grid;
+    grid-template-columns: var(--grid-colums);
+  }
+}

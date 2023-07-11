@@ -1,5 +1,5 @@
-query UsersList {
-  getUsers {
+query UsersList($sortBy: String, $sortDirection: OrderDirection) {
+  getUsers(sortBy: $sortBy, sortDirection: $sortDirection) {
     id
     username
     email

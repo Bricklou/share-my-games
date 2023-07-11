@@ -21,10 +21,15 @@ type Mutation {
   logout: Boolean!
 }
 
+enum OrderDirection {
+  asc
+  desc
+}
+
 type Query {
   countAllStats: StatsResponse!
   getUser(id: Float!): User!
-  getUsers(skip: Int, take: Int): [User!]!
+  getUsers(skip: Int, sortBy: String, sortDirection: OrderDirection, take: Int): [User!]!
   me: User!
 }
 

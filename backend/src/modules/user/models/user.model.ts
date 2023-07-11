@@ -12,9 +12,16 @@ import {
   UpdateDateColumn,
 } from 'typeorm';
 
+interface IUser {
+  id: number;
+  email: string;
+  username: string;
+  createdAt: Date;
+}
+
 @Entity()
 @ObjectType({ description: 'user' })
-export class User extends BaseEntity {
+export class User extends BaseEntity implements IUser {
   @Field(() => ID)
   @PrimaryGeneratedColumn()
   public id: number;
@@ -51,5 +58,12 @@ export class User extends BaseEntity {
   @BeforeUpdate()
   public async hashPassword(): Promise<void> {
     this.password = await argon2.hash(this.password);
+  }
+
+  public static canSortField(fieldName: unknown): fieldName is keyof IUser {
+    return (
+      typeof fieldName === 'string' &&
+      ['id', 'username', 'email', 'createdAt'].indexOf(fieldName) > -1
+    );
   }
 }

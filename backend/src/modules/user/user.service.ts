@@ -1,9 +1,10 @@
 import { Injectable } from '@nestjs/common';
 import { GetUsersArgs } from './dto/get-users.args';
-import { FindOptionsWhere, Repository } from 'typeorm';
+import { FindOptionsOrder, FindOptionsWhere, Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.model';
 import * as argon2 from 'argon2';
+import { OrderDirection } from '@/graphql/enum';
 
 @Injectable()
 export class UserService {
@@ -40,9 +41,20 @@ export class UserService {
   }
 
   public async findAll(args?: GetUsersArgs): Promise<User[]> {
+    const order: FindOptionsOrder<User> = {};
+
+    if (User.canSortField(args.sortBy)) {
+      if (args.sortDirection in OrderDirection) {
+        order[args.sortBy] = args.sortDirection;
+      } else {
+        order[args.sortBy] = OrderDirection.asc;
+      }
+    }
+
     return await this.userRepository.find({
       skip: args?.skip,
       take: args?.take,
+      order,
     });
   }
 

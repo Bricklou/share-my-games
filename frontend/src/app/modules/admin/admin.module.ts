@@ -14,6 +14,12 @@ import { TagsComponent } from './pages/content/tags/tags.component';
 import { SocialNetworksComponent } from './pages/content/social-networks/social-networks.component';
 import { GamePreviewsComponent } from './pages/content/game-previews/game-previews.component';
 import { CountUpModule } from 'ngx-countup';
+import { PopupComponent } from './components/popup/popup.component';
+import { DialogModule } from '@angular/cdk/dialog';
+import { CdkMenuModule } from '@angular/cdk/menu';
+import { CdkTableModule } from '@angular/cdk/table';
+import { UserItemActionComponent } from './pages/system/users/user-item-action/user-item-action.component';
+
 @NgModule({
   declarations: [
     AdminComponent,
@@ -26,8 +32,18 @@ import { CountUpModule } from 'ngx-countup';
     TagsComponent,
     SocialNetworksComponent,
     GamePreviewsComponent,
+    PopupComponent,
+    UserItemActionComponent,
   ],
-  imports: [CommonModule, AdminRoutingModule, SharedModule, CountUpModule],
+  imports: [
+    CommonModule,
+    AdminRoutingModule,
+    SharedModule,
+    CountUpModule,
+    DialogModule,
+    CdkMenuModule,
+    CdkTableModule,
+  ],
   providers: [DrawerService],
 })
 export class AdminModule {}
