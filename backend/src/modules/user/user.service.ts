@@ -5,6 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './models/user.model';
 import * as argon2 from 'argon2';
 import { OrderDirection } from '@/graphql/enum';
+import { PaginatedUser } from './models/paginated-users.model';
 
 @Injectable()
 export class UserService {
@@ -52,10 +53,37 @@ export class UserService {
     }
 
     return await this.userRepository.find({
-      skip: args?.skip,
-      take: args?.take,
+      skip: args ? args?.page * args.limit : undefined,
+      take: args?.limit,
       order,
     });
+  }
+
+  public async paginate(args?: GetUsersArgs): Promise<PaginatedUser> {
+    let query = this.userRepository.createQueryBuilder();
+
+    if (args) {
+      if (User.canSortField(args.sortBy)) {
+        switch (args.sortDirection) {
+          case OrderDirection.desc:
+            query = query.orderBy(args.sortBy, 'DESC');
+            break;
+          default:
+            query = query.orderBy(args.sortBy, 'ASC');
+        }
+      }
+
+      query = query.skip((args.page - 1) * args.limit).take(args.limit);
+    }
+
+    const [result, total] = await query.getManyAndCount();
+
+    return {
+      data: result,
+      total: total,
+      current: args.page,
+      limit: args.limit,
+    };
   }
 
   public async remove(id: number): Promise<boolean> {

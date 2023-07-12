@@ -16,6 +16,7 @@ import meQuery from './current-user.graphql';
 import { isPlatformBrowser, isPlatformServer } from '@angular/common';
 import { INIT_AUTH_USER } from '../../utils/init-auth.token';
 import { ApolloError } from '@apollo/client/errors';
+import { LoggerService } from '@shared/services/logger.service';
 
 interface UserLoginInput {
   email: string;
@@ -34,6 +35,7 @@ export class AuthService {
   public constructor(
     private apollo: Apollo,
     private state: TransferState,
+    private logger: LoggerService,
     // PlatformId
     @Inject(PLATFORM_ID) platformId: object,
     @Optional() @Inject(INIT_AUTH_USER) initAuthUser?: User
@@ -50,22 +52,19 @@ export class AuthService {
     }
   }
 
-  public get userValue(): User | undefined {
-    return this.user.value ?? this.state.get(STATE_USER, undefined);
-  }
-
   public get isAuthenticated(): Observable<boolean> {
     return this.user.pipe(map((user) => !!user));
   }
 
   private setUser(u: User | undefined): void {
+    this.logger.debug('Setting user', u);
     this.user.next(u);
     this.state.set(STATE_USER, u);
   }
 
   public login(data: UserLoginInput): Observable<boolean> {
     return this.apollo
-      .mutate<User, { input: UserLoginInput }>({
+      .mutate<{ login: User }, { input: UserLoginInput }>({
         mutation: loginMutation,
         variables: { input: data },
       })
@@ -73,7 +72,7 @@ export class AuthService {
         map((u) => {
           if (!u.data) return false;
 
-          this.setUser(u.data);
+          this.setUser(u.data.login);
 
           return true;
         })

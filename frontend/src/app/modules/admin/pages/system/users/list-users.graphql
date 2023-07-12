@@ -1,8 +1,23 @@
-query UsersList($sortBy: String, $sortDirection: OrderDirection) {
-  getUsers(sortBy: $sortBy, sortDirection: $sortDirection) {
-    id
-    username
-    email
-    createdAt
+query UsersList(
+  $sortBy: String
+  $sortDirection: OrderDirection
+  $limit: Int
+  $page: Int
+) {
+  getUsers(
+    sortBy: $sortBy
+    sortDirection: $sortDirection
+    limit: $limit
+    page: $page
+  ) {
+    data {
+      id
+      username
+      email
+      createdAt
+    }
+    current
+    limit
+    total
   }
 }

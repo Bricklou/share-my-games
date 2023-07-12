@@ -1,0 +1,42 @@
+<div class="join">
+  <button
+    class="join-item btn"
+    type="button"
+    title="Previous"
+    *ngIf="!isFirstPage()"
+    (click)="previous()"
+  >
+    <lucide-angular name="chevron-left" class="w-4 h-4" />
+  </button>
+
+  <button
+    *ngFor="let page of pages"
+    type="button"
+    class="join-item btn"
+    [ngClass]="{
+      'btn-active': currentPage === page.value,
+      'btn-disabled': page.label === 'dots'
+    }"
+    (click)="setCurrent(page.value)"
+  >
+    <lucide-angular
+      *ngIf="page.label === 'dots'; else pageLabel"
+      name="more-horizontal"
+      class="w-4 h-4"
+    />
+
+    <ng-template #pageLabel>
+      {{ page.value }}
+    </ng-template>
+  </button>
+
+  <button
+    class="join-item btn"
+    type="button"
+    title="Next"
+    *ngIf="!isLastPage()"
+    (click)="next()"
+  >
+    <lucide-angular name="chevron-right" class="w-4 h-4" />
+  </button>
+</div>

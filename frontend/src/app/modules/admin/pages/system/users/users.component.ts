@@ -37,7 +37,7 @@ export class UsersComponent {
     private dialog: Dialog,
     private authService: AuthService
   ) {
-    this.currentUser = this.authService.userValue;
+    this.currentUser = this.authService.user.value;
   }
 
   protected openDeleteDialog(user: User): void {
@@ -81,5 +81,9 @@ export class UsersComponent {
 
   protected trackBy(index: number, user: User): number {
     return user.id;
+  }
+
+  public onPageChange(page: number): void {
+    this.usersDataSource.setPage(page);
   }
 }

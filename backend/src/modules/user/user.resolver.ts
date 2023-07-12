@@ -4,6 +4,7 @@ import { NotFoundException, UseGuards } from '@nestjs/common';
 import { User } from './models/user.model';
 import { GetUsersArgs } from './dto/get-users.args';
 import { AuthGuard } from '../auth/guards/auth.guard';
+import { PaginatedUser } from './models/paginated-users.model';
 
 @Resolver(() => User)
 export class UserResolver {
@@ -20,9 +21,11 @@ export class UserResolver {
   }
 
   // Get all users
-  @Query(() => [User])
+  @Query(() => PaginatedUser)
   @UseGuards(AuthGuard)
-  public async getUsers(@Args() args?: GetUsersArgs): Promise<User[]> {
-    return this.userService.findAll(args);
+  public async getUsers(@Args() args?: GetUsersArgs): Promise<PaginatedUser> {
+    const data = await this.userService.paginate(args);
+
+    return data;
   }
 }

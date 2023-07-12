@@ -19,6 +19,7 @@ import { DialogModule } from '@angular/cdk/dialog';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { CdkTableModule } from '@angular/cdk/table';
 import { UserItemActionComponent } from './pages/system/users/user-item-action/user-item-action.component';
+import { PaginationComponent } from '../shared/components/pagination/pagination.component';
 
 @NgModule({
   declarations: [
@@ -34,6 +35,7 @@ import { UserItemActionComponent } from './pages/system/users/user-item-action/u
     GamePreviewsComponent,
     PopupComponent,
     UserItemActionComponent,
+    PaginationComponent,
   ],
   imports: [
     CommonModule,

@@ -1,17 +1,15 @@
 import { OrderDirection } from '@/graphql/enum';
-import { ArgsType, Field, Int } from '@nestjs/graphql';
+import { ArgsType, Field } from '@nestjs/graphql';
+import { PaginationArgs } from './pagination.args';
+import { IsEnum } from 'class-validator';
 
 @ArgsType()
-export class GetUsersArgs {
-  @Field(() => Int, { nullable: true })
-  public skip?: number;
+export class GetUsersArgs extends PaginationArgs {
+  @Field({ nullable: true, defaultValue: 'username' })
+  @IsEnum(['id', 'username', 'email', 'createdAt'])
+  public sortBy: string;
 
-  @Field(() => Int, { nullable: true })
-  public take?: number;
-
-  @Field({ nullable: true })
-  public sortBy?: string;
-
-  @Field(() => OrderDirection, { nullable: true })
-  public sortDirection?: OrderDirection;
+  @Field(() => OrderDirection, { nullable: true, defaultValue: 'asc' })
+  @IsEnum(OrderDirection)
+  public sortDirection: OrderDirection;
 }

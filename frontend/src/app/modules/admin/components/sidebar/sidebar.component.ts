@@ -29,6 +29,8 @@ export class AdminSidebarComponent implements OnDestroy, AfterViewChecked {
   private authSub: Subscription;
 
   public constructor(authService: AuthService, router: Router) {
+    this.user = authService.user.value;
+
     this.authSub = authService.user.subscribe((user) => {
       this.user = user;
 
@@ -36,8 +38,6 @@ export class AdminSidebarComponent implements OnDestroy, AfterViewChecked {
         void router.navigate(['/login']);
       }
     });
-
-    this.user = authService.userValue;
   }
 
   public ngAfterViewChecked(): void {

@@ -143,3 +143,15 @@
     ></tr>
   </table>
 </div>
+
+<div
+  class="mx-auto flex justify-center mt-6"
+  *ngIf="usersDataSource.showPagination"
+>
+  <app-pagination
+    [currentPage]="(usersDataSource.currentPage | async) || 1"
+    [totalItems]="usersDataSource.total"
+    [itemsPerPage]="usersDataSource.limit"
+    (pageChange)="onPageChange($event)"
+  />
+</div>

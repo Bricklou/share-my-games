@@ -26,10 +26,17 @@ enum OrderDirection {
   desc
 }
 
+type PaginatedUser {
+  current: Int!
+  data: [User!]!
+  limit: Int!
+  total: Int!
+}
+
 type Query {
   countAllStats: StatsResponse!
   getUser(id: Float!): User!
-  getUsers(skip: Int, sortBy: String, sortDirection: OrderDirection, take: Int): [User!]!
+  getUsers(limit: Int = 10, page: Int = 1, sortBy: String = "username", sortDirection: OrderDirection = asc): PaginatedUser!
   me: User!
 }
 
