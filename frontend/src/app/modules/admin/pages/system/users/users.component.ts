@@ -1,9 +1,7 @@
 import { Apollo } from 'apollo-angular';
 import { Component } from '@angular/core';
 import { User } from '@app/modules/shared/interfaces/user';
-import { Dialog } from '@angular/cdk/dialog';
 import { AuthService } from '@app/modules/shared/services/auth/auth.service';
-import { PopupComponent } from '@app/modules/admin/components/popup/popup.component';
 import { UsersListDataSource } from './users.datasource';
 
 export enum AdminDialogResult {
@@ -34,37 +32,9 @@ export class UsersComponent {
 
   public constructor(
     private apollo: Apollo,
-    private dialog: Dialog,
-    private authService: AuthService
+    private authService: AuthService,
   ) {
     this.currentUser = this.authService.user.value;
-  }
-
-  protected openDeleteDialog(user: User): void {
-    this.dialog.open<AdminDialogResult, AdminDialogData<AdminDialogResult>>(
-      PopupComponent,
-      {
-        data: {
-          title: `Delete user ${user.username}?`,
-          message: `Are you sure you want to delete user ${user.username}?`,
-          actions: [
-            {
-              label: 'Cancel',
-              resultID: AdminDialogResult.cancel,
-            },
-            {
-              label: 'Delete',
-              style: 'btn-danger',
-              resultID: AdminDialogResult.delete,
-            },
-          ],
-        },
-      }
-    );
-  }
-
-  protected openDisableDialog(user: User): void {
-    //
   }
 
   protected isAllowedToEdit(user: User): boolean {

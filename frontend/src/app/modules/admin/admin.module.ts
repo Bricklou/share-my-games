@@ -13,13 +13,12 @@ import { CreatorsComponent } from './pages/content/creators/creators.component';
 import { TagsComponent } from './pages/content/tags/tags.component';
 import { SocialNetworksComponent } from './pages/content/social-networks/social-networks.component';
 import { GamePreviewsComponent } from './pages/content/game-previews/game-previews.component';
-import { CountUpModule } from 'ngx-countup';
-import { PopupComponent } from './components/popup/popup.component';
-import { DialogModule } from '@angular/cdk/dialog';
 import { CdkMenuModule } from '@angular/cdk/menu';
 import { CdkTableModule } from '@angular/cdk/table';
 import { UserItemActionComponent } from './pages/system/users/user-item-action/user-item-action.component';
 import { PaginationComponent } from '../shared/components/pagination/pagination.component';
+import { PopupComponent } from './components/popup/popup.component';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [
@@ -33,18 +32,17 @@ import { PaginationComponent } from '../shared/components/pagination/pagination.
     TagsComponent,
     SocialNetworksComponent,
     GamePreviewsComponent,
-    PopupComponent,
     UserItemActionComponent,
     PaginationComponent,
+    PopupComponent,
   ],
   imports: [
     CommonModule,
     AdminRoutingModule,
     SharedModule,
-    CountUpModule,
-    DialogModule,
     CdkMenuModule,
     CdkTableModule,
+    OverlayModule,
   ],
   providers: [DrawerService],
 })

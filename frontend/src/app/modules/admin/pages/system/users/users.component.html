@@ -2,147 +2,145 @@
   <h1 class="text-4xl font-semibold">Users</h1>
 </header>
 
-<div class="overflow-x-auto">
-  <table
-    cdk-table
-    [dataSource]="usersDataSource"
-    class="table"
-    [trackBy]="trackBy"
-  >
-    <ng-template #headerBtn let-title="title" let-field="field">
-      <button type="button" (click)="onColumnClick(field)">
-        {{ title }}
+<table
+  cdk-table
+  [dataSource]="usersDataSource"
+  class="table"
+  [trackBy]="trackBy"
+>
+  <ng-template #headerBtn let-title="title" let-field="field">
+    <button type="button" (click)="onColumnClick(field)">
+      {{ title }}
 
-        <ng-container *ngIf="(usersDataSource.sortBy | async) === field">
+      <ng-container *ngIf="(usersDataSource.sortBy | async) === field">
+        <lucide-angular
+          *ngIf="
+            (usersDataSource.sortDirection | async) === 'asc';
+            else sortByDesc
+          "
+          name="arrow-down-narrow-wide"
+          class="w-4 h-4 inline-block ml-2"
+        />
+
+        <ng-template #sortByDesc>
           <lucide-angular
-            *ngIf="
-              (usersDataSource.sortDirection | async) === 'asc';
-              else sortByDesc
-            "
-            name="arrow-down-narrow-wide"
+            name="arrow-up-narrow-wide"
             class="w-4 h-4 inline-block ml-2"
           />
+        </ng-template>
+      </ng-container>
+    </button>
+  </ng-template>
 
-          <ng-template #sortByDesc>
-            <lucide-angular
-              name="arrow-up-narrow-wide"
-              class="w-4 h-4 inline-block ml-2"
-            />
-          </ng-template>
-        </ng-container>
-      </button>
-    </ng-template>
+  <!-- ID Definition -->
+  <ng-container cdkColumnDef="id">
+    <th cdk-header-cell *cdkHeaderCellDef>
+      <ng-container
+        *ngTemplateOutlet="headerBtn; context: { title: 'ID', field: 'id' }"
+      />
+    </th>
+    <th cdk-cell *cdkCellDef="let user">{{ user.id }}</th>
+    <th cdk-footer-cell *cdkFooterCellDef>
+      <ng-container
+        *ngTemplateOutlet="headerBtn; context: { title: 'ID', field: 'id' }"
+      />
+    </th>
+  </ng-container>
 
-    <!-- ID Definition -->
-    <ng-container cdkColumnDef="id">
-      <th cdk-header-cell *cdkHeaderCellDef>
-        <ng-container
-          *ngTemplateOutlet="headerBtn; context: { title: 'ID', field: 'id' }"
-        />
-      </th>
-      <th cdk-cell *cdkCellDef="let user">{{ user.id }}</th>
-      <th cdk-footer-cell *cdkFooterCellDef>
-        <ng-container
-          *ngTemplateOutlet="headerBtn; context: { title: 'ID', field: 'id' }"
-        />
-      </th>
-    </ng-container>
+  <!-- Username Definition -->
+  <ng-container cdkColumnDef="username">
+    <th cdk-header-cell *cdkHeaderCellDef>
+      <ng-container
+        *ngTemplateOutlet="
+          headerBtn;
+          context: { title: 'Username', field: 'username' }
+        "
+      />
+    </th>
+    <td cdk-cell *cdkCellDef="let user">{{ user.username }}</td>
+    <th cdk-footer-cell *cdkFooterCellDef>
+      <ng-container
+        *ngTemplateOutlet="
+          headerBtn;
+          context: { title: 'Username', field: 'username' }
+        "
+      />
+    </th>
+  </ng-container>
 
-    <!-- Username Definition -->
-    <ng-container cdkColumnDef="username">
-      <th cdk-header-cell *cdkHeaderCellDef>
-        <ng-container
-          *ngTemplateOutlet="
-            headerBtn;
-            context: { title: 'Username', field: 'username' }
-          "
-        />
-      </th>
-      <td cdk-cell *cdkCellDef="let user">{{ user.username }}</td>
-      <th cdk-footer-cell *cdkFooterCellDef>
-        <ng-container
-          *ngTemplateOutlet="
-            headerBtn;
-            context: { title: 'Username', field: 'username' }
-          "
-        />
-      </th>
-    </ng-container>
+  <!-- E-Mail Definition -->
+  <ng-container cdkColumnDef="email">
+    <th cdk-header-cell *cdkHeaderCellDef>
+      <ng-container
+        *ngTemplateOutlet="
+          headerBtn;
+          context: { title: 'E-Mail', field: 'email' }
+        "
+      />
+    </th>
+    <td cdk-cell *cdkCellDef="let user">{{ user.email }}</td>
+    <th cdk-footer-cell *cdkFooterCellDef>
+      <ng-container
+        *ngTemplateOutlet="
+          headerBtn;
+          context: { title: 'E-Mail', field: 'email' }
+        "
+      />
+    </th>
+  </ng-container>
 
-    <!-- E-Mail Definition -->
-    <ng-container cdkColumnDef="email">
-      <th cdk-header-cell *cdkHeaderCellDef>
-        <ng-container
-          *ngTemplateOutlet="
-            headerBtn;
-            context: { title: 'E-Mail', field: 'email' }
-          "
-        />
-      </th>
-      <td cdk-cell *cdkCellDef="let user">{{ user.email }}</td>
-      <th cdk-footer-cell *cdkFooterCellDef>
-        <ng-container
-          *ngTemplateOutlet="
-            headerBtn;
-            context: { title: 'E-Mail', field: 'email' }
-          "
-        />
-      </th>
-    </ng-container>
+  <!-- Roles Definition -->
+  <ng-container cdkColumnDef="roles">
+    <th cdk-header-cell *cdkHeaderCellDef>
+      <ng-container
+        *ngTemplateOutlet="
+          headerBtn;
+          context: { title: 'Roles', field: 'roless' }
+        "
+      />
+    </th>
+    <td cdk-cell *cdkCellDef="let user">
+      <span class="badge badge-secondary badge-sm">admin</span>
+    </td>
+    <th cdk-footer-cell *cdkFooterCellDef>
+      <ng-container
+        *ngTemplateOutlet="
+          headerBtn;
+          context: { title: 'Roles', field: 'roles' }
+        "
+      />
+    </th>
+  </ng-container>
 
-    <!-- Roles Definition -->
-    <ng-container cdkColumnDef="roles">
-      <th cdk-header-cell *cdkHeaderCellDef>
-        <ng-container
-          *ngTemplateOutlet="
-            headerBtn;
-            context: { title: 'Roles', field: 'roless' }
-          "
-        />
-      </th>
-      <td cdk-cell *cdkCellDef="let user">
-        <span class="badge badge-secondary badge-sm">admin</span>
-      </td>
-      <th cdk-footer-cell *cdkFooterCellDef>
-        <ng-container
-          *ngTemplateOutlet="
-            headerBtn;
-            context: { title: 'Roles', field: 'roles' }
-          "
-        />
-      </th>
-    </ng-container>
+  <!-- Actions Definition -->
+  <ng-container cdkColumnDef="actions">
+    <th cdk-header-cell *cdkHeaderCellDef class="text-right">Actions</th>
+    <td cdk-cell *cdkCellDef="let user" class="text-right">
+      <app-user-item-action [user]="user" [allowEdit]="isAllowedToEdit(user)" />
+    </td>
+    <th cdk-footer-cell *cdkFooterCellDef class="text-right">Actions</th>
+  </ng-container>
 
-    <!-- Actions Definition -->
-    <ng-container cdkColumnDef="actions">
-      <th cdk-header-cell *cdkHeaderCellDef class="text-right">Actions</th>
-      <td cdk-cell *cdkCellDef="let user">
-        <app-user-item-action [user]="user" />
-      </td>
-      <th cdk-footer-cell *cdkFooterCellDef class="text-right">Actions</th>
-    </ng-container>
+  <tr
+    cdk-header-row
+    class="border-b-2 border-base-100"
+    *cdkHeaderRowDef="['id', 'username', 'email', 'roles', 'actions']"
+  ></tr>
+  <tr
+    cdk-row
+    class="hover:bg-base-300"
+    *cdkRowDef="
+      let row;
+      columns: ['id', 'username', 'email', 'roles', 'actions']
+    "
+  ></tr>
 
-    <tr
-      cdk-header-row
-      class="border-b-2 border-base-100"
-      *cdkHeaderRowDef="['id', 'username', 'email', 'roles', 'actions']"
-    ></tr>
-    <tr
-      cdk-row
-      class="hover:bg-base-300"
-      *cdkRowDef="
-        let row;
-        columns: ['id', 'username', 'email', 'roles', 'actions']
-      "
-    ></tr>
-
-    <tr
-      cdk-footer-row
-      class="border-t-2 border-base-100"
-      *cdkFooterRowDef="['id', 'username', 'email', 'roles', 'actions']"
-    ></tr>
-  </table>
-</div>
+  <tr
+    cdk-footer-row
+    class="border-t-2 border-base-100"
+    *cdkFooterRowDef="['id', 'username', 'email', 'roles', 'actions']"
+  ></tr>
+</table>
 
 <div
   class="mx-auto flex justify-center mt-6"
