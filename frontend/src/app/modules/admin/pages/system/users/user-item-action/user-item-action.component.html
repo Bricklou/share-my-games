@@ -1,44 +1,36 @@
-<div class="dropdown dropdown-end">
-  <label
-    [for]="'user-item-' + user.id"
-    tabindex="0"
-    class="btn btn-ghost btn-xs"
-  >
-    Actions
-    <lucide-angular name="chevron-down" size="24" class="ml-1"></lucide-angular>
-  </label>
-
-  <ul
-    [id]="'user-item-' + user.id"
-    class="p-2 shadow menu dropdown-content z-[1] bg-base-200 rounded-box w-52"
-  >
-    <li>
-      <a *ngIf="allowEdit; else noEdit">
-        <lucide-angular name="edit" size="16"></lucide-angular>
-        Edit
-      </a>
-      <ng-template #noEdit>
-        <button type="button">
-          <lucide-angular name="eye" size="16"></lucide-angular>
-          View
-        </button>
-      </ng-template>
-    </li>
-    <li>
-      <button type="button">
-        <lucide-angular name="lock" size="16"></lucide-angular>
-        Disable
+<ul
+  [id]="'user-item-' + user.id"
+  class="p-2 shadow menu dropdown-content z-[1] bg-base-200 rounded-box w-52"
+  cdkMenu
+  cdkTargetMenuAim
+>
+  <li>
+    <a *ngIf="allowEdit; else noEdit" cdkMenuItem>
+      <lucide-angular name="edit" size="16"></lucide-angular>
+      Edit
+    </a>
+    <ng-template #noEdit>
+      <button type="button" cdkMenuItem>
+        <lucide-angular name="eye" size="16"></lucide-angular>
+        View
       </button>
-    </li>
-    <li>
-      <button
-        type="button"
-        class="text-error hover:text-error-content hover:bg-error hover:bg-opacity-70"
-        (click)="openDeleteDialog()"
-      >
-        <lucide-angular name="trash" size="16"></lucide-angular>
-        Delete
-      </button>
-    </li>
-  </ul>
-</div>
+    </ng-template>
+  </li>
+  <li>
+    <button type="button" cdkMenuItem>
+      <lucide-angular name="lock" size="16"></lucide-angular>
+      Disable
+    </button>
+  </li>
+  <li>
+    <button
+      type="button"
+      class="text-error hover:text-error-content hover:bg-error hover:bg-opacity-70"
+      (click)="openDeleteDialog()"
+      cdkMenuItem
+    >
+      <lucide-angular name="trash" size="16"></lucide-angular>
+      Delete
+    </button>
+  </li>
+</ul>

@@ -116,7 +116,22 @@
   <ng-container cdkColumnDef="actions">
     <th cdk-header-cell *cdkHeaderCellDef class="text-right">Actions</th>
     <td cdk-cell *cdkCellDef="let user" class="text-right">
-      <app-user-item-action [user]="user" [allowEdit]="isAllowedToEdit(user)" />
+      <div class="dropdown dropdown-end">
+        <label
+          [for]="'user-item-' + user.id"
+          tabindex="0"
+          class="btn btn-ghost btn-xs"
+        >
+          Actions
+          <lucide-angular
+            name="chevron-down"
+            size="24"
+            class="ml-1"
+          ></lucide-angular>
+        </label>
+
+        <ng-container *ngTemplateOutlet="context_menu; context: { user }" />
+      </div>
     </td>
     <th cdk-footer-cell *cdkFooterCellDef class="text-right">Actions</th>
   </ng-container>
@@ -131,8 +146,11 @@
     class="hover:bg-base-300"
     *cdkRowDef="
       let row;
+      let i = dataIndex;
       columns: ['id', 'username', 'email', 'roles', 'actions']
     "
+    [cdkContextMenuTriggerFor]="context_menu"
+    [cdkContextMenuTriggerData]="{ user: row }"
   ></tr>
 
   <tr
@@ -153,3 +171,7 @@
     (pageChange)="onPageChange($event)"
   />
 </div>
+
+<ng-template #context_menu let-user="user">
+  <app-user-item-action [user]="user" [allowEdit]="isAllowedToEdit(user)" />
+</ng-template>

@@ -52,7 +52,7 @@ export class UserItemActionComponent {
   protected openDisableDialog(): void {
     const dialogRef = this.popupService.open<UserDisableDialogResult>({
       title: 'Disable user',
-      message: `Are you sure you want to disable user ${this.user.username}?`,
+      message: `Are you sure you want to disable user "${this.user.username}"?`,
       actions: [
         {
           label: 'Disable',
